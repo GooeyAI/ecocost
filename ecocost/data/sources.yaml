@@ -1,0 +1,182 @@
+# Citation registry. Every URL cited anywhere in ecocost/data must match an
+# entry here, so each new source has its licence and terms recorded before it
+# is used. The tests in ecocost/tests/test_sources.py enforce this.
+#
+#   match        host, or host/path prefix; subdomains of a host match too
+#   kind         dataset      values transcribed from a published dataset
+#                publication  a paper or report cited for a figure
+#                disclosure   the operator's or vendor's own statement
+#                secondary    press, blogs, third-party trackers; never tier 1
+#   license      what the source is published under, as far as we know
+#   attribution  true when its terms require credit; `notice` must then
+#                appear in NOTICE
+#   max_values   optional cap on how many values may cite it
+#   terms        anything a contributor needs to know before citing it
+
+sources:
+  ember:
+    title: Ember, Yearly Electricity Data
+    match: [ember-energy.org]
+    kind: dataset
+    license: CC-BY-4.0
+    attribution: true
+    notice: Ember, Yearly Electricity Data
+
+  owid:
+    title: Our World in Data, electricity carbon intensity and mix
+    match: [ourworldindata.org]
+    kind: dataset
+    license: CC-BY-4.0
+    attribution: true
+    notice: Our World in Data
+
+  egrid:
+    title: U.S. EPA eGRID
+    match: [epa.gov]
+    kind: dataset
+    license: public-domain
+    attribution: false
+    notice: eGRID2023
+
+  wri-2020:
+    title: WRI 2020, Guidance for Calculating Water Use Embedded in Purchased Electricity
+    match: [wri.org]
+    kind: dataset
+    license: CC-BY-4.0 (report); appendix data from thinkstep AG under separate terms
+    attribution: true
+    notice: World Resources Institute
+    max_values: 17
+    terms: >-
+      The appendix tables are based on thinkstep AG (now Sphera) data, which the
+      report grants only for its own purpose and allows others to reproduce
+      only in insubstantial part. Keep use at the current 17 aggregate factors;
+      do not add regions from this source. New regions derive generation water
+      from an openly licensed source instead.
+
+  ecologits:
+    title: EcoLogits (GenAI Impact)
+    match:
+      - raw.githubusercontent.com/genai-impact/ecologits
+      - github.com/genai-impact/ecologits
+      - ecologits.ai
+    kind: dataset
+    license: MPL-2.0
+    attribution: true
+    notice: EcoLogits
+    terms: >-
+      Transcribe individual values with a deep link; do not copy their files
+      into this repo (a copied file would stay under MPL-2.0).
+
+  ml-energy:
+    title: The ML.ENERGY Leaderboard and Benchmark
+    match:
+      - raw.githubusercontent.com/ml-energy
+      - github.com/ml-energy
+      - ml.energy
+    kind: dataset
+    license: none stated
+    attribution: true
+    notice: ML.ENERGY
+
+  epoch:
+    title: Epoch AI
+    match: [epoch.ai]
+    kind: publication
+    license: CC-BY-4.0
+    attribution: true
+    notice: Epoch AI
+
+  ademe-gpu-lca:
+    title: ADEME GPU life-cycle assessment
+    match: [actu-environnement.com]
+    kind: publication
+    license: cited figure
+    attribution: true
+    notice: ADEME
+
+  boavizta:
+    title: BoaviztAPI server impact model
+    match: [boavizta.org]
+    kind: publication
+    license: AGPL-3.0 (code); figure cited only
+    attribution: true
+    notice: Boavizta
+
+  papers:
+    title: Research papers on arXiv
+    match: [arxiv.org]
+    kind: publication
+    license: per paper; figures cited
+
+  india-cea:
+    title: Central Electricity Authority of India, CO2 Baseline Database
+    match: [cea.nic.in]
+    kind: dataset
+    license: Government of India publication; figure cited
+
+  uptime-institute:
+    title: Uptime Institute Global Data Center Survey
+    match: [datacenter.uptimeinstitute.com]
+    kind: publication
+    license: cited figure
+
+  model-cards:
+    title: Model cards on Hugging Face
+    match: [huggingface.co]
+    kind: disclosure
+    license: per model; parameter counts are facts
+
+  chip-vendors:
+    title: Accelerator data sheets and product carbon footprints
+    match: [nvidia.com, amd.com]
+    kind: disclosure
+    license: vendor documentation; specifications are facts
+
+  cloud-sustainability:
+    title: Hyperscaler sustainability and efficiency reports
+    match:
+      - datacenters.microsoft.com
+      - datacenters.google
+      - deepmind.google
+      - sustainability.aboutamazon.com
+      - googlecloudpresscorner.com
+    kind: disclosure
+    license: operator documentation; figures cited
+
+  provider-docs:
+    title: Inference providers' own documentation and filings
+    match:
+      - developers.openai.com
+      - anthropic.com
+      - platform.claude.com
+      - mistral.ai
+      - ai.google.dev
+      - docs.cloud.google.com
+      - alibabacloud.com
+      - fireworks.ai
+      - modal.com
+      - vercel.com
+      - novita.ai
+      - fal.ai
+      - developer.meta.com
+      - nscale.com
+      - thinkingmachines.ai
+      - sec.gov
+    kind: disclosure
+    license: operator documentation; figures cited
+
+  secondary:
+    title: Press, blogs and third-party trackers
+    match:
+      - technologyreview.com
+      - datacenterdynamics.com
+      - analyticsindiamag.com
+      - tomshardware.com
+      - techcrunch.com
+      - en.wikipedia.org
+      - artificialanalysis.ai
+      - zeroentropy.dev
+      - unexcitedneurons.substack.com
+      - getdeploying.com
+    kind: secondary
+    license: cited

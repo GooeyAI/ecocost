@@ -1,0 +1,88 @@
+ecocost
+Copyright 2026 Gooey.AI
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The knowledge base in ecocost/data/ contains figures taken or derived from the
+third-party sources below. Their licences apply to those figures; the Apache
+License covers only this project's own code and compilation. Every value names
+its source in the YAML, and ecocost/data/sources.yaml records each source's
+licence and terms.
+
+
+Grid carbon intensity and generation mix (regions.yaml, countries)
+------------------------------------------------------------------
+Ember, Yearly Electricity Data, 2025.
+  https://ember-energy.org/data/yearly-electricity-data/
+  Licence: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+Our World in Data, "Carbon intensity of electricity generation" and "Share of
+electricity production by source", based on Ember and the Energy Institute.
+  https://ourworldindata.org/grapher/carbon-intensity-electricity
+  https://ourworldindata.org/grapher/share-elec-by-source
+  Licence: CC BY 4.0
+Changes: values transcribed per country; intensity used as a lifecycle factor
+with a tier-based range added.
+
+
+Grid carbon intensity and generation mix (regions.yaml, US subregions)
+----------------------------------------------------------------------
+U.S. Environmental Protection Agency, eGRID2023 Summary Tables (rev. 2).
+  https://www.epa.gov/egrid
+  A work of the U.S. Government, not subject to copyright in the United States.
+Changes: direct emission rates multiplied by 1.124 (the 2023 Ember/eGRID
+national ratio) to put them on a lifecycle basis.
+
+
+Water consumed in electricity generation (regions.yaml)
+-------------------------------------------------------
+Reig, P., Luo, T., Christensen, E. and Sinistore, J. 2020. "Guidance for
+Calculating Water Use Embedded in Purchased Electricity." World Resources
+Institute. Appendices 1 and 2.
+  https://www.wri.org/research/guidance-calculating-water-use-embedded-purchased-electricity
+  Licence: the report is CC BY 4.0. Its appendix tables are based on data from
+  thinkstep AG (now Sphera), which the report makes available under separate,
+  more restrictive terms. ecocost uses a small number of aggregate national and
+  subregional factors (17 values) to support and explain its own calculated
+  results.
+Changes: converted from gal/kWh to L/kWh; ranges added.
+
+
+Primary energy factors (regions.yaml); closed-model size estimates (models.yaml)
+------------------------------------------------------------------------------
+EcoLogits, GenAI Impact. electricity_mixes.json and models.json.
+  https://github.com/genai-impact/ecologits
+  Licence: Mozilla Public License 2.0, https://mozilla.org/MPL/2.0/
+  Primary energy factors in electricity_mixes.json originate from ADEME Base
+  Empreinte, https://base-empreinte.ademe.fr/
+ecocost does not include EcoLogits source code or its data files; individual
+values were transcribed, and for primary energy divided by 3.6 (MJ/kWh to
+MJ/MJ).
+
+
+Measured inference energy (models.yaml, hardware.yaml)
+------------------------------------------------------
+The ML.ENERGY Leaderboard, University of Michigan.
+  https://ml.energy/leaderboard/
+  https://github.com/ml-energy/leaderboard
+Chung, J.-W. et al. "The ML.ENERGY Benchmark: Toward Automated Inference
+Energy Measurement and Optimization." 2025. https://arxiv.org/abs/2505.06371
+Changes: per-model Wh per 1k output tokens on H100, and paired H100/B200
+runs used to derive chip energy ratios.
+
+
+Hardware embodied carbon (hardware.yaml)
+----------------------------------------
+NVIDIA, HGX H100 Product Carbon Footprint Summary.
+ADEME / Lees-Perasso et al., GPU life-cycle assessment.
+Boavizta, BoaviztAPI server impact model, https://github.com/Boavizta/boaviztapi
+EcoLogits, LLM inference methodology, https://ecologits.ai/
+Figures cited, no code or data files included.
+
+
+Other factual figures
+---------------------
+Model parameter counts come from each model's published model card. Chip
+specifications come from vendor data sheets. PUE, WUE and site figures come
+from the operators' own sustainability reports and documentation. Epoch AI
+data is used under CC BY 4.0 (https://epoch.ai). Each value's source is linked
+in the YAML.

@@ -1,0 +1,4 @@
+# Every PR needs a maintainer's approval once branch protection requires
+# code-owner review. CI checks that data is well-formed and cited, not that it
+# is true; this review is where that happens.
+* @milovate

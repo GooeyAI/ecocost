@@ -1,0 +1,1541 @@
+# Models. `aliases` are the model ids API providers use for the same weights.
+# active_params_b drives the FLOPs formula; measured_wh_per_1k_output_tokens_h100
+# (Wh per 1k output tokens on H100, PUE 1.0) overrides it when present.
+# Leaf shape: {value, unit, tier, [min, max], source, note}
+# Regenerated 2026-09-18 from methodology research; every entry is an agent draft (OKF status: draft).
+
+# Who serves a closed model when the caller doesn't say: its vendor's own API.
+# Used only for models with open_weights: false, and only when neither
+# `provider` nor `base_url` identifies the upstream; the estimate then carries
+# `provider_inferred_from_model`. Keyed by `creator`.
+first_party_provider:
+  OpenAI: openai
+  Anthropic: anthropic
+  Google: google-vertex
+  Meta AI: meta
+  KissanAI: dhenu
+  Qwen: alibaba-sg
+
+models:
+  gpt-oss-120b:
+    label: gpt-oss-120b
+    creator: OpenAI
+    open_weights: true
+    total_params_b: 117
+    aliases:
+    - accounts/fireworks/models/gpt-oss-120b
+    - openai/gpt-oss-120b
+    active_params_b:
+      value: 5.1
+      unit: B
+      tier: 1
+      source: https://huggingface.co/openai/gpt-oss-120b
+      note: MoE, 5.1B active per model card.
+    provenance:
+      generated: &id001
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: &id002
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/openai/gpt-oss-120b
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/gpqa.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.0721
+      min: 0.024
+      max: 0.217
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/gpqa.json
+      note: ML.ENERGY v3.0 (2026-02), vLLM 0.11.1, mxfp4, 2xH100 tp2. min = max-batch steady state, max = batch-8;
+        production sits between.
+  gpt-oss-20b:
+    label: gpt-oss-20b
+    creator: OpenAI
+    open_weights: true
+    total_params_b: 21
+    aliases:
+    - openai/gpt-oss-20b
+    active_params_b:
+      value: 3.6
+      unit: B
+      tier: 1
+      source: https://huggingface.co/openai/gpt-oss-20b
+      note: MoE, 3.6B active.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/openai/gpt-oss-20b
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/gpqa.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.0346
+      min: 0.012
+      max: 0.1
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/gpqa.json
+      note: ML.ENERGY v3.0, mxfp4, 1xH100. min = max-batch steady state, max = batch-8; production sits between.
+  muse-glimmer-30b:
+    label: Muse Glimmer 30B
+    creator: Meta AI
+    open_weights: true
+    total_params_b: 29.6
+    aliases:
+    - accounts/fireworks/models/muse-glimmer-30b
+    active_params_b:
+      value: 29.6
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-models/Muse-Glimmer-30B
+      note: Dense, incl. ~1.8B vision encoder.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/meta-models/Muse-Glimmer-30B
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.1739
+      min: 0.063
+      max: 0.48
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 2
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: 'Proxy: Qwen3 32B dense on ML.ENERGY v3.0. min = max-batch steady state, max = batch-8; production sits
+        between.'
+  gemma-4-26b-a4b-it:
+    label: Gemma 4 26B A4B
+    creator: Google
+    open_weights: true
+    total_params_b: 25.2
+    aliases:
+    - google/gemma-4-26b-a4b-it
+    active_params_b:
+      value: 3.8
+      unit: B
+      tier: 1
+      source: https://ai.google.dev/gemma/docs/core/model_card_4
+      note: MoE, 8 of 128 experts active + 1 shared.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ai.google.dev/gemma/docs/core/model_card_4
+  gemma-4-31b-it:
+    label: Gemma 4 31B
+    creator: Google
+    open_weights: true
+    total_params_b: 30.7
+    aliases:
+    - google/gemma-4-31b-it
+    active_params_b:
+      value: 30.7
+      unit: B
+      tier: 1
+      source: https://ai.google.dev/gemma/docs/core/model_card_4
+      note: Dense.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ai.google.dev/gemma/docs/core/model_card_4
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.1833
+      min: 0.08
+      max: 0.42
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 2
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: 'Proxy: Gemma 3 27B on ML.ENERGY v3.0. min = max-batch steady state, max = batch-8; production sits
+        between.'
+  qwen3.8-27b:
+    label: Qwen3.8 27B
+    creator: Qwen
+    open_weights: true
+    total_params_b: 27
+    active_params_b:
+      value: 27
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Qwen/Qwen3.8-27B
+      note: Dense, multimodal.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/Qwen/Qwen3.8-27B
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.1739
+      min: 0.063
+      max: 0.48
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 2
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: 'Proxy: Qwen3 32B dense on ML.ENERGY v3.0. min = max-batch steady state, max = batch-8; production sits
+        between.'
+  qwen3.8-flash:
+    label: Qwen3.8 Flash
+    creator: Qwen
+    open_weights: true
+    total_params_b: 125
+    active_params_b:
+      value: 6
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Qwen/Qwen3.8-Flash-Next
+      note: 'API build of Qwen3.8-Flash-Next: 512-expert MoE, 6B active. API build may differ slightly.'
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/Qwen/Qwen3.8-Flash-Next
+  qwen3.8-max:
+    label: Qwen3.8 Max
+    creator: Qwen
+    open_weights: true
+    total_params_b: 2400
+    aliases:
+    - accounts/fireworks/models/qwen3p8-2p4t-a95b
+    - qwen3p8-2p4t-a95b
+    active_params_b:
+      value: 95
+      unit: B
+      tier: 2
+      min: 60
+      max: 120
+      source: https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B
+      note: "Fireworks maps qwen3p8-max to the open Qwen3.8-2.4T-A95B: 2.4T total, 95B active, 10 routed + 1 shared of 512 experts (HF card). Alibaba's own API build may differ, hence tier 2."
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://fireworks.ai/models/fireworks/qwen3p8-max
+  qwen3.7-plus:
+    label: Qwen3.7 Plus
+    creator: Qwen
+    open_weights: false
+    active_params_b:
+      value: 60
+      unit: B
+      tier: 3
+      source: https://arxiv.org/html/2604.24827
+      note: Closed. No disclosure; secondary claims ~95B active. Wide range.
+      min: 30
+      max: 95
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://arxiv.org/html/2604.24827
+  qwen3-omni-30b-a3b-thinking:
+    label: Qwen3 Omni 30B-A3B Thinking
+    creator: Qwen
+    open_weights: true
+    total_params_b: 32
+    aliases:
+    - qwen/qwen3-omni-30b-a3b-thinking
+    active_params_b:
+      value: 3
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Thinking
+      note: MoE per A3B naming.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Thinking
+  glm-5.3:
+    label: GLM-5.3
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 753
+    active_params_b:
+      value: 40
+      unit: B
+      tier: 2
+      min: 32
+      max: 50
+      source: https://huggingface.co/zai-org/GLM-5
+      note: "GLM-5.3 and GLM-5.2 cards state 753B total but not active. GLM-5 card: 744B total, 40B active; 5.2/5.3 keep the architecture (glm_moe_dsa), so 40B carried forward at tier 2."
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://epoch.ai/data/notable-ai-models
+  glm-5.3-flash:
+    label: GLM-5.3 Flash
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 320
+    aliases:
+    - accounts/fireworks/models/glm-5p3-flash
+    - glm-5p3-flash
+    active_params_b:
+      value: 18
+      unit: B
+      tier: 1
+      source: https://huggingface.co/zai-org/GLM-5.3-Flash
+      note: MoE, native FP8.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/zai-org/GLM-5.3-Flash
+  mistral-medium-3-5:
+    label: Mistral Medium 3.5
+    creator: Mistral
+    open_weights: true
+    total_params_b: 128
+    aliases:
+    - mistral/mistral-medium-latest
+    - mistral-medium-latest
+    active_params_b:
+      value: 128
+      unit: B
+      tier: 1
+      source: https://huggingface.co/mistralai/Mistral-Medium-3.5-128B
+      note: "Dense 128B per the HF card (repo name Mistral-Medium-3.5-128B). Vision encoder size not stated."
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+  mistral-large-2512:
+    label: Mistral Large 3
+    creator: Mistral
+    open_weights: true
+    total_params_b: 675
+    active_params_b:
+      value: 41
+      unit: B
+      tier: 1
+      source: https://docs.mistral.ai/models/mistral-large-3-25-12
+      note: 'Granular MoE. Note: EcoLogits wrongly lists this as dense 123B (the Large 2 figure).'
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://docs.mistral.ai/models/mistral-large-3-25-12
+  ministral-14b-2512:
+    label: Ministral 3 14B
+    creator: Mistral
+    open_weights: true
+    total_params_b: 14
+    active_params_b:
+      value: 14
+      unit: B
+      tier: 1
+      source: https://huggingface.co/mistralai/Ministral-3-14B-Instruct-2512
+      note: Dense incl. 0.4B vision.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/mistralai/Ministral-3-14B-Instruct-2512
+  mistral-small-2603:
+    label: Mistral Small 4
+    creator: Mistral
+    open_weights: true
+    total_params_b: 119
+    active_params_b:
+      value: 6.5
+      unit: B
+      tier: 1
+      source: https://docs.mistral.ai/models/mistral-small-4-0-26-03
+      note: MoE, 4 of 128 experts + 1 shared.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://docs.mistral.ai/models/mistral-small-4-0-26-03
+  sarvam-105b:
+    label: Sarvam 105B
+    creator: Sarvam AI
+    open_weights: true
+    total_params_b: 106
+    active_params_b:
+      value: 10.3
+      unit: B
+      tier: 1
+      source: https://huggingface.co/sarvamai/sarvam-105b
+      note: MoE, 128 experts top-8.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/sarvamai/sarvam-105b
+  sunflower-14b:
+    label: Sunflower 14B
+    creator: Sunbird AI
+    open_weights: true
+    total_params_b: 14.8
+    active_params_b:
+      value: 14.8
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Sunbird/Sunflower-14B
+      note: Dense, Qwen3-14B base.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/Sunbird/Sunflower-14B
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.0779
+      min: 0.031
+      max: 0.196
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 2
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: 'Proxy: Qwen3 14B (its base) on ML.ENERGY v3.0. min = max-batch steady state, max = batch-8; production
+        sits between.'
+  apertus-70b-instruct:
+    label: Apertus 70B
+    creator: SwissAI
+    open_weights: true
+    total_params_b: 70
+    aliases:
+    - swiss-ai/apertus-70b-instruct
+    active_params_b:
+      value: 70
+      unit: B
+      tier: 1
+      source: https://huggingface.co/swiss-ai/Apertus-70B-Instruct-2509
+      note: Dense.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/swiss-ai/Apertus-70B-Instruct-2509
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.3289
+      min: 0.104
+      max: 1.04
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 2
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: 'Proxy: Llama 3.1 70B dense on ML.ENERGY v3.0. min = max-batch steady state, max = batch-8; production
+        sits between.'
+  gemma-sea-lion-v4-27b-it:
+    label: Gemma SEA-LION v4 27B
+    creator: AISingapore
+    open_weights: true
+    total_params_b: 27
+    aliases:
+    - aisingapore/Gemma-SEA-LION-v4-27B-IT
+    active_params_b:
+      value: 27
+      unit: B
+      tier: 1
+      source: https://huggingface.co/aisingapore/Gemma-SEA-LION-v4-27B-IT
+      note: Dense, Gemma 3 27B base.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/aisingapore/Gemma-SEA-LION-v4-27B-IT
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.1833
+      min: 0.08
+      max: 0.42
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: Gemma 3 27B on ML.ENERGY v3.0; same architecture. min = max-batch steady state, max = batch-8; production
+        sits between.
+  llama3-8b-cpt-sea-lionv2.1-instruct:
+    label: Llama3 8B SEA-LION v2.1
+    creator: AISingapore
+    open_weights: true
+    total_params_b: 8
+    aliases:
+    - aisingapore/llama3-8b-cpt-sea-lionv2.1-instruct
+    active_params_b:
+      value: 8
+      unit: B
+      tier: 1
+      source: https://huggingface.co/aisingapore/llama3-8b-cpt-sea-lionv2.1-instruct
+      note: Dense.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/aisingapore/llama3-8b-cpt-sea-lionv2.1-instruct
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.0496
+      min: 0.0195
+      max: 0.126
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: Llama 3.1 8B on ML.ENERGY v3.0; CPT does not change architecture. min = max-batch steady state, max
+        = batch-8; production sits between.
+  agrillm-qwen3-30b-a3b:
+    label: AgriLLM (Qwen3 30B-A3B)
+    creator: AI71
+    open_weights: true
+    total_params_b: 30.5
+    aliases:
+    - AI71ai/agrillm-Qwen3-30B-A3B
+    active_params_b:
+      value: 3.3
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507
+      note: LoRA fine-tune of Qwen3-30B-A3B; same active parameters as the base.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.0671
+      min: 0.025
+      max: 0.18
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: Base Qwen3-30B-A3B on ML.ENERGY v3.0; LoRA fine-tune has identical compute. min = max-batch steady state,
+        max = batch-8; production sits between.
+  deepseek-v4.1-flash:
+    label: DeepSeek V4.1 Flash
+    creator: DeepSeek
+    open_weights: true
+    total_params_b: 552
+    aliases:
+    - accounts/fireworks/models/deepseek-v4p1-flash
+    - deepseek-flash
+    active_params_b:
+      value: 16
+      unit: B
+      tier: 1
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash
+      note: Encoder-decoder MoE; 8B active prefill, 16B decode. Decode figure used.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash
+  deepseek-v4-flash:
+    label: DeepSeek V4 Flash
+    creator: DeepSeek
+    open_weights: true
+    total_params_b: 284
+    aliases:
+    - accounts/fireworks/models/deepseek-v4-flash-0731
+    active_params_b:
+      value: 13
+      unit: B
+      tier: 1
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash
+      note: MoE top-6.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash
+  deepseek-v4-pro:
+    label: DeepSeek V4 Pro
+    creator: DeepSeek
+    open_weights: true
+    total_params_b: 1600
+    aliases:
+    - accounts/fireworks/models/deepseek-v4-pro-0813
+    active_params_b:
+      value: 49
+      unit: B
+      tier: 1
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro
+      note: MoE.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro
+  nemotron-3.5-lightning-30b-a3b:
+    label: Nemotron 3.5 Lightning 30B-A3B
+    creator: Nvidia
+    open_weights: true
+    total_params_b: 30
+    aliases:
+    - accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b
+    active_params_b:
+      value: 3
+      unit: B
+      tier: 1
+      source: https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4
+      note: Hybrid Mamba-2 + MoE.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4
+  nemotron-3-ultra-550b-a55b:
+    label: Nemotron 3 Ultra 550B-A55B
+    creator: Nvidia
+    open_weights: true
+    total_params_b: 550
+    aliases:
+    - accounts/fireworks/models/nemotron-3-ultra-nvfp4
+    - nvidia/nemotron-3-ultra-550b-a55b
+    active_params_b:
+      value: 55
+      unit: B
+      tier: 1
+      source: https://research.nvidia.com/labs/nemotron/Nemotron-3-Ultra/
+      note: Hybrid Mamba-Transformer latent MoE.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://research.nvidia.com/labs/nemotron/Nemotron-3-Ultra/
+  kimi-k3:
+    label: Kimi K3
+    creator: Moonshot AI
+    open_weights: true
+    total_params_b: 2800
+    aliases:
+    - accounts/fireworks/routers/kimi-k3-fast
+    - fireworks/kimi-k3-thinking
+    active_params_b:
+      value: 104
+      unit: B
+      tier: 1
+      source: https://huggingface.co/moonshotai/Kimi-K3
+      note: MoE, 16 of 896 experts. Fireworks 'kimi-k3-fast' router.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/moonshotai/Kimi-K3
+  inkling:
+    label: Inkling
+    creator: Thinking Machines Lab
+    open_weights: true
+    total_params_b: 975
+    aliases:
+    - accounts/fireworks/models/inkling
+    active_params_b:
+      value: 41
+      unit: B
+      tier: 1
+      source: https://thinkingmachines.ai/model-card/inkling/
+      note: MoE, 6 of 256 routed + 2 shared.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://thinkingmachines.ai/model-card/inkling/
+  minimax-m3:
+    label: MiniMax M3
+    creator: MiniMax
+    open_weights: true
+    total_params_b: 428
+    aliases:
+    - accounts/fireworks/models/minimax-m3
+    active_params_b:
+      value: 23
+      unit: B
+      tier: 1
+      source: https://huggingface.co/MiniMaxAI/MiniMax-M3
+      note: MoE + sparse attention.
+    provenance:
+      generated: *id001
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M3
+  gpt-4o:
+    label: GPT-4o
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-4o-2024-08-06
+    active_params_b:
+      value: 100
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits MoE 440 total, active 44-132; MEDEC cites ~200B.
+      min: 44
+      max: 200
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-4o-mini:
+    label: GPT-4o mini
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-4o-mini-2024-07-18
+    active_params_b:
+      value: 12
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 8-28; MEDEC ~8B.
+      min: 8
+      max: 28
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  o4-mini:
+    label: o4-mini
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - o4-mini-2025-04-16
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 8-28.
+      min: 8
+      max: 28
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.4-mini:
+    label: GPT-5.4 mini
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-5.4-mini-2026-03-17
+    active_params_b:
+      value: 80
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 56-158; memorization lower bound 12B.
+      min: 12
+      max: 158
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.4-nano:
+    label: GPT-5.4 nano
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-5.4-nano-2026-03-17
+    active_params_b:
+      value: 25
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 15-58; lower bound 2B.
+      min: 2
+      max: 58
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.5:
+    label: GPT-5.5
+    creator: OpenAI
+    open_weights: false
+    total_params_b: 900
+    aliases:
+    - gpt-5.5-2026-04-23
+    - openai/gpt-5.5
+    active_params_b:
+      value: 160
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits MoE 900 total, active 90-300.
+      min: 90
+      max: 300
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.6-luna:
+    label: GPT-5.6 Luna
+    creator: OpenAI
+    total_params_b: 180
+    open_weights: false
+    active_params_b:
+      value: 33
+      unit: B
+      tier: 2
+      min: 18
+      max: 60
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-22): MoE 180B total, 18-60B active. Priced $1/$6, the mini tier. Earlier draft used the gpt-5.4-mini dense proxy (56-158), which was 2.5x too high."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-5.6-luna
+  gpt-5.6-terra:
+    label: GPT-5.6 Terra
+    creator: OpenAI
+    open_weights: false
+    total_params_b: 450
+    active_params_b:
+      value: 82
+      unit: B
+      tier: 2
+      min: 45
+      max: 150
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-22): MoE 450B total, 45-150B active, same row as gpt-5.4. Priced $2.50/$15. Point = geometric mean."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-5.6-terra
+  gpt-5.6-sol:
+    label: GPT-5.6 Sol
+    creator: OpenAI
+    open_weights: false
+    total_params_b: 900
+    aliases:
+    - openai/gpt-5.6
+    active_params_b:
+      value: 164
+      unit: B
+      tier: 2
+      min: 90
+      max: 300
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-22): MoE 900B total, 90-300B active, same row as gpt-5.5. Priced $5/$30. Community total-parameter guesses run 2-5T; active is what matters here. Point = geometric mean."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-5.6-sol
+  gpt-6-astra:
+    label: GPT-6 Astra
+    creator: OpenAI
+    open_weights: false
+    active_params_b:
+      value: 400
+      unit: B
+      tier: 3
+      source: https://en.wikipedia.org/wiki/GPT-6_Astra
+      note: Undisclosed. Looped transformer; no public estimate. Proxy >= GPT-5.5.
+      min: 90
+      max: 1800
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://en.wikipedia.org/wiki/GPT-6_Astra
+  gpt-6-sol:
+    label: GPT-6 Sol
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - openai/gpt-6-sol
+    active_params_b:
+      value: 115
+      unit: B
+      tier: 3
+      min: 45
+      max: 300
+      source: https://developers.openai.com/api/docs/pricing
+      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no gpt-6-sol as of 2026-09-23). Derived from gpt-5.6-sol (90-164-300). Priced $2/$10, half of gpt-5.6-sol ($4/$20) and level with gpt-5.6-terra, which alone would scale it to ~82B. But OpenAI attributes the cut to inference and caching improvements, not a smaller model, so a same-size successor is equally plausible (164B). Point = geometric mean of the two (115). Min = gpt-5.6-terra's EcoLogits min; max = gpt-5.6-sol's. Decode speed (Artificial Analysis: 104-115 tok/s vs 82 for gpt-5.6-sol) is not used: OpenAI's gpt-5.6-terra and gpt-5.6-sol decode at the same speed (85 vs 82), so it does not track size there."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-6-sol
+      - resource: https://developers.openai.com/api/docs/pricing
+      - resource: https://artificialanalysis.ai/models/gpt-6-sol
+      - resource: https://artificialanalysis.ai/models/gpt-5-6-sol
+  gpt-6-luna:
+    label: GPT-6 Luna
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - openai/gpt-6-luna
+    active_params_b:
+      value: 22
+      unit: B
+      tier: 3
+      min: 8
+      max: 60
+      source: https://developers.openai.com/api/docs/pricing
+      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no gpt-6-luna as of 2026-09-23). Derived from gpt-5.6-luna (18-33-60). Priced $0.10/$0.50 vs $0.20/$1.20 for gpt-5.6-luna (0.42-0.5x), which alone would scale it to ~15B; OpenAI attributes the cut to inference and caching improvements, and decode speed is unchanged (Artificial Analysis 154 vs 143 tok/s), so a same-size successor (33B) is equally plausible. Point = geometric mean (22). Min = gpt-5.6-luna's min scaled by price (~8); max = gpt-5.6-luna's."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-6-luna
+      - resource: https://developers.openai.com/api/docs/pricing
+      - resource: https://artificialanalysis.ai/models/gpt-6-luna
+      - resource: https://artificialanalysis.ai/models/gpt-5-6-luna
+  gpt-realtime-2.1:
+    label: GPT Realtime 2.1
+    creator: OpenAI
+    total_params_b: 440
+    open_weights: false
+    active_params_b:
+      value: 76
+      unit: B
+      tier: 3
+      min: 44
+      max: 132
+      source: https://developers.openai.com/api/docs/models/gpt-realtime-2.1
+      note: "Undisclosed. Proxy gpt-4o lineage (EcoLogits 440B total, 44-132B active). Point = geometric mean."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-realtime-2.1
+  gpt-realtime-mini:
+    label: GPT Realtime mini
+    creator: OpenAI
+    open_weights: false
+    active_params_b:
+      value: 12
+      unit: B
+      tier: 3
+      source: https://developers.openai.com/api/docs/models/gpt-realtime-mini
+      note: Undisclosed. Proxy gpt-4o-mini 8-28.
+      min: 8
+      max: 28
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-realtime-mini
+  claude-sonnet-5:
+    label: Claude Sonnet 5
+    creator: Anthropic
+    total_params_b: 293
+    open_weights: false
+    aliases:
+    - anthropic/claude-sonnet-5
+    - anthropic/claude-sonnet-4-5
+    - claude-sonnet-4-5
+    active_params_b:
+      value: 60
+      unit: B
+      tier: 2
+      min: 29
+      max: 100
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-22): MoE 293B total, 29-88B active (10-30% activation rule). Throughput analysis puts Sonnet ~1.5x below Opus (93-154B) so ~65B; point 60, max stretched to 100. IKP effective 584B is a total-parameter-like figure, not active."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://arxiv.org/html/2604.24827
+  claude-opus-5:
+    label: Claude Opus 5
+    creator: Anthropic
+    total_params_b: 670
+    open_weights: false
+    active_params_b:
+      value: 110
+      unit: B
+      tier: 2
+      min: 67
+      max: 200
+      source: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+      note: "Undisclosed. Two independent lines agree: EcoLogits MoE 670B total, 67-200B active; Vertex/Bedrock decode-throughput analysis of Opus 4.6 gives 93-105B active at FP8 (127-154B with FP4 experts). Point 110. Musk's '5T' is a total-parameter claim."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://arxiv.org/html/2604.24827
+  claude-opus-5-5:
+    label: Claude Opus 5.5
+    creator: Anthropic
+    open_weights: false
+    aliases:
+    - anthropic.claude-opus-5-5
+    - anthropic/claude-opus-5.5
+    - claude-opus-5.5
+    active_params_b:
+      value: 80
+      unit: B
+      tier: 3
+      min: 45
+      max: 200
+      source: https://www.anthropic.com/news/claude-opus-5-5#performance-and-cost-effectiveness
+      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no claude-opus-5-5 as of 2026-09-23). Derived from claude-opus-5 (67-110-200). Anthropic states 'Opus 5.5 requires less compute to serve than Opus 5, and its pricing reflects that'; per-token price is 0.8x ($4/$20 vs $5/$25), scaling to ~88B. Decode on Anthropic's API is 1.5x faster at the same (low) effort (Artificial Analysis: 83.4 vs 55.7 tok/s), scaling to ~73B, but launch-week speeds are noisy. Point ~ geometric mean of the two (80). 'Less compute' may come from serving changes rather than fewer active parameters, so max stays at claude-opus-5's 200; min = claude-opus-5's min scaled by the speed ratio."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://platform.claude.com/docs/en/models/opus-5-5/overview
+      - resource: https://www.anthropic.com/news/claude-opus-5-5
+      - resource: https://artificialanalysis.ai/models/claude-opus-5-5-low
+      - resource: https://artificialanalysis.ai/models/claude-opus-5-low
+  claude-fable-5-1:
+    label: Claude Fable 5.1
+    creator: Anthropic
+    total_params_b: 1340
+    open_weights: false
+    active_params_b:
+      value: 230
+      unit: B
+      tier: 2
+      min: 134
+      max: 400
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-22): MoE 1,340B total, 134-400B active, i.e. 2x Opus 5, consistent with 2x Opus pricing ($10/$50 vs $5/$25) and IKP effective 3.5T vs Opus 4.8 236B. Point = geometric mean 230."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://arxiv.org/html/2604.24827
+  gemini-3.8-flash:
+    label: Gemini 3.8 Flash
+    creator: Google
+    total_params_b: 750
+    open_weights: false
+    aliases:
+    - google/gemini-3.8-flash
+    - gemini/gemini-3.8-flash
+    - google/gemini-3.7-flash
+    - gemini/gemini-3.7-flash
+    active_params_b:
+      value: 122
+      unit: B
+      tier: 2
+      min: 75
+      max: 200
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; the model card (via the 3.7 and 3.6 cards) gives no size. EcoLogits (2026-09-21): MoE 750B total, 75-200B active, flagged model-arch-not-released. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-3-8-flash/
+  gemini-3.6-flash:
+    label: Gemini 3.6 Flash
+    creator: Google
+    total_params_b: 750
+    open_weights: false
+    aliases:
+    - google/gemini-3.6-flash
+    - gemini/gemini-3.6-flash
+    active_params_b:
+      value: 122
+      unit: B
+      tier: 2
+      min: 75
+      max: 200
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; model card: 'based on Gemini 3.5 Flash', no size or serving hardware. EcoLogits (2026-09-21): MoE 750B total, 75-200B active, the same entry as gemini-3.8-flash, and the same price ($0.75/$3.75 through 2026-12-31, $1.50/$7.50 after). Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-3-6-flash/
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/pricing#gemini-3.6-flash
+      - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-6-flash
+      - resource: https://artificialanalysis.ai/models/gemini-3-6-flash
+  gemini-3.5-flash:
+    label: Gemini 3.5 Flash
+    creator: Google
+    total_params_b: 900
+    open_weights: false
+    aliases:
+    - google/gemini-3.5-flash
+    - gemini/gemini-3.5-flash
+    active_params_b:
+      value: 147
+      unit: B
+      tier: 2
+      min: 90
+      max: 240
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; model card: 'based on Gemini 3 Flash' (whose parent Gemini 3 Pro is a sparse MoE), no size or serving hardware. EcoLogits (2026-09-21): MoE 900B total, 90-240B active; its Flash sizes appear to track price (3x gemini-3-flash-preview's total at 3x the price, $1.50/$9.00 vs $0.50/$3.00). Measured decode speed is unchanged from Gemini 3 Flash (Artificial Analysis: 213 vs 215 tok/s), so the rise may be smaller than EcoLogits implies. Point = geometric mean of the EcoLogits range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-3-5-flash/
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/pricing#gemini-3.5-flash
+      - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash
+      - resource: https://artificialanalysis.ai/models/gemini-3-5-flash
+      - resource: https://artificialanalysis.ai/models/gemini-3-flash
+  gemini-3.1-flash-lite:
+    label: Gemini 3.1 Flash Lite
+    creator: Google
+    open_weights: false
+    aliases:
+    - google/gemini-3.1-flash-lite
+    active_params_b:
+      value: 50
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 30-105.
+      min: 30
+      max: 105
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gemini-3.1-pro-preview:
+    label: Gemini 3.1 Pro
+    creator: Google
+    open_weights: false
+    total_params_b: 1200
+    aliases:
+    - google/gemini-3.1-pro-preview
+    active_params_b:
+      value: 200
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits MoE 1200 total, active 120-360.
+      min: 120
+      max: 360
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gemini-3.1-flash-live-preview:
+    label: Gemini 3.1 Flash Live
+    creator: Google
+    open_weights: false
+    active_params_b:
+      value: 150
+      unit: B
+      tier: 3
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. Proxy EcoLogits gemini-3-flash-preview 100-300.
+      min: 100
+      max: 300
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  muse-spark-1.3:
+    label: Muse Spark 1.3
+    creator: Meta AI
+    open_weights: false
+    active_params_b:
+      value: 160
+      unit: B
+      tier: 3
+      source: https://artificialanalysis.ai/models/muse-spark-1-3
+      note: Undisclosed. Priced like GPT-5.5; proxy 90-300 active.
+      min: 90
+      max: 300
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://artificialanalysis.ai/models/muse-spark-1-3
+  dhenu-3-beta-preview:
+    label: Dhenu 3 (beta)
+    creator: KissanAI
+    open_weights: false
+    active_params_b:
+      value: 6
+      unit: B
+      tier: 3
+      source: https://analyticsindiamag.com/ai-features/kissanai-is-obsessed-with-getting-its-vision-model-for-farmers-right
+      note: No public trace. Lineage is Llama 3.x 1B-8B fine-tunes.
+      min: 4
+      max: 8
+    provenance:
+      generated: *id001
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://analyticsindiamag.com/ai-features/kissanai-is-obsessed-with-getting-its-vision-model-for-farmers-right
+  gpt-5:
+    label: GPT-5 / 5.1
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-5-2025-08-07
+    - gpt-5-chat-latest
+    - gpt-5.1-2025-11-13
+    active_params_b:
+      value: 50
+      min: 30
+      max: 90
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits MoE 300 total, active 30-90.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.2:
+    label: GPT-5.2
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-5.2-2025-12-11
+    active_params_b:
+      value: 70
+      min: 42
+      max: 126
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits MoE 420 total, active 42-126.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5-mini:
+    label: GPT-5 mini
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-5-mini-2025-08-07
+    active_params_b:
+      value: 40
+      min: 25
+      max: 70
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 25-70.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5-nano:
+    label: GPT-5 nano
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-5-nano-2025-08-07
+    active_params_b:
+      value: 10
+      min: 5
+      max: 18.5
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 5-18.5.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-4.1:
+    label: GPT-4.1
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-4.1-2025-04-14
+    active_params_b:
+      value: 60
+      min: 35
+      max: 106
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits MoE 352 total, active 35-106.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-4.1-mini:
+    label: GPT-4.1 mini
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-4.1-mini-2025-04-14
+    active_params_b:
+      value: 65
+      min: 40
+      max: 112
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 40-112.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-4.1-nano:
+    label: GPT-4.1 nano
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-4.1-nano-2025-04-14
+    active_params_b:
+      value: 20
+      min: 10
+      max: 37
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: Undisclosed. EcoLogits dense 10-37.
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  llama-3.3-70b:
+    label: Llama 3.3 70B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 70.55
+    aliases:
+    - meta-llama/Llama-3.3-70B-Instruct
+    active_params_b:
+      value: 70.55
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+      note: Dense. 70,553,706,496 BF16 parameters per the model card's safetensors metadata. A calibration anchor (METHODOLOGY.md).
+    provenance:
+      generated: {by: agent:claude-opus-5-5, at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+  llama-3.1-405b:
+    label: Llama 3.1 405B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 405.85
+    aliases:
+    - meta-llama/Llama-3.1-405B-Instruct
+    active_params_b:
+      value: 405.85
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+      note: Dense. 405,853,388,800 BF16 parameters per the model card's safetensors metadata. A calibration anchor (METHODOLOGY.md).
+    provenance:
+      generated: {by: agent:claude-opus-5-5, at: '2026-09-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct

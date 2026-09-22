@@ -1,0 +1,1051 @@
+# Electricity regions. Annual averages; hourly data is a v2 upgrade.
+# Location-based accounting throughout (physical grid, not renewable contracts).
+# Carbon: lifecycle basis everywhere. Countries are Ember lifecycle via OWID (2025).
+#   US subregions are EPA eGRID2023 direct-combustion rates raised to Ember's basis
+#   by the same-year national ratio (see each note), so they are tier 2, not tier 1.
+# Mix: Ember via OWID for countries, eGRID2023 Table 2 for US subregions. Display only;
+#   carbon comes from the intensity figure, never from mix x factor.
+# Water: WRI Reig et al. 2020 off-site generation water (the EcoLogits / Li et al. source).
+# Primary energy: ADEME Base Empreinte via EcoLogits, MJ/kWh / 3.6.
+# Leaf shape: {value, unit, tier, [min, max], source, note}
+# Agent drafts from 2026-09-18, re-checked value by value against the cited sources on
+# 2026-09-22 (`verified`). No human has reviewed them yet.
+
+regions:
+  US:
+    label: United States (national average)
+    country: US
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 384
+      min: 350
+      max: 420
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. eGRID 2023 direct-combustion
+        is 350.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6.
+    water_l_per_kwh_generation:
+      value: 3.14
+      min: 1.2
+      max: 4.4
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. Macknick-derived tower-cooling estimate 1.2-2.1; Li et al. alt 4.35.
+    mix:
+      gas: 0.4
+      nuclear: 0.174
+      coal: 0.163
+      wind: 0.103
+      solar: 0.086
+      hydro: 0.053
+      biomass: 0.01
+      oil: 0.007
+      other: 0.004
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  US-VA:
+    label: United States, Virginia / PJM East (eGRID SRVC + RFCE)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 305
+      min: 271
+      max: 339
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 Generation-weighted SRVC 596.3 and RFCE 599.2 lb/MWh = 597.7. Northern Virginia sits on the boundary.
+        AWS us-east-1, Azure East US / East US 2, GCP us-east4. Direct combustion is 271 g/kWh; raised to Ember's lifecycle
+        basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions and countries compare like for like. Min
+        is the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream methane) or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 2.35
+      min: 1.65
+      max: 3.53
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). SRVC 0.63, RFCE
+        0.61 gal/kWh, generation-weighted.
+    mix:
+      gas: 0.463
+      nuclear: 0.383
+      coal: 0.078
+      solar: 0.036
+      biomass: 0.015
+      hydro: 0.013
+      wind: 0.007
+      other: 0.005
+      oil: 0.001
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-OHV:
+    label: United States, Ohio Valley and Chicago (eGRID RFCW)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 467
+      min: 416
+      max: 519
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 RFCW 916.1 lb/MWh. Ohio, Indiana, northern Illinois. AWS us-east-2, GCP us-east5, Azure North Central
+        US, Anthropic/AWS New Carlisle. Direct combustion is 416 g/kWh; raised to Ember's lifecycle basis by the same-year
+        national ratio 392.89/349.7 = 1.124 so US subregions and countries compare like for like. Min is the direct figure,
+        max is direct x 1.25 (gas-heavy grids carry more upstream methane) or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 2.23
+      min: 1.56
+      max: 3.34
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). RFCW 0.59 gal/kWh.
+    mix:
+      gas: 0.378
+      nuclear: 0.284
+      coal: 0.25
+      wind: 0.055
+      hydro: 0.01
+      solar: 0.008
+      other: 0.008
+      oil: 0.003
+      biomass: 0.003
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-MIDW:
+    label: United States, Upper Midwest (eGRID MROW, MISO)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 472
+      min: 288
+      max: 525
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 MROW 926.6 lb/MWh. Covers Iowa (Google us-central1, Azure Central US) and Minnesota. Direct combustion
+        is 420 g/kWh; raised to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions
+        and countries compare like for like. Min is Iowa's own state rate (634.2 lb/MWh = 288 g/kWh direct, 59% wind; eGRID2023
+        Table 3), max is direct x 1.25.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 3.1
+      min: 2.17
+      max: 4.65
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). MROW 0.82 gal/kWh.
+    mix:
+      wind: 0.376
+      coal: 0.352
+      gas: 0.131
+      nuclear: 0.078
+      hydro: 0.041
+      solar: 0.012
+      biomass: 0.007
+      other: 0.003
+      oil: 0.001
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-TX:
+    label: United States, Texas (ERCOT)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 375
+      min: 334
+      max: 418
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 ERCT 736.6 lb/MWh. Stargate Abilene, Azure South Central US, GCP us-south1. Direct combustion is 334
+        g/kWh; raised to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions and
+        countries compare like for like. Min is the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream
+        methane) or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 1.29
+      min: 0.9
+      max: 1.94
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). ERCT 0.34 gal/kWh,
+        lowest US subregion.
+    mix:
+      gas: 0.496
+      wind: 0.226
+      coal: 0.127
+      nuclear: 0.085
+      solar: 0.059
+      other: 0.004
+      biomass: 0.002
+      hydro: 0.001
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-SE:
+    label: United States, Southeast (eGRID SRSO)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 431
+      min: 384
+      max: 480
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 SRSO 846.0 lb/MWh. Georgia, Alabama. Direct combustion is 384 g/kWh; raised to Ember's lifecycle basis
+        by the same-year national ratio 392.89/349.7 = 1.124 so US subregions and countries compare like for like. Min is
+        the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream methane) or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 2.31
+      min: 1.62
+      max: 3.46
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). SRSO 0.61 gal/kWh.
+    mix:
+      gas: 0.554
+      nuclear: 0.204
+      coal: 0.145
+      biomass: 0.036
+      solar: 0.036
+      hydro: 0.024
+      oil: 0.001
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-NY:
+    label: United States, New York State
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 238
+      min: 110
+      max: 441
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 New York state rate 466.6 lb/MWh (eGRID2023 Table 3) because providers name the state, not the subregion.
+        Bounds are NYUP 242.8 (hydro and nuclear upstate) and NYCW 865.7 (gas, New York City). Direct combustion is 212 g/kWh;
+        raised to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions and countries
+        compare like for like. Min is the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream methane)
+        or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 5.94
+      min: 1.85
+      max: 8.1
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). Generation-weighted
+        NYUP 2.14, NYCW 0.49, NYLI 0.43 gal/kWh; bounds are NYCW and NYUP.
+    mix:
+      gas: 0.469
+      hydro: 0.227
+      nuclear: 0.223
+      wind: 0.039
+      solar: 0.018
+      biomass: 0.013
+      other: 0.008
+      oil: 0.003
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 4, state resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-CA:
+    label: United States, California (eGRID CAMX)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 219
+      min: 195
+      max: 244
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 CAMX 430.0 lb/MWh. AWS us-west-1, Azure West US, GCP us-west2. Direct combustion is 195 g/kWh; raised
+        to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions and countries compare
+        like for like. Min is the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream methane) or the
+        dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 5.19
+      min: 3.63
+      max: 7.79
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). CAMX 1.37 gal/kWh.
+    mix:
+      gas: 0.429
+      solar: 0.201
+      hydro: 0.141
+      nuclear: 0.08
+      wind: 0.066
+      geothermal: 0.036
+      biomass: 0.022
+      coal: 0.021
+      other: 0.007
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-NW:
+    label: United States, Northwest (eGRID NWPP)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 324
+      min: 288
+      max: 360
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 NWPP 635.3 lb/MWh. Oregon, Washington, Utah. AWS us-west-2, Azure West US 2, GCP us-west1 / us-west3.
+        Direct combustion is 288 g/kWh; raised to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124
+        so US subregions and countries compare like for like. Min is the direct figure, max is direct x 1.25 (gas-heavy grids
+        carry more upstream methane) or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 9.5
+      min: 6.65
+      max: 14.25
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). NWPP 2.51 gal/kWh,
+        hydro reservoir evaporation.
+    mix:
+      hydro: 0.387
+      gas: 0.248
+      coal: 0.164
+      wind: 0.116
+      nuclear: 0.031
+      solar: 0.031
+      biomass: 0.01
+      geothermal: 0.007
+      other: 0.004
+      oil: 0.002
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-SW:
+    label: United States, Southwest (eGRID AZNM)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 360
+      min: 320
+      max: 400
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 AZNM 706.2 lb/MWh. Arizona, southern Nevada. Azure West US 3 (Phoenix), GCP us-west4. Direct combustion
+        is 320 g/kWh; raised to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions
+        and countries compare like for like. Min is the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream
+        methane) or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 4.96
+      min: 3.47
+      max: 7.44
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). AZNM 1.31 gal/kWh.
+    mix:
+      gas: 0.487
+      nuclear: 0.18
+      coal: 0.111
+      solar: 0.082
+      wind: 0.077
+      geothermal: 0.036
+      hydro: 0.026
+      biomass: 0.003
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  US-RM:
+    label: United States, Rockies (eGRID RMPA)
+    country: US
+    dataset_year: 2023
+    carbon_intensity_gco2e_per_kwh:
+      value: 531
+      min: 473
+      max: 591
+      unit: gCO2e/kWh
+      tier: 2
+      source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      note: eGRID2023 RMPA 1,042.5 lb/MWh. Wyoming, Colorado. Azure West Central US (Cheyenne). Direct combustion is 473 g/kWh;
+        raised to Ember's lifecycle basis by the same-year national ratio 392.89/349.7 = 1.124 so US subregions and countries
+        compare like for like. Min is the direct figure, max is direct x 1.25 (gas-heavy grids carry more upstream methane)
+        or the dirtier neighbour.
+    primary_energy_factor:
+      value: 2.69
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. US national used.
+    water_l_per_kwh_generation:
+      value: 2.57
+      min: 1.8
+      max: 3.85
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 Appendix 1, water consumption factor by eGRID subregion (thinkstep 2018). RMPA 0.68 gal/kWh.
+    mix:
+      coal: 0.317
+      gas: 0.264
+      wind: 0.258
+      hydro: 0.105
+      solar: 0.054
+      biomass: 0.002
+      oil: 0.001
+    mix_source: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf (eGRID2023 Table 2, subregion resource
+      mix)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://www.epa.gov/system/files/documents/2025-06/summary_tables_rev2.pdf
+      - resource: https://files.ember-energy.org/public-downloads/ember_electricity_data_methodology.pdf
+  GB:
+    label: Great Britain
+    country: GB
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 217
+      min: 125
+      max: 230
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. NESO 2024 direct incl.
+        imports is 125; DESNZ 2025 generation factor 177. Lifecycle value used for consistency.
+    primary_energy_factor:
+      value: 2.53
+      min: 2.0
+      max: 2.9
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6.
+    water_l_per_kwh_generation:
+      value: 2.33
+      min: 1.0
+      max: 3.0
+      unit: L/kWh
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. GBR row via EcoLogits.
+    mix:
+      gas: 0.311
+      wind: 0.294
+      biomass: 0.141
+      nuclear: 0.124
+      solar: 0.066
+      oil: 0.044
+      hydro: 0.019
+      coal: 0.001
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  'NO':
+    label: Norway
+    country: 'NO'
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 28
+      min: 10
+      max: 45
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. NVE consumption-based 9.4
+        (2025) / 11.9 (2024). NO4 zone (Glomfjord) 39.65 in 2025 per arXiv 2608.29717; other NO zones 21-25.
+    primary_energy_factor:
+      value: 1.2
+      min: 1.0
+      max: 1.6
+      unit: MJ primary / MJ electricity
+      tier: 3
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: EcoLogits NOR pe 0.1386 MJ/kWh looks like non-renewable-only and is treated as suspect; hydro default used.
+    water_l_per_kwh_generation:
+      value: 6.66
+      min: 1.0
+      max: 7.0
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. 1.76 gal/kWh, dominated by reservoir evaporation, which is contested; wide lower bound on purpose.
+    mix:
+      hydro: 0.9
+      wind: 0.084
+      gas: 0.006
+      oil: 0.004
+      solar: 0.003
+      other: 0.001
+      biomass: 0.001
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://arxiv.org/html/2608.29717
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  IS:
+    label: Iceland
+    country: IS
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 28
+      min: 15
+      max: 45
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: 'Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025: 27.82. Hydro plus geothermal;
+        geothermal carries some direct CO2, hence the floor above Norway''s.'
+    primary_energy_factor:
+      value: 1.2
+      min: 1.0
+      max: 1.5
+      unit: MJ primary / MJ electricity
+      tier: 3
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: EcoLogits gives 0.0128 MJ/kWh, which counts only fossil primary energy; treated like Norway at 1.2 so hydro/geothermal
+        are not scored as free.
+    water_l_per_kwh_generation:
+      value: 6.14
+      min: 1.0
+      max: 6.5
+      unit: L/kWh
+      tier: 2
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: 'EcoLogits electricity_mixes.json ISL wue 6.1409 (no WRI row). Hydro reservoir evaporation drives it; the same
+        allocation caveat as Norway applies, and geothermal condensate is site-specific. Tier 2: a compiled proxy, not a national
+        measurement.'
+    mix:
+      hydro: 0.707
+      geothermal: 0.292
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2024 row; 2025 not
+      yet published for Iceland)
+    provenance:
+      generated:
+        by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+  FR:
+    label: France
+    country: FR
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 41
+      min: 20
+      max: 52
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. ADEME Base Carbone 2024
+        mix moyen 51.9; RTE 2025 production-based 19.6.
+    primary_energy_factor:
+      value: 2.59
+      min: 2.3
+      max: 3.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. RE2020 regulatory PEF is 2.3.
+    water_l_per_kwh_generation:
+      value: 3.67
+      min: 1.9
+      max: 4.0
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. 0.97 gal/kWh, nuclear cooling.
+    mix:
+      nuclear: 0.688
+      hydro: 0.104
+      wind: 0.082
+      solar: 0.056
+      gas: 0.03
+      oil: 0.018
+      biomass: 0.018
+      coal: 0.003
+      other: 0.001
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  SG:
+    label: Singapore
+    country: SG
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 497
+      min: 402
+      max: 500
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. EMA official grid emission
+        factor 2024 is 402 (direct).
+    primary_energy_factor:
+      value: 2.86
+      min: 2.4
+      max: 3.3
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6.
+    water_l_per_kwh_generation:
+      value: 0.75
+      min: 0.5
+      max: 3.9
+      unit: L/kWh
+      tier: 3
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: No country EWIF in WRI; EcoLogits falls back to world 3.908. Macknick-derived for ~91% NGCC tower cooling is ~0.7-0.8
+        L/kWh, used as the value.
+    mix:
+      gas: 0.911
+      biomass: 0.028
+      solar: 0.027
+      oil: 0.024
+      coal: 0.009
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  IN:
+    label: India
+    country: IN
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 670
+      min: 600
+      max: 730
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. CEA FY2024-25 weighted
+        average (direct, incl. captive) is 710.
+    primary_energy_factor:
+      value: 4.63
+      min: 3.5
+      max: 5.0
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. High because of low thermal
+        efficiency.
+    water_l_per_kwh_generation:
+      value: 3.44
+      min: 1.9
+      max: 4.0
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. 0.91 gal/kWh.
+    mix:
+      coal: 0.708
+      solar: 0.094
+      hydro: 0.085
+      wind: 0.05
+      nuclear: 0.026
+      gas: 0.023
+      biomass: 0.011
+      oil: 0.002
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://cea.nic.in/wp-content/uploads/baseline/2025/12/User_Guide_V_21.0.pdf
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  CN:
+    label: China
+    country: CN
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 525
+      min: 450
+      max: 600
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025. MEE/NBS official 2023 national
+        factor 530.6 (direct).
+    primary_energy_factor:
+      value: 2.96
+      min: 2.5
+      max: 3.4
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6.
+    water_l_per_kwh_generation:
+      value: 6.02
+      min: 1.6
+      max: 6.5
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. 1.59 gal/kWh.
+    mix:
+      coal: 0.543
+      hydro: 0.132
+      solar: 0.111
+      wind: 0.107
+      nuclear: 0.046
+      gas: 0.032
+      biomass: 0.02
+      oil: 0.008
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source
+  DE:
+    label: Germany
+    country: DE
+    dataset_year: 2025
+    carbon_intensity_gco2e_per_kwh:
+      value: 330
+      min: 300
+      max: 340
+      unit: gCO2e/kWh
+      tier: 1
+      source: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      note: Ember lifecycle (generation-based, incl. upstream methane and biomass) via OWID, 2025.
+    primary_energy_factor:
+      value: 2.43
+      min: 2.0
+      max: 2.8
+      unit: MJ primary / MJ electricity
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      note: ADEME Base Empreinte via EcoLogits electricity_mixes.json, MJ/kWh divided by 3.6. EU EED default PEF is 1.9.
+    water_l_per_kwh_generation:
+      value: 1.93
+      min: 1.0
+      max: 2.0
+      unit: L/kWh
+      tier: 1
+      source: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      note: WRI Reig et al. 2020 off-site water consumed in generation (EWIF), 2018 data. Same source EcoLogits and Li et
+        al. use. 0.51 gal/kWh.
+    mix:
+      wind: 0.272
+      coal: 0.206
+      solar: 0.179
+      gas: 0.165
+      biomass: 0.101
+      hydro: 0.039
+      oil: 0.038
+    mix_source: https://ourworldindata.org/grapher/share-elec-by-source (Ember Yearly Electricity Data, 2025)
+    provenance:
+      generated:
+        by: agent:claude-research-2026-09-18
+        at: '2026-09-18'
+      verified:
+      - by: agent:claude-fable-5-1
+        at: '2026-09-22'
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://ourworldindata.org/grapher/carbon-intensity-electricity
+      - resource: https://files.wri.org/d8/s3fs-public/guidance-calculating-water-use-embedded-purchased-electricity.pdf
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/electricity_mixes.json
+      - resource: https://ourworldindata.org/grapher/share-elec-by-source

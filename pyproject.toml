@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "ecocost"
+version = "0.1.0"
+description = "Per-run carbon, energy and water estimates for AI inference, with computed confidence and sourced inputs"
+authors = ["Gooey.AI <devs@dara.network>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/GooeyAI/ecocost"
+repository = "https://github.com/GooeyAI/ecocost"
+documentation = "https://github.com/GooeyAI/ecocost/blob/main/API.md"
+keywords = ["carbon", "energy", "water", "llm", "inference", "sustainability", "sci"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+packages = [{ include = "ecocost" }]
+include = ["ecocost/data/*.yaml"]
+exclude = ["ecocost/tests"]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/GooeyAI/ecocost/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+pyyaml = "^6.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+ruff = "^0.11"
+
+[tool.ruff]
+target-version = "py310"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
