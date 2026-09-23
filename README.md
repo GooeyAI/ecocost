@@ -23,8 +23,9 @@ r = estimate(
     input_tokens=800,
     output_tokens=300,
 )
-r["carbon"]      # {"unit": "gCO2e", "value": 0.0018, "min": ..., "max": ..., "worst_case": {...}}
-r["confidence"]  # {"level": "low", "ratio": 16.6, "reasons": ["wue_assumed", ...]}
+r["carbon"]      # {"unit": "gCO2e", "value": 0.0018, "min": ..., "max": ..., "worst_case": {...},
+                 #  "operational": {...}, "embodied": {...}}
+r["confidence"]  # {"level": "low", "range_ratio": 16.6, "reasons": ["wue_assumed", ...]}
 ```
 
 Model ids are matched through aliases, so provider-specific ids such as
@@ -39,11 +40,11 @@ Who serves the request is taken, in order, from:
 
 1. `provider`: one of these ids. An unrecognised id raises
    `UnknownProviderError`, so a typo can't silently estimate the wrong site.
-2. `base_url` (optional): the API endpoint you called. Its host is matched
+2. `endpoint` (optional): the API URL or host you called. Its host is matched
    against the hosts below; an unlisted host is ignored.
 3. For a closed model, its vendor's own API (`claude-*` → `anthropic`,
    `gpt-*` → `openai`, …), flagged `provider_inferred_from_model`.
-4. Otherwise wide US defaults, flagged `provider_unknown_fallback`.
+4. Otherwise wide US defaults, flagged `provider_unknown`.
 
 | id | provider | API hosts |
 |---|---|---|
@@ -67,12 +68,18 @@ Who serves the request is taken, in order, from:
 
 To add a provider, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+If you know where the request ran, pass `region`, a grid id from
+`ecocost/data/regions.yaml` (`US-VA`, `US-CA`, `GB`, `FR`, `SG`, `IN`, …).
+It replaces the provider's region, including one implied by `endpoint`; the
+provider still sets PUE, water use and hardware. An unrecognised id raises
+`UnknownRegionError`.
+
 ## API
 
 One function:
 
 ```python
-estimate(model, *, provider=None, base_url=None, input_tokens=0, output_tokens=0, cached_input_tokens=0, timestamp=None) -> EstimateResult
+estimate(model, *, provider=None, endpoint=None, region=None, input_tokens=0, output_tokens=0, cached_input_tokens=0) -> EstimateResult
 ```
 
 Full parameters, every output field, reason codes, errors and fallbacks, and versioning:
@@ -81,25 +88,25 @@ Full parameters, every output field, reason codes, errors and fallbacks, and ver
 ### Output
 
 ```
-model, provider, tokens
-carbon       gCO2e: value, min, max, worst_case {min, max}
-energy       Wh at the meter, primary_energy_mj
-water        mL: total, on_site (cooling, WUE), generation (off-site)
-confidence   level, ratio (max/min), reasons (every assumed input)
-electricity  region, country, gco2e_per_kwh (+ range), mix, dataset_year
-breakdown    h100_seconds, usage (operational) and embodied gCO2e
-assumptions  active params, chips, chip energy ratio, PUE, utilization, overhead, method_version
-provenance   trust, status, generated_by, stale for model, provider, region, hardware
+model, provider, method_version, tokens
+carbon          gCO2e: value, min, max, worst_case {min, max}; operational, embodied
+energy          Wh at the meter; chips, chip_energy_vs_h100, serving_overhead, pue
+primary_energy  MJ of raw energy behind that electricity
+water           mL consumed: data_center (cooling, with its wue), power_plant (generating the electricity)
+compute         H100-seconds of work; method, active_params_billion, decode_utilization
+confidence      level, range_ratio (max/min), reasons (every assumed input)
+grid            region, country, carbon_intensity (range), largest_source, mix, data_year
+provenance      trust, status, generated_by, stale for model, provider, region, hardware
 ```
 
 `min`/`max` is the likely range; `worst_case` puts every input at its extreme
-at once. Cache results against `assumptions.method_version`.
+at once. Cache results against `method_version`.
 
 ## How it works
 
 ```
 tokens ─▶ FLOPs ─▶ H100-seconds ─▶ Wh at the meter ─▶ gCO2e operational + gCO2e embodied
-                                                    ─▶ mL water on-site + off-site
+                                                    ─▶ mL water at the data centre + power plant
 ```
 
 Location-based, lifecycle grid intensity, embodied carbon included, usage

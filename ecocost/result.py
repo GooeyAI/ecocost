@@ -21,13 +21,31 @@ class Quantity(TypedDict):
     worst_case: Bounds
 
 
+class Carbon(Quantity):
+    operational: Quantity
+    embodied: Quantity
+
+
 class Energy(Quantity):
-    primary_energy_mj: float
+    chips: list[str]
+    chip_energy_vs_h100: float
+    serving_overhead: float
+    pue: float
+
+
+class DataCenterWater(Quantity):
+    wue: float
 
 
 class Water(Quantity):
-    on_site: Quantity
-    generation: Quantity
+    data_center: DataCenterWater
+    power_plant: Quantity
+
+
+class Compute(Quantity):
+    method: Literal["measured", "model_size"]
+    active_params_billion: Bounds
+    decode_utilization: float | None
 
 
 class Tokens(TypedDict):
@@ -38,38 +56,17 @@ class Tokens(TypedDict):
 
 class Confidence(TypedDict):
     level: Literal["high", "medium", "low"]
-    ratio: float
+    range_ratio: float
     reasons: list[str]
 
 
-class Electricity(TypedDict):
+class Grid(TypedDict):
     region: str
     country: str
-    gco2e_per_kwh: float
-    gco2e_per_kwh_range: list[float]
-    primary_source: str
+    carbon_intensity: Quantity
+    largest_source: str
     mix: dict[str, float]
-    dataset_year: int
-
-
-class Grams(TypedDict):
-    gco2e: float
-
-
-class Breakdown(TypedDict):
-    h100_seconds: Quantity
-    usage: Grams
-    embodied: Grams
-
-
-class Assumptions(TypedDict):
-    active_params_b: Bounds
-    hardware: list[str]
-    chip_energy_vs_h100: float
-    pue: float
-    decode_utilization: float
-    serving_overhead: float
-    method_version: str
+    data_year: int
 
 
 class RecordProvenance(TypedDict):
@@ -89,19 +86,21 @@ class Provenance(TypedDict):
 class Requested(TypedDict):
     model: str
     provider: str | None
-    base_url: str | None
+    endpoint: str | None
+    region: str | None
 
 
 class EstimateResult(TypedDict):
     model: str
     provider: str
+    method_version: str
     tokens: Tokens
-    carbon: Quantity
+    carbon: Carbon
     energy: Energy
+    primary_energy: Quantity
     water: Water
+    compute: Compute
     confidence: Confidence
-    electricity: Electricity
-    breakdown: Breakdown
-    assumptions: Assumptions
+    grid: Grid
     provenance: Provenance
     requested: Requested

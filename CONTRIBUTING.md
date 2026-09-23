@@ -8,7 +8,7 @@ with a pull request. Most changes are a few lines of YAML in `ecocost/data/`.
 
 | File | Records | Typical contributions |
 |---|---|---|
-| `providers.yaml` | who runs inference | API `hosts` (a caller's `base_url` is matched against them; a leading dot means any subdomain), serving regions (`region.candidates`), accelerator fleet (`hardware.candidates`), PUE, WUE, utilization, serving overhead |
+| `providers.yaml` | who runs inference | API `hosts` (a caller's `endpoint` is matched against them; a leading dot means any subdomain), serving regions (`region.candidates`), accelerator fleet (`hardware.candidates`), PUE, WUE, utilization, serving overhead |
 | `models.yaml` | models | active and total parameters, measured Wh per 1k output tokens, aliases |
 | `regions.yaml` | electricity grids | carbon intensity, generation mix, generation water, primary energy factor |
 | `hardware.yaml` | accelerators | TDP, peak FLOPS, measured energy ratio vs H100, embodied carbon |

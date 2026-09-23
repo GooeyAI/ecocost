@@ -19,7 +19,7 @@ from urllib.parse import urlparse
 
 import yaml
 
-from .errors import UnknownModelError, UnknownProviderError
+from .errors import UnknownModelError, UnknownProviderError, UnknownRegionError
 from .schema import (
     EnergySource,
     Factor,
@@ -103,6 +103,7 @@ class KnowledgeBase:
         # lower-cased id or alias -> canonical id, for case-insensitive lookup
         self._model_index: dict[str, str] = {}
         self._provider_index: dict[str, str] = {}
+        self._region_index: dict[str, str] = {}
         self.fallback_provider_id: str | None = None
         # creator -> provider id serving its closed models first-party
         self.first_party_provider: dict[str, str] = {}
@@ -145,6 +146,7 @@ class KnowledgeBase:
                 mix_source=raw.get("mix_source", "") or "",
                 provenance=_provenance(raw.get("provenance")),
             )
+            kb._region_index[rid.lower()] = rid
         pdoc = _read("providers.yaml")
         kb.fallback_provider_id = pdoc.get("fallback")
         for pid, raw in pdoc.get("providers", {}).items():
@@ -224,16 +226,23 @@ class KnowledgeBase:
         tail = model_id.rsplit("/", 1)[-1]
         raise UnknownModelError(model_id, _similar(tail, self._model_index))
 
+    def resolve_region(self, region_id: str) -> Region:
+        """The grid region for an id from regions.yaml, ignoring case; raises
+        UnknownRegionError."""
+        if rid := self._region_index.get(region_id.lower()):
+            return self.regions[rid]
+        raise UnknownRegionError(region_id, _similar(region_id, self._region_index))
+
     def resolve_provider(
         self,
         provider_id: str | None,
         *,
-        base_url: str | None = None,
+        endpoint: str | None = None,
         model: Model | None = None,
     ) -> tuple[Provider, str | None]:
         """(provider, reason code or None). In order: an explicit id (an
         unrecognised one raises UnknownProviderError, since a typo would
-        otherwise silently estimate the wrong site); a base_url whose host a
+        otherwise silently estimate the wrong site); an endpoint whose host a
         provider publishes; a closed model's first-party provider; the
         fallback."""
         if provider_id is not None:
@@ -243,7 +252,7 @@ class KnowledgeBase:
                     provider_id, _similar(provider_id, self._provider_index)
                 )
             return self._with_reason(pid, None)
-        if base_url and (pid := self.provider_for_host(base_url)):
+        if endpoint and (pid := self.provider_for_host(endpoint)):
             return self._with_reason(pid, None)
         if model and not model.open_weights:
             if pid := self.first_party_provider.get(model.creator):
@@ -267,7 +276,7 @@ class KnowledgeBase:
 
     def _with_reason(self, pid: str, reason: str | None) -> tuple[Provider, str | None]:
         if pid == self.fallback_provider_id:
-            reason = "provider_unknown_fallback"
+            reason = "provider_unknown"
         return self.providers[pid], reason
 
     def _index_host(self, host: str, pid: str):

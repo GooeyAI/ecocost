@@ -2,10 +2,10 @@
 
     tokens ──(active params, utilization)──▶ H100-seconds (work, chip-independent)
            ──(chip energy ratio, TDP, PUE)─▶ Wh at the meter
-           ──(grid intensity)────────────▶ gCO2e (usage)
+           ──(grid intensity)────────────▶ gCO2e (operational)
            ──(embodied per H100-second)──▶ gCO2e (embodied)
-           ──(WUE)───────────────────────▶ mL water, on-site cooling
-           ──(generation water)──────────▶ mL water, upstream at the plant
+           ──(WUE)───────────────────────▶ mL water, data-centre cooling
+           ──(generation water)──────────▶ mL water, at the power plant
            ──(primary energy factor)─────▶ MJ primary energy
 
 Every step is arithmetic over ``Range``. min/max is the likely range:
@@ -32,7 +32,7 @@ from .schema import (
     sig_round,
 )
 
-METHOD_VERSION = "0.2.0"
+METHOD_VERSION = "0.3.0"
 
 # H100 SXM is the unit of work: an H100-second is "the work one H100 does in
 # one second", whatever chip actually ran it.
@@ -91,19 +91,17 @@ def estimate(
             provider.decode_utilization.as_range(),
         )
 
-    # 2. Energy at the meter. The chip ratio is how much energy this fleet
-    #    spends per H100-second of work (B200 ~0.75, H200 ~0.85). Serving
-    #    overhead covers host CPU/RAM/network and idle capacity: Google reports
-    #    0.24 Wh/prompt all-in vs 0.10 Wh for the accelerators alone.
+    # 2. Energy. The chip ratio is how much energy this fleet spends per
+    #    H100-second of work (B200 ~0.75, H200 ~0.85). Serving overhead covers
+    #    host CPU/RAM/network and idle capacity: Google reports 0.24 Wh/prompt
+    #    all-in vs 0.10 Wh for the accelerators alone. Together that is the IT
+    #    equipment energy; PUE then adds the facility's cooling and power
+    #    losses to give energy at the meter.
     chip_ratio = _envelope([(hw.energy_vs_h100.as_range(), w) for hw, w in chips])
-    energy_wh = (
-        work
-        * H100_TDP_W
-        / 3600
-        * chip_ratio
-        * provider.serving_overhead.as_range()
-        * provider.pue.as_range()
+    it_equipment_wh = (
+        work * H100_TDP_W / 3600 * chip_ratio * provider.serving_overhead.as_range()
     )
+    energy_wh = it_equipment_wh * provider.pue.as_range()
     kwh = energy_wh / 1000
 
     # 3. Carbon. An uncertain site widens the grid range too: "somewhere in
@@ -114,9 +112,14 @@ def estimate(
     )
 
     # 4. Water, in two parts because they follow different conventions.
-    #    On-site is what the operator's WUE measures (and what Google's
-    #    0.26 mL per prompt counts). Generation water (WRI 2020) is the LCA
-    #    convention; it is usually larger and, on hydro grids, contested.
+    #    Data-centre water is what the operator's WUE measures (and what Google's
+    #    0.26 mL per prompt counts). WUE is litres per kWh of IT energy (The
+    #    Green Grid WP#35, ISO/IEC 30134-9), so it applies before PUE; applying
+    #    it to energy at the meter would count the facility overhead twice.
+    #    Generation water (WRI 2020) is the LCA convention and covers all the
+    #    electricity the site draws, so it uses energy at the meter; it is
+    #    usually larger and, on hydro grids, contested. This is the split in
+    #    Li et al. 2023 (arXiv:2304.03271).
     return Estimate(
         model=model,
         provider=provider,
@@ -129,10 +132,10 @@ def estimate(
         energy_wh=energy_wh,
         primary_energy_mj=kwh * 3.6 * regional("primary_energy_factor"),
         grid_intensity=grid,
-        carbon_usage_g=kwh * grid,
+        carbon_operational_g=kwh * grid,
         carbon_embodied_g=work * embodied_rate,
-        water_onsite_ml=kwh * provider.wue_l_per_kwh.as_range() * 1000,
-        water_generation_ml=kwh * regional("water_l_per_kwh_generation") * 1000,
+        water_data_center_ml=it_equipment_wh * provider.wue_l_per_kwh.as_range(),
+        water_power_plant_ml=kwh * regional("water_l_per_kwh_generation") * 1000,
         reasons=_assumed_inputs(model, provider, region, [hw for hw, _ in chips]),
     )
 
@@ -150,19 +153,19 @@ class Estimate:
     energy_wh: Range
     primary_energy_mj: Range
     grid_intensity: Range
-    carbon_usage_g: Range
+    carbon_operational_g: Range
     carbon_embodied_g: Range
-    water_onsite_ml: Range
-    water_generation_ml: Range
+    water_data_center_ml: Range
+    water_power_plant_ml: Range
     reasons: list[str]
 
     @property
     def carbon_g(self) -> Range:
-        return self.carbon_usage_g + self.carbon_embodied_g
+        return self.carbon_operational_g + self.carbon_embodied_g
 
     @property
     def water_ml(self) -> Range:
-        return self.water_onsite_ml + self.water_generation_ml
+        return self.water_data_center_ml + self.water_power_plant_ml
 
     @property
     def confidence_level(self) -> str:
@@ -175,55 +178,62 @@ class Estimate:
 
     def to_dict(self) -> dict:
         input_tokens, output_tokens, cached_input_tokens = self.tokens
-        grid = self.grid_intensity
+        measured = self.model.measured_wh_per_1k_output_tokens_h100 is not None
         return {
             "model": self.model.id,
             "provider": self.provider.id,
+            "method_version": METHOD_VERSION,
             "tokens": {
                 "input": input_tokens,
                 "output": output_tokens,
                 "cached_input": cached_input_tokens,
             },
-            "carbon": self.carbon_g.to_dict("gCO2e"),
+            "carbon": {
+                **self.carbon_g.to_dict("gCO2e"),
+                "operational": self.carbon_operational_g.to_dict("gCO2e"),
+                "embodied": self.carbon_embodied_g.to_dict("gCO2e"),
+            },
+            # each quantity carries the inputs that produced it
             "energy": {
                 **self.energy_wh.to_dict("Wh"),
-                "primary_energy_mj": sig_round(self.primary_energy_mj.mid),
+                "chips": list(self.chips),
+                "chip_energy_vs_h100": sig_round(self.chip_energy_ratio.mid),
+                "serving_overhead": self.provider.serving_overhead.value,
+                "pue": self.provider.pue.value,
             },
+            "primary_energy": self.primary_energy_mj.to_dict("MJ"),
             "water": {
                 **self.water_ml.to_dict("mL"),
-                "on_site": self.water_onsite_ml.to_dict("mL"),
-                "generation": self.water_generation_ml.to_dict("mL"),
+                "data_center": {
+                    **self.water_data_center_ml.to_dict("mL"),
+                    "wue": self.provider.wue_l_per_kwh.value,
+                },
+                "power_plant": self.water_power_plant_ml.to_dict("mL"),
+            },
+            "compute": {
+                **self.h100_seconds.to_dict("H100-s"),
+                "method": "measured" if measured else "model_size",
+                "active_params_billion": {
+                    "min": sig_round(self.model.active_params_b.min),
+                    "max": sig_round(self.model.active_params_b.max),
+                },
+                # measured energy replaces it, so it was not used
+                "decode_utilization": (
+                    None if measured else self.provider.decode_utilization.value
+                ),
             },
             "confidence": {
                 "level": self.confidence_level,
-                "ratio": round(self.carbon_g.ratio, 2),
+                "range_ratio": round(self.carbon_g.ratio, 2),
                 "reasons": self.reasons,
             },
-            "electricity": {
+            "grid": {
                 "region": self.region.id,
                 "country": self.region.country,
-                "gco2e_per_kwh": sig_round(grid.mid),
-                "gco2e_per_kwh_range": [sig_round(grid.lo), sig_round(grid.hi)],
-                "primary_source": self.region.primary_source.value,
+                "carbon_intensity": self.grid_intensity.to_dict("gCO2e/kWh"),
+                "largest_source": self.region.largest_source.value,
                 "mix": {k.value: v for k, v in self.region.mix.items()},
-                "dataset_year": self.region.dataset_year,
-            },
-            "breakdown": {
-                "h100_seconds": self.h100_seconds.to_dict("s"),
-                "usage": {"gco2e": sig_round(self.carbon_usage_g.mid)},
-                "embodied": {"gco2e": sig_round(self.carbon_embodied_g.mid)},
-            },
-            "assumptions": {
-                "active_params_b": {
-                    "min": self.model.active_params_b.min,
-                    "max": self.model.active_params_b.max,
-                },
-                "hardware": list(self.chips),
-                "chip_energy_vs_h100": sig_round(self.chip_energy_ratio.mid),
-                "pue": self.provider.pue.value,
-                "decode_utilization": self.provider.decode_utilization.value,
-                "serving_overhead": self.provider.serving_overhead.value,
-                "method_version": METHOD_VERSION,
+                "data_year": self.region.dataset_year,
             },
             "provenance": {
                 name: {
@@ -294,15 +304,18 @@ def _assumed_inputs(
     if not measured and not model.open_weights:
         reasons.append("active_params_undisclosed")
     tiers = {
-        # measured energy replaces the parameter count on the decode path
-        "active_params_estimated": None if measured else model.active_params_b.tier,
-        "region_inferred": provider.region_tier,
-        "hardware_assumed": provider.hardware_tier,
+        # measured energy replaces the parameter count and decode utilization
+        # on the decode path
+        "active_params_assumed": None if measured else model.active_params_b.tier,
+        "region_assumed": provider.region_tier,
+        "chips_assumed": provider.hardware_tier,
         "pue_assumed": provider.pue.tier,
         "wue_assumed": provider.wue_l_per_kwh.tier,
-        "utilization_assumed": provider.decode_utilization.tier,
+        "decode_utilization_assumed": (
+            None if measured else provider.decode_utilization.tier
+        ),
         "serving_overhead_assumed": provider.serving_overhead.tier,
-        "grid_intensity_national_average": region.carbon_intensity_gco2e_per_kwh.tier,
-        "embodied_carbon_default": max(hw.embodied_tier for hw in chips),
+        "grid_intensity_assumed": region.carbon_intensity_gco2e_per_kwh.tier,
+        "embodied_carbon_assumed": max(hw.embodied_tier for hw in chips),
     }
     return reasons + [code for code, tier in tiers.items() if tier == Tier.assumed]

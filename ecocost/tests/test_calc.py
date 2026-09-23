@@ -3,7 +3,12 @@ import pytest
 import json
 
 import ecocost
-from ecocost import UnknownModelError, UnknownProviderError, estimate
+from ecocost import (
+    UnknownModelError,
+    UnknownProviderError,
+    UnknownRegionError,
+    estimate,
+)
 from ecocost.result import EstimateResult
 from ecocost.loader import get_kb
 
@@ -25,10 +30,26 @@ def test_hydro_site_beats_undisclosed_us_fleet_on_carbon():
     )
     assert ns["carbon"]["value"] < fw["carbon"]["value"]
     assert ns["carbon"]["max"] < fw["carbon"]["max"]
-    assert ns["confidence"]["ratio"] < fw["confidence"]["ratio"]
-    assert "region_inferred" in fw["confidence"]["reasons"]
-    assert "region_inferred" not in ns["confidence"]["reasons"]
-    assert ns["electricity"]["primary_source"] == "hydro"
+    assert ns["confidence"]["range_ratio"] < fw["confidence"]["range_ratio"]
+    assert "region_assumed" in fw["confidence"]["reasons"]
+    assert "region_assumed" not in ns["confidence"]["reasons"]
+    assert ns["grid"]["largest_source"] == "hydro"
+
+
+def test_measured_energy_does_not_report_decode_assumptions():
+    kb = get_kb()
+    assert kb.models["gpt-oss-120b"].measured_wh_per_1k_output_tokens_h100
+    assert not kb.models["qwen3.8-max"].measured_wh_per_1k_output_tokens_h100
+    measured = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)
+    sized = estimate("qwen3.8-max", provider="fireworks", **TOKENS)
+    for code in ("decode_utilization_assumed", "active_params_assumed"):
+        assert code not in measured["confidence"]["reasons"]
+    assert "decode_utilization_assumed" in sized["confidence"]["reasons"]
+    # and the unused default is not reported as an input
+    assert measured["compute"]["method"] == "measured"
+    assert measured["compute"]["decode_utilization"] is None
+    assert sized["compute"]["method"] == "model_size"
+    assert sized["compute"]["decode_utilization"] == 0.12
 
 
 def test_closed_model_is_low_confidence_everywhere():
@@ -54,7 +75,7 @@ def test_ranges_are_ordered_and_monotonic_in_tokens():
     a = estimate("gpt-oss-120b", provider="fireworks", output_tokens=100)
     b = estimate("gpt-oss-120b", provider="fireworks", output_tokens=1000)
     for r in (a, b):
-        for k in ("carbon", "energy", "water"):
+        for k in ("carbon", "energy", "primary_energy", "water", "compute"):
             assert r[k]["min"] <= r[k]["value"] <= r[k]["max"]
     assert b["carbon"]["value"] > a["carbon"]["value"]
     assert b["water"]["value"] > a["water"]["value"]
@@ -76,13 +97,13 @@ def test_every_provider_id_estimates_without_fallback():
         r = estimate("gpt-oss-120b", provider=pid, **TOKENS)
         assert r["provider"] == pid
         if pid != get_kb().fallback_provider_id:
-            assert "provider_unknown_fallback" not in r["confidence"]["reasons"]
+            assert "provider_unknown" not in r["confidence"]["reasons"]
 
 
 def test_no_provider_falls_back_and_says_so():
     for provider in (None, "unknown-us"):
         r = estimate("gpt-oss-120b", provider=provider, **TOKENS)
-        assert r["confidence"]["reasons"][0] == "provider_unknown_fallback"
+        assert r["confidence"]["reasons"][0] == "provider_unknown"
 
 
 def test_mistyped_provider_raises_instead_of_falling_back():
@@ -101,8 +122,8 @@ def test_mistyped_provider_raises_instead_of_falling_back():
         ("https://my-gateway.example.com/v1", "unknown-us"),
     ],
 )
-def test_base_url_resolves_to_the_provider_publishing_its_host(url, expected):
-    r = estimate("gpt-oss-20b", base_url=url, **TOKENS)
+def test_endpoint_resolves_to_the_provider_publishing_its_host(url, expected):
+    r = estimate("gpt-oss-20b", endpoint=url, **TOKENS)
     assert r["provider"] == expected
 
 
@@ -114,15 +135,42 @@ def test_closed_model_without_provider_is_inferred_from_its_vendor():
     assert estimate("gpt-oss-20b", **TOKENS)["provider"] == "unknown-us"
 
 
-def test_explicit_provider_beats_base_url_and_vendor():
+def test_explicit_provider_beats_endpoint_and_vendor():
     r = estimate(
         "claude-sonnet-5",
         provider="fireworks",
-        base_url="https://api.anthropic.com",
+        endpoint="https://api.anthropic.com",
         **TOKENS,
     )
     assert r["provider"] == "fireworks"
     assert "provider_inferred_from_model" not in r["confidence"]["reasons"]
+
+
+def test_region_pins_the_grid_and_keeps_the_provider():
+    base = estimate("gpt-oss-120b", provider="unknown-us", **TOKENS)
+    r = estimate("gpt-oss-120b", provider="unknown-us", region="FR", **TOKENS)
+    assert r["provider"] == "unknown-us"
+    assert (r["grid"]["region"], r["grid"]["country"]) == ("FR", "FR")
+    assert "region_assumed" not in r["confidence"]["reasons"]
+    # a pinned site drops the US-wide candidate envelope
+    assert r["confidence"]["range_ratio"] < base["confidence"]["range_ratio"]
+    # the provider still sets PUE
+    assert r["energy"]["pue"] == base["energy"]["pue"]
+    assert r["requested"]["region"] == "FR"
+
+
+def test_region_overrides_the_region_implied_by_endpoint():
+    url = "https://ws-x.ap-southeast-1.maas.aliyuncs.com/v1"
+    r = estimate("gpt-oss-20b", endpoint=url, region="us-va", **TOKENS)
+    assert r["provider"] == "alibaba-sg"
+    assert r["grid"]["region"] == "US-VA"
+
+
+def test_mistyped_region_raises():
+    with pytest.raises(UnknownRegionError) as e:
+        estimate("gpt-oss-120b", provider="nscale", region="US-VAA", **TOKENS)
+    assert e.value.suggestions[0] == "US-VA"
+    assert "region=None" in str(e.value)
 
 
 def test_ids_match_ignoring_case():
@@ -137,6 +185,7 @@ def test_ids_match_ignoring_case():
         (dict(model=None), TypeError),
         (dict(model=""), ValueError),
         (dict(provider=3), TypeError),
+        (dict(region=3), TypeError),
         (dict(output_tokens="10"), TypeError),
         (dict(output_tokens=1.5), TypeError),
         (dict(output_tokens=True), TypeError),
@@ -153,13 +202,20 @@ def test_bad_arguments_raise_clear_errors(kwargs, error):
 
 def test_no_tokens_is_an_exact_zero_and_valid_json():
     r = estimate("gpt-oss-120b", provider="nscale")
-    assert r["carbon"]["value"] == 0 and r["confidence"]["ratio"] == 1
+    assert r["carbon"]["value"] == 0 and r["confidence"]["range_ratio"] == 1
     json.dumps(r, allow_nan=False)
 
 
 def test_output_matches_its_typed_dict():
     r = estimate("gpt-oss-120b", provider="nscale", **TOKENS)
     assert set(r) == set(EstimateResult.__annotations__)
+
+
+def test_method_version_is_top_level():
+    from ecocost.calc import METHOD_VERSION
+
+    r = estimate("gpt-oss-120b", provider="nscale", **TOKENS)
+    assert r["method_version"] == METHOD_VERSION
 
 
 def test_version_is_exposed():
@@ -192,7 +248,7 @@ def test_independent_factors_combine_in_quadrature_not_by_stacking():
 
 def test_likely_range_sits_inside_worst_case():
     r = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)
-    for k in ("carbon", "energy", "water"):
+    for k in ("carbon", "energy", "primary_energy", "water", "compute"):
         wc = r[k]["worst_case"]
         assert wc["min"] <= r[k]["min"] <= r[k]["value"] <= r[k]["max"] <= wc["max"]
     assert r["carbon"]["max"] / r["carbon"]["min"] < (
@@ -207,18 +263,18 @@ def test_undisclosed_site_uses_envelope_of_disclosed_candidates():
         kb.regions[rid].carbon_intensity_gco2e_per_kwh
         for rid, _ in fw.region_candidates
     ]
-    r = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)["electricity"]
-    assert r["gco2e_per_kwh_range"] == [
+    r = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)["grid"]
+    ci = r["carbon_intensity"]
+    assert [ci["min"], ci["max"]] == [
         min(c.min for c in cands),
         max(c.max for c in cands),
     ]
-    assert (
-        r["gco2e_per_kwh_range"][0] < r["gco2e_per_kwh"] < r["gco2e_per_kwh_range"][1]
-    )
+    assert ci["min"] < ci["value"] < ci["max"]
     # a pinned site is not widened at all
-    sg = estimate("qwen3.8-max", provider="alibaba-sg", **TOKENS)["electricity"]
+    sg = estimate("qwen3.8-max", provider="alibaba-sg", **TOKENS)["grid"]
     sing = kb.regions["SG"].carbon_intensity_gco2e_per_kwh
-    assert sg["gco2e_per_kwh_range"] == [sing.min, sing.max]
+    ci = sg["carbon_intensity"]
+    assert [ci["min"], ci["max"]] == [sing.min, sing.max]
 
 
 def test_embodied_carbon_is_propagated_from_its_three_inputs():
@@ -239,13 +295,39 @@ def test_every_region_mix_is_sourced_and_sums_to_one():
         assert sum(r.mix.values()) == pytest.approx(1, abs=0.005), r.id
 
 
-def test_water_splits_into_onsite_and_generation():
+def test_water_splits_into_data_center_and_power_plant():
     r = estimate("gpt-oss-120b", provider="nscale", **TOKENS)["water"]
     assert r["value"] == pytest.approx(
-        r["on_site"]["value"] + r["generation"]["value"], rel=0.01
+        r["data_center"]["value"] + r["power_plant"]["value"], rel=0.01
     )
-    # hydro grid: upstream water dwarfs the adiabatic-cooled site
-    assert r["generation"]["value"] > 5 * r["on_site"]["value"]
+    # hydro grid: power-plant water dwarfs the adiabatic-cooled site
+    assert r["power_plant"]["value"] > 5 * r["data_center"]["value"]
+
+
+def test_wue_applies_to_it_energy_not_energy_at_the_meter():
+    """WUE is litres per kWh of IT energy, so PUE must not multiply it."""
+    for pid in ("google-vertex", "fireworks"):
+        p = get_kb().providers[pid]
+        r = estimate("qwen3.8-max", provider=pid, **TOKENS)
+        it_kwh = r["energy"]["value"] / p.pue.value / 1000
+        assert r["water"]["data_center"]["value"] == pytest.approx(
+            it_kwh * p.wue_l_per_kwh.value * 1000, rel=0.01
+        )
+
+
+def test_data_center_water_reports_the_wue_it_used():
+    r = estimate("gpt-oss-120b", provider="google-vertex", **TOKENS)
+    wue = get_kb().providers["google-vertex"].wue_l_per_kwh.value
+    assert r["water"]["data_center"]["wue"] == wue
+
+
+def test_carbon_splits_into_operational_and_embodied():
+    r = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)["carbon"]
+    assert r["value"] == pytest.approx(
+        r["operational"]["value"] + r["embodied"]["value"], rel=0.01
+    )
+    for part in ("operational", "embodied"):
+        assert r[part]["min"] <= r[part]["value"] <= r[part]["max"]
 
 
 def test_generation_water_uses_the_same_candidate_envelope_as_carbon():
@@ -260,10 +342,10 @@ def test_generation_water_uses_the_same_candidate_envelope_as_carbon():
     )
     assert (r.lo, r.hi) == (min(f.min for f in facs), max(f.max for f in facs))
     assert r.lo < r.mid < r.hi
-    # and the estimate reflects it: Fireworks' upstream water range is far wider
-    # than the +/-40% the national record alone would give
+    # and the estimate reflects it: Fireworks' power-plant water range is far
+    # wider than the +/-40% the national record alone would give
     gen = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)["water"][
-        "generation"
+        "power_plant"
     ]
     assert gen["max"] / gen["min"] > 10
 
@@ -275,14 +357,9 @@ def test_fleet_chips_change_energy_but_not_work():
     r = estimate("gpt-oss-120b", provider="fireworks", **TOKENS)
     single = estimate("gpt-oss-120b", provider="sarvam", **TOKENS)  # H100 only
     # work is chip-independent: same H100-seconds either way
-    assert (
-        r["breakdown"]["h100_seconds"]["value"]
-        == single["breakdown"]["h100_seconds"]["value"]
-    )
-    assert set(r["assumptions"]["hardware"]) == {
-        hid for hid, _ in fw.hardware_candidates
-    }
-    assert 0.8 < r["assumptions"]["chip_energy_vs_h100"] < 1.0
+    assert r["compute"]["value"] == single["compute"]["value"]
+    assert set(r["energy"]["chips"]) == {hid for hid, _ in fw.hardware_candidates}
+    assert 0.8 < r["energy"]["chip_energy_vs_h100"] < 1.0
 
 
 def test_newer_chip_is_not_automatically_greener():
@@ -298,7 +375,7 @@ def test_envelope_keeps_worst_case_bounds():
     # envelope must not collapse it
     r = get_kb().hardware["h100-sxm"].embodied_gco2e_per_h100_second
     est = estimate("gpt-oss-120b", provider="nscale", **TOKENS)
-    work = est["breakdown"]["h100_seconds"]
+    work = est["compute"]
     assert (
         est["carbon"]["worst_case"]["max"] >= work["worst_case"]["max"] * r.whi * 0.99
     )

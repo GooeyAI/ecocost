@@ -1,6 +1,6 @@
 # ecocost methodology
 
-Method version 0.2.0. How a token count becomes a carbon, energy and water
+Method version 0.3.0. How a token count becomes a carbon, energy and water
 estimate with a range and a confidence label, and where every number comes
 from. Per-input sources live next to the values in `ecocost/data/*.yaml`.
 
@@ -23,11 +23,12 @@ from. Per-input sources live next to the values in `ecocost/data/*.yaml`.
 tokens ──(2 × active params)──────────────────▶ FLOPs
        ──(H100 peak × utilization)────────────▶ H100-seconds   (work, chip-independent)
        ──(chip energy ratio, TDP)─────────────▶ Wh, accelerator
-       ──(serving overhead, PUE)──────────────▶ Wh at the meter
+       ──(serving overhead)───────────────────▶ Wh, IT equipment
+       ──(PUE)────────────────────────────────▶ Wh at the meter
        ──(grid intensity)─────────────────────▶ gCO2e operational
 H100-seconds ──(embodied per H100-second)─────▶ gCO2e embodied
-Wh ──(WUE)────────────────────────────────────▶ mL water, on-site
-Wh ──(generation water)───────────────────────▶ mL water, off-site
+Wh, IT equipment ──(WUE)──────────────────────▶ mL water, data centre
+Wh at the meter ──(generation water)──────────▶ mL water, power plant
 ```
 
 ### 1. Tokens to work
@@ -89,8 +90,14 @@ Wh = H100-seconds × 700 W / 3600 × chip energy ratio × serving overhead × PU
   kgCO2e (NVIDIA HGX H100 PCF, ADEME GPU LCA, BoaviztAPI, EcoLogits). Lifetime
   3 to 6 years and active fraction 50 to 100% are policy choices (tier 3). On a
   clean grid this term can be a third of the total.
-- **On-site water** = kWh × the operator's WUE (cooling).
-- **Off-site water** = kWh × water consumed generating the electricity (WRI
+- **Data-centre water** (`water.data_center`) = IT kWh × the operator's WUE
+  (cooling). WUE is litres per kWh of IT energy, the energy before PUE
+  ([The Green Grid WP#35](https://www.thegreengrid.org/en/resources/library-and-tools/238-WP%2335---Water-Usage-Effectiveness-%28WUE%29%3A-A-Green-Grid-Data-Center-Sustainability-Metric-),
+  ISO/IEC 30134-9), so it is not applied to energy at the meter, which would
+  count the facility overhead twice. Power-plant water, carbon and primary
+  energy use energy at the meter, since the plant supplies the whole site.
+  This is the split in [Li et al. 2023](https://arxiv.org/abs/2304.03271).
+- **Power-plant water** (`water.power_plant`) = kWh × water consumed generating the electricity (WRI
   2020). This is usually the larger term and, on hydro grids, is dominated by
   reservoir evaporation *attributed* to hydropower, a standard LCA allocation
   but a contested one. It is not water withdrawn because a request ran.
@@ -103,6 +110,7 @@ carries the most specific evidence available:
 
 | Evidence | Treatment |
 |---|---|
+| Caller passes `region` | that region, tier 1; overrides the provider's |
 | Site pinned (region in the hostname, or a single physical site) | that region, tier 1 |
 | Provider discloses a set of sites | `region.candidates`: range is the envelope of the candidates, point is their weighted mean, tier 2 |
 | Nothing disclosed | national average, widened by the tier's default half-width |
@@ -206,11 +214,10 @@ and nScale, Claude Opus 5 on Anthropic, GPT-5.5 on OpenAI).
   can halve the energy or better, which puts production-optimised deployments
   below the range (see [Calibration](#calibration)).
 - Cached input charged at 10% of a fresh prefill.
-- Grid data is annual; hourly intensity is a planned upgrade (`timestamp` is
-  already accepted by `estimate`).
+- Grid data is annual; hourly intensity is a planned upgrade.
 - Generation water rests on WRI's 2016 grid mixes, and on hydro grids on a
   contested allocation of reservoir evaporation (reported separately as
-  `water.generation`).
+  `water.power_plant`).
 
 **Out of scope:** training, image, video and audio models, network transfer,
 end-user devices.

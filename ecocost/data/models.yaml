@@ -6,7 +6,7 @@
 
 # Who serves a closed model when the caller doesn't say: its vendor's own API.
 # Used only for models with open_weights: false, and only when neither
-# `provider` nor `base_url` identifies the upstream; the estimate then carries
+# `provider` nor `endpoint` identifies the upstream; the estimate then carries
 # `provider_inferred_from_model`. Keyed by `creator`.
 first_party_provider:
   OpenAI: openai

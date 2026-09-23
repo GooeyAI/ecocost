@@ -49,6 +49,27 @@ class UnknownProviderError(LookupError):
         )
 
 
+class UnknownRegionError(LookupError):
+    """``region`` is not a grid region id from regions.yaml. Pass ``None`` to
+    use the provider's own region; a mistyped id would silently estimate the
+    wrong grid."""
+
+    def __init__(self, region: str, suggestions: list[str]):
+        self.region = region
+        self.suggestions = suggestions
+        self.contribute_url = f"{REPO_URL}/blob/main/CONTRIBUTING.md"
+        self.request_url = _issue_url(f"Add region: {region}")
+        super().__init__(
+            _message(
+                f"ecocost has no grid region {region!r}.",
+                suggestions,
+                "  Don't know the region? Pass region=None to use the provider's.",
+                f"  A new region? Add it to regions.yaml: {self.contribute_url}",
+                f"  Or request it: {self.request_url}",
+            )
+        )
+
+
 def _message(headline: str, suggestions: list[str], *hints: str) -> str:
     lines = [headline]
     if suggestions:

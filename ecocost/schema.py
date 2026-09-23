@@ -292,7 +292,7 @@ class Region:
     provenance: Provenance = field(default_factory=Provenance)
 
     @property
-    def primary_source(self) -> EnergySource:
+    def largest_source(self) -> EnergySource:
         return max(self.mix, key=self.mix.get) if self.mix else EnergySource.other
 
 

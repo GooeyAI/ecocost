@@ -11,16 +11,23 @@ estimate is built and CONTRIBUTING.md for how to update the data.
 
 from __future__ import annotations
 
-from datetime import datetime
+import dataclasses
 from importlib.metadata import PackageNotFoundError, version
 from numbers import Integral
 
 from . import calc
-from .errors import UnknownModelError, UnknownProviderError
+from .errors import UnknownModelError, UnknownProviderError, UnknownRegionError
 from .loader import get_kb
 from .result import EstimateResult
+from .schema import Tier
 
-__all__ = ["estimate", "EstimateResult", "UnknownModelError", "UnknownProviderError"]
+__all__ = [
+    "estimate",
+    "EstimateResult",
+    "UnknownModelError",
+    "UnknownProviderError",
+    "UnknownRegionError",
+]
 
 # far above any single request; beyond it the float maths would overflow
 MAX_TOKENS = 10**12
@@ -35,31 +42,50 @@ def estimate(
     model: str,
     *,
     provider: str | None = None,
-    base_url: str | None = None,
+    endpoint: str | None = None,
+    region: str | None = None,
     input_tokens: int = 0,
     output_tokens: int = 0,
     cached_input_tokens: int = 0,
-    timestamp: datetime | None = None,
 ) -> EstimateResult:
     """Estimate one request.
 
     ``model`` is a model id; provider-specific ids resolve through aliases.
     Who serves the request is taken, in order, from ``provider`` (an id from
-    providers.yaml, listed in the README), else ``base_url`` (an API endpoint
-    whose host a provider publishes), else, for a closed model, its vendor's
+    providers.yaml, listed in the README), else ``endpoint`` (the API URL or
+    host called, if a provider publishes that host), else, for a closed model, its vendor's
     own API; otherwise wide US defaults. ``reasons`` says when it was inferred
     or defaulted.
 
-    Ids are matched ignoring case. ``UnknownModelError`` and
-    ``UnknownProviderError`` suggest close matches and where to add the
+    ``region`` is a grid region id from regions.yaml (``US-VA``, ``SG``, ...)
+    for when you know where the request ran. It replaces the provider's
+    region, including one implied by ``endpoint``; the provider still sets
+    PUE, water use and hardware.
+
+    Ids are matched ignoring case. ``UnknownModelError``,
+    ``UnknownProviderError`` and ``UnknownRegionError`` suggest close matches and where to add the
     record. Bad arguments raise ``TypeError`` or ``ValueError``.
     """
     _check_args(
-        model, provider, base_url, input_tokens, output_tokens, cached_input_tokens
+        model,
+        provider,
+        endpoint,
+        region,
+        input_tokens,
+        output_tokens,
+        cached_input_tokens,
     )
     kb = get_kb()
     m = kb.resolve_model(model)
-    p, provider_reason = kb.resolve_provider(provider, base_url=base_url, model=m)
+    p, provider_reason = kb.resolve_provider(provider, endpoint=endpoint, model=m)
+    if region is not None:
+        # the caller knows the site: it is pinned, so no candidates or widening
+        p = dataclasses.replace(
+            p,
+            region=kb.resolve_region(region).id,
+            region_tier=Tier.primary,
+            region_candidates=(),
+        )
     est = calc.estimate(
         m,
         p,
@@ -72,22 +98,30 @@ def estimate(
         candidate_regions=[(kb.regions[rid], w) for rid, w in p.region_candidates],
         candidate_hardware=[(kb.hardware[hid], w) for hid, w in p.hardware_candidates],
     )
-    # timestamp is reserved for hourly grid intensity and not used yet.
     if provider_reason:
         est.reasons.insert(0, provider_reason)
     out = est.to_dict()
-    out["requested"] = {"model": model, "provider": provider, "base_url": base_url}
+    out["requested"] = {
+        "model": model,
+        "provider": provider,
+        "endpoint": endpoint,
+        "region": region,
+    }
     return out
 
 
 def _check_args(
-    model, provider, base_url, input_tokens, output_tokens, cached_input_tokens
+    model, provider, endpoint, region, input_tokens, output_tokens, cached_input_tokens
 ):
     if not isinstance(model, str):
         raise TypeError(f"model must be a string, got {type(model).__name__}")
     if not model:
         raise ValueError("model must not be empty")
-    for name, value in (("provider", provider), ("base_url", base_url)):
+    for name, value in (
+        ("provider", provider),
+        ("endpoint", endpoint),
+        ("region", region),
+    ):
         if value is not None and not isinstance(value, str):
             raise TypeError(
                 f"{name} must be a string or None, got {type(value).__name__}"
