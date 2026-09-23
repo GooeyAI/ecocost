@@ -1,6 +1,6 @@
 # API reference
 
-ecocost 0.1.0. The public API is one function, its result type and three
+ecocost 0.2.0. The public API is one function, its result type and three
 errors:
 
 ```python

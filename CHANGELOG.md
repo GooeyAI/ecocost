@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.2.0
+
+Breaking release. Method version 0.3.0 (see METHODOLOGY.md).
 
 - `estimate` takes `region`, a grid id from `regions.yaml`, for callers who
   know where a request ran. It replaces the provider's region (including one
