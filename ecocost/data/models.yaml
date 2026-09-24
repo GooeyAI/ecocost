@@ -1066,6 +1066,47 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://developers.openai.com/api/docs/models/gpt-realtime-mini
+  gpt-realtime-1.5:
+    label: GPT Realtime 1.5
+    creator: OpenAI
+    total_params_b: 440
+    open_weights: false
+    active_params_b:
+      value: 76
+      unit: B
+      tier: 3
+      min: 44
+      max: 132
+      source: https://developers.openai.com/api/docs/models/gpt-realtime-1.5
+      note: "Undisclosed; no EcoLogits entry as of 2026-09-24. Proxy gpt-realtime-2.1 (gpt-4o lineage, EcoLogits 440B total, 44-132B active): OpenAI prices both at $32/$64 per 1M audio tokens and $4 per 1M text input tokens (text output $16 vs $24). Point = geometric mean."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-realtime-1.5
+      - resource: https://developers.openai.com/api/docs/models/gpt-realtime-2.1
+  gpt-realtime-2.1-mini:
+    label: GPT Realtime 2.1 mini
+    creator: OpenAI
+    open_weights: false
+    active_params_b:
+      value: 12
+      unit: B
+      tier: 3
+      min: 8
+      max: 28
+      source: https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini
+      note: "Undisclosed; no EcoLogits entry as of 2026-09-24. OpenAI calls it 'a distilled reasoning model'. Proxy gpt-realtime-mini (gpt-4o-mini lineage, 8-28B): OpenAI prices both at $0.6/$2.4 per 1M text tokens."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini
+      - resource: https://developers.openai.com/api/docs/models/gpt-realtime-mini
   claude-sonnet-5:
     label: Claude Sonnet 5
     creator: Anthropic
@@ -1156,6 +1197,110 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://arxiv.org/html/2604.24827
+  claude-fable-5:
+    label: Claude Fable 5
+    creator: Anthropic
+    total_params_b: 1340
+    open_weights: false
+    active_params_b:
+      value: 230
+      unit: B
+      tier: 2
+      min: 134
+      max: 400
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-24): MoE 1,340B total, 134-400B active, the same figures it gives claude-fable-5-1. A separate record, not an alias, because 5 and 5.1 are different weights. Point = geometric mean 230, as for claude-fable-5-1."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://platform.claude.com/docs/en/models/fable-5/overview
+  claude-opus-4-8:
+    label: Claude Opus 4.8
+    creator: Anthropic
+    total_params_b: 670
+    open_weights: false
+    active_params_b:
+      value: 110
+      unit: B
+      tier: 2
+      min: 67
+      max: 200
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-24): MoE 670B total, 67-200B active, the same figures it gives claude-opus-5. Point 110, as for claude-opus-5 (decode-throughput analysis of Opus 4.6 gives 93-105B active at FP8)."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+  claude-opus-4-7:
+    label: Claude Opus 4.7
+    creator: Anthropic
+    total_params_b: 670
+    open_weights: false
+    active_params_b:
+      value: 110
+      unit: B
+      tier: 2
+      min: 67
+      max: 200
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-24): MoE 670B total, 67-200B active, the same figures it gives claude-opus-5. Point 110, as for claude-opus-5 (decode-throughput analysis of Opus 4.6 gives 93-105B active at FP8)."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+  claude-opus-4-6:
+    label: Claude Opus 4.6
+    creator: Anthropic
+    total_params_b: 670
+    open_weights: false
+    active_params_b:
+      value: 110
+      unit: B
+      tier: 2
+      min: 67
+      max: 200
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. Two independent lines agree: EcoLogits (2026-09-24) MoE 670B total, 67-200B active; Vertex/Bedrock decode-throughput analysis of Opus 4.6 itself gives 93-105B active at FP8 (127-154B with FP4 experts). Point 110, as for claude-opus-5."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+  claude-sonnet-4-6:
+    label: Claude Sonnet 4.6
+    creator: Anthropic
+    total_params_b: 440
+    open_weights: false
+    active_params_b:
+      value: 76
+      unit: B
+      tier: 2
+      min: 44
+      max: 132
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-09-24): MoE 440B total, 44-132B active (10-30% activation rule). Point = geometric mean 76."
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
   gemini-3.8-flash:
     label: Gemini 3.8 Flash
     creator: Google
@@ -1316,6 +1461,26 @@ models:
       status: draft
       stale_after: '2027-03-31'
       sources:
+      - resource: https://artificialanalysis.ai/models/muse-spark-1-3
+  muse-spark-1.2:
+    label: Muse Spark 1.2
+    creator: Meta AI
+    open_weights: false
+    active_params_b:
+      value: 160
+      unit: B
+      tier: 3
+      source: https://artificialanalysis.ai/models/muse-spark-1-2
+      note: "Undisclosed ('Meta has not disclosed the model size'). Deprecated predecessor of muse-spark-1.3 (released 2026-08-05 vs 2026-09-02). Proxy muse-spark-1.3 90-300 active: Artificial Analysis lists the same price ($1.25/$4.25 per 1M tokens) and similar output speed (200.8 vs 222.3 tok/s)."
+      min: 90
+      max: 300
+    provenance:
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-03-31'
+      sources:
+      - resource: https://artificialanalysis.ai/models/muse-spark-1-2
       - resource: https://artificialanalysis.ai/models/muse-spark-1-3
   dhenu-3-beta-preview:
     label: Dhenu 3 (beta)

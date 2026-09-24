@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Models: `claude-opus-4-6`, `claude-opus-4-7`, `claude-opus-4-8`,
+  `claude-sonnet-4-6` and `claude-fable-5` (EcoLogits sizes, tier 2);
+  `gpt-realtime-1.5`, `gpt-realtime-2.1-mini` and `muse-spark-1.2` (proxies
+  of same-priced siblings, tier 3).
+
 ## 0.2.0
 
 Breaking release. Method version 0.3.0 (see METHODOLOGY.md).
