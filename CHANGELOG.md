@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.2.1
+
+Data-only release; method version unchanged (0.3.0).
 
 - Models: `claude-opus-4-6`, `claude-opus-4-7`, `claude-opus-4-8`,
   `claude-sonnet-4-6` and `claude-fable-5` (EcoLogits sizes, tier 2);

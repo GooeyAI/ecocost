@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ecocost"
-version = "0.2.0"
+version = "0.2.1"
 description = "Per-run carbon, energy and water estimates for AI inference, with computed confidence and sourced inputs"
 authors = ["Gooey.AI <devs@dara.network>"]
 license = "Apache-2.0"
