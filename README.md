@@ -1,16 +1,22 @@
 # ecocost
 
+[![PyPI](https://img.shields.io/pypi/v/ecocost)](https://pypi.org/project/ecocost/)
+[![Python](https://img.shields.io/pypi/pyversions/ecocost)](https://pypi.org/project/ecocost/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](https://github.com/GooeyAI/ecocost/blob/main/LICENSE)
+
+**Per-request carbon, energy and water estimates for AI inference.**
+
 ```bash
 pip install ecocost
 ```
 
-Per-request carbon, energy and water estimates for AI inference, each with a
-likely range and a confidence label computed from the evidence behind it.
-Every input is sourced and tiered, and the knowledge base in `ecocost/data/`
-is open to pull requests from providers, hardware makers and researchers.
+- **Honest ranges.** Every estimate comes with a likely range and a
+  confidence label computed from the evidence behind it.
+- **Sourced inputs.** Every input carries a source and an evidence tier.
+- **Open data.** The knowledge base in `ecocost/data/` is open to pull
+  requests from providers, hardware makers and researchers.
 
-Maintained by [Gooey.AI](https://gooey.ai). Pure Python; the only dependency
-is PyYAML.
+Maintained by [Gooey.AI](https://gooey.ai).
 
 ![Eco-cost labeling architecture: source data, curation and contributions, the open source estimation engine, the API contract, and product interfaces](https://raw.githubusercontent.com/GooeyAI/ecocost/main/docs/architecture.png)
 
