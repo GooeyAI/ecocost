@@ -12,6 +12,8 @@ is open to pull requests from providers, hardware makers and researchers.
 Maintained by [Gooey.AI](https://gooey.ai). Pure Python; the only dependency
 is PyYAML.
 
+![Eco-cost labeling architecture: source data, curation and contributions, the open source estimation engine, the API contract, and product interfaces](https://raw.githubusercontent.com/GooeyAI/ecocost/main/docs/architecture.png)
+
 ## Quick start
 
 ```python
