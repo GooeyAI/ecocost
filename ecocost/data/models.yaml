@@ -15,6 +15,7 @@ first_party_provider:
   Meta AI: meta
   KissanAI: dhenu
   Qwen: alibaba-sg
+  Mistral: mistral
 
 models:
   gpt-oss-120b:
@@ -353,6 +354,30 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://docs.mistral.ai/models/model-cards/mistral-medium-3-5-26-04
+  mistral-large-4:
+    label: Mistral Large 4
+    creator: Mistral
+    open_weights: false
+    total_params_b: 1050
+    aliases:
+    - mistral-large-4-0
+    - mistral/mistral-large-4
+    - mistral/mistral-large-4-0
+    active_params_b:
+      value: 52
+      unit: B
+      tier: 1
+      source: https://docs.mistral.ai/models/mistral-large-4
+      note: "Public preview, granular MoE: 52B active and 1.05T total per the model card, corroborated by the launch announcement. The research index still says 49B; use the detailed card. The separately reported 1.6B vision encoder is not added to text-token FLOPs. Weights are promised for the end of October 2026 but are not released as of 2026-10-08, hence open_weights false. No measured inference energy is published."
+    provenance:
+      generated: {by: 'agent:codex-research', at: '2026-10-08'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-08'
+      sources:
+      - resource: https://docs.mistral.ai/models/mistral-large-4
+      - resource: https://mistral.ai/news/mistral-large-4
+      - resource: https://mistral.ai/research/
   mistral-large-2512:
     label: Mistral Large 3
     creator: Mistral
@@ -979,6 +1004,30 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://en.wikipedia.org/wiki/GPT-6_Astra
+  gpt-6.1-sol:
+    label: GPT-6.1 Sol
+    creator: OpenAI
+    open_weights: false
+    total_params_b: 375
+    aliases:
+    - openai/gpt-6.1-sol
+    active_params_b:
+      value: 65
+      unit: B
+      tier: 2
+      min: 38
+      max: 112
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-10-08) estimates MoE 375B total and 38-112B active, flagged model-arch-not-released. Point is the rounded geometric mean (65.24B). This is a published estimate, not an OpenAI disclosure or measured energy. Separate weights from GPT-6 Sol; matching prices do not establish matching compute."
+    provenance:
+      generated: {by: 'agent:codex-research', at: '2026-10-08'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-08'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-6.1-sol
+      - resource: https://developers.openai.com/api/docs/changelog
   gpt-6-sol:
     label: GPT-6 Sol
     creator: OpenAI
@@ -1154,29 +1203,54 @@ models:
   claude-opus-5-5:
     label: Claude Opus 5.5
     creator: Anthropic
+    total_params_b: 670
     open_weights: false
     aliases:
     - anthropic.claude-opus-5-5
     - anthropic/claude-opus-5.5
     - claude-opus-5.5
     active_params_b:
-      value: 80
+      value: 118
       unit: B
-      tier: 3
-      min: 45
+      tier: 2
+      min: 70
       max: 200
-      source: https://www.anthropic.com/news/claude-opus-5-5#performance-and-cost-effectiveness
-      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no claude-opus-5-5 as of 2026-09-23). Derived from claude-opus-5 (67-110-200). Anthropic states 'Opus 5.5 requires less compute to serve than Opus 5, and its pricing reflects that'; per-token price is 0.8x ($4/$20 vs $5/$25), scaling to ~88B. Decode on Anthropic's API is 1.5x faster at the same (low) effort (Artificial Analysis: 83.4 vs 55.7 tok/s), scaling to ~73B, but launch-week speeds are noisy. Point ~ geometric mean of the two (80). 'Less compute' may come from serving changes rather than fewer active parameters, so max stays at claude-opus-5's 200; min = claude-opus-5's min scaled by the speed ratio."
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-10-08) estimates MoE 670B total and 70-200B active, flagged model-arch-not-released. Point is the rounded geometric mean (118.32B). Replaces the earlier 80B pricing/throughput proxy. Anthropic reports lower serving compute and fewer tokens per task, but its 40% cost reduction is not a measured energy reduction or a parameter disclosure."
     provenance:
-      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      generated: {by: 'agent:codex-research', at: '2026-10-08'}
       verified: []
       status: draft
-      stale_after: '2027-03-31'
+      stale_after: '2027-04-08'
       sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://platform.claude.com/docs/en/models/opus-5-5/overview
       - resource: https://www.anthropic.com/news/claude-opus-5-5
-      - resource: https://artificialanalysis.ai/models/claude-opus-5-5-low
-      - resource: https://artificialanalysis.ai/models/claude-opus-5-low
+  claude-sonnet-5-5:
+    label: Claude Sonnet 5.5
+    creator: Anthropic
+    open_weights: false
+    total_params_b: 293
+    aliases:
+    - anthropic/claude-sonnet-5.5
+    - claude-sonnet-5.5
+    active_params_b:
+      value: 51
+      unit: B
+      tier: 2
+      min: 29
+      max: 88
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-10-08) estimates MoE 293B total and 29-88B active, flagged model-arch-not-released. Point is the rounded geometric mean (50.52B). Released September 28; a separate record from Sonnet 5. No measured inference energy is published."
+    provenance:
+      generated: {by: 'agent:codex-research', at: '2026-10-08'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-08'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://www.anthropic.com/claude-sonnet-5-5
+      - resource: https://platform.claude.com/docs/en/models/sonnet-5-5/overview
   claude-fable-5-1:
     label: Claude Fable 5.1
     creator: Anthropic
@@ -1381,6 +1455,30 @@ models:
       - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash
       - resource: https://artificialanalysis.ai/models/gemini-3-5-flash
       - resource: https://artificialanalysis.ai/models/gemini-3-flash
+  gemini-3.5-flash-lite:
+    label: Gemini 3.5 Flash-Lite
+    creator: Google
+    open_weights: false
+    aliases:
+    - google/gemini-3.5-flash-lite
+    - gemini/gemini-3.5-flash-lite
+    active_params_b:
+      value: 56
+      unit: B
+      tier: 2
+      min: 30
+      max: 105
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-10-08) estimates a dense model with 30-105B parameters, flagged model-arch-not-released. Point is the rounded geometric mean (56.12B). A separate record from Gemini 3.1 Flash-Lite, even though EcoLogits assigns both the same range. Covers text-token inference only."
+    provenance:
+      generated: {by: 'agent:codex-research', at: '2026-10-08'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-08'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite
+      - resource: https://ai.google.dev/gemini-api/docs/changelog
   gemini-3.1-flash-lite:
     label: Gemini 3.1 Flash Lite
     creator: Google
