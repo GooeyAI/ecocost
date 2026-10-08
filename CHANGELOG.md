@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.2.2 — 2026-10-08
+
+Data-only release; method version unchanged (0.3.0).
+
+- Add GPT-6.1 Sol, Claude Sonnet 5.5 and Gemini 3.5 Flash-Lite using
+  EcoLogits' published size estimates (tier 2), and Mistral Large 4 using
+  its disclosed 52B active parameters (tier 1). Include the preview API's
+  `mistral-large-4-0` alias.
+- Replace Claude Opus 5.5's pricing/throughput assumption with EcoLogits'
+  70–200B active-parameter estimate (tier 2). Its point estimate rises from
+  80B to 118B, increasing energy, carbon and water estimates by 47.5% at
+  fixed tokens and provider. This reflects revised evidence, not a change
+  in the model's actual energy use.
+- Infer the Mistral provider for its closed preview model; weights are
+  not yet available as of this release.
+
 ## 0.2.1
 
 Data-only release; method version unchanged (0.3.0).
