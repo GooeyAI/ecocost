@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.3 — 2026-10-18
+
+Data-only release; method version unchanged (0.3.0).
+
+- Add Muse Wonder (`muse-wonder-1.0`, alias `meta/muse-wonder`). Meta has
+  not disclosed its size; 164B active (90–300B) is a tier-3 proxy from
+  gpt-5.6-sol, which has the same list price, in EcoLogits.
+- Add Gemini 4 Argon (`gemini-4-argon`, aliases `google/gemini-4-argon`,
+  `gemini/gemini-4-argon`). No size estimate is published yet; 268B active
+  (120–600B) is a tier-3 proxy spanning EcoLogits' estimates for Gemini 3.1
+  Pro and Gemini 2.5 Pro. It will be replaced once an estimate is published.
+- Register `dev.meta.ai` as a provider-docs source.
+
 ## 0.2.2 — 2026-10-08
 
 Data-only release; method version unchanged (0.3.0).
