@@ -1548,13 +1548,13 @@ models:
     aliases:
     - meta/muse-wonder
     active_params_b:
-      value: 300
+      value: 164
       unit: B
       tier: 3
       source: https://artificialanalysis.ai/models/muse-wonder
-      note: "Undisclosed ('Meta has not disclosed the model size or parameter count'); released 2026-10-12; no EcoLogits entry as of 2026-10-18. Two proxies. (1) Price: $4/$20 per 1M tokens, the same list price as gpt-5.6-sol (promotional through at least 2026-11-21) (EcoLogits MoE 900B total, 90-300B active). (2) Secondary: an analyst newsletter reports 'roughly 3T total parameters' from channel checks; at EcoLogits' 10-33% active share for gpt-5.6-sol that is 300-1000B active. Range spans both: min 90 (price proxy min), max 1000 (3T x 1/3). Point = rounded geometric mean (300)."
+      note: "Undisclosed ('Meta has not disclosed the model size or parameter count'); released 2026-10-12; no EcoLogits entry as of 2026-10-18. Proxy gpt-5.6-sol: same list price, $4/$20 per 1M tokens (promotional through at least 2026-11-21); EcoLogits MoE 900B total, 90-300B active. Point = rounded geometric mean of that range."
       min: 90
-      max: 1000
+      max: 300
     provenance:
       generated: {by: 'agent:claude-coverage-routine', at: '2026-10-18'}
       verified: []
@@ -1565,7 +1565,6 @@ models:
       - resource: https://dev.meta.ai/models/muse-wonder
       - resource: https://developers.openai.com/api/docs/models/gpt-5.6-sol
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      - resource: https://fundaai.substack.com/p/researchmeta-muse-wonder-returns
   muse-spark-1.3:
     label: Muse Spark 1.3
     creator: Meta AI
