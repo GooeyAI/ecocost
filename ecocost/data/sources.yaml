@@ -159,6 +159,7 @@ sources:
       - novita.ai
       - fal.ai
       - developer.meta.com
+      - dev.meta.ai
       - nscale.com
       - thinkingmachines.ai
       - sec.gov
@@ -177,6 +178,7 @@ sources:
       - artificialanalysis.ai
       - zeroentropy.dev
       - unexcitedneurons.substack.com
+      - fundaai.substack.com
       - getdeploying.com
     kind: secondary
     license: cited
