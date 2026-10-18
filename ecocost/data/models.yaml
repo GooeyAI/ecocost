@@ -1375,6 +1375,33 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gemini-4-argon:
+    label: Gemini 4 Argon
+    creator: Google
+    open_weights: false
+    aliases:
+    - google/gemini-4-argon
+    - gemini/gemini-4-argon
+    active_params_b:
+      value: 268
+      unit: B
+      tier: 3
+      min: 120
+      max: 600
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; model card: 'a large scale sparse mixture-of-experts (MoE)', 'not a modification or a fine-tune of a prior model', no size or serving hardware. No published size estimate as of 2026-10-18: EcoLogits (latest models.json commit 2026-10-14) has no Gemini 4 entry, and Epoch AI lists parameters as Unknown. Proxy from Google's previous flagship Pro-tier models in EcoLogits: gemini-3.1-pro-preview (MoE 1200B total, 120-360B active; Google's migration guide moves 3.1 Pro users to 4 Argon) and gemini-2.5-pro (MoE 2000B total, 200-600B active). Range spans both (120-600B); point = geometric mean (268). Tier 3: a proxy from sibling models, not an estimate of these weights."
+    provenance:
+      generated: {by: 'agent:claude-coverage-routine', at: '2026-10-18'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-18'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-4-argon/
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
+      - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-argon
+      - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/guides/gemini-4-argon#migration-guide
+      - resource: https://epoch.ai/models/gemini-4-argon
   gemini-3.8-flash:
     label: Gemini 3.8 Flash
     creator: Google
