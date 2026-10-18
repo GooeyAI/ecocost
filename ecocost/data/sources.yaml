@@ -178,7 +178,6 @@ sources:
       - artificialanalysis.ai
       - zeroentropy.dev
       - unexcitedneurons.substack.com
-      - fundaai.substack.com
       - getdeploying.com
     kind: secondary
     license: cited
