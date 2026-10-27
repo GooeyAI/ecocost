@@ -795,6 +795,27 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/MiniMaxAI/MiniMax-M3
+  minimax-m3.1-flash:
+    label: MiniMax M3.1 Flash
+    creator: MiniMax
+    open_weights: true
+    total_params_b: 428
+    aliases:
+    - accounts/fireworks/models/minimax-m3p1-flash
+    - minimax/minimax-m3.1-flash
+    active_params_b:
+      value: 23
+      unit: B
+      tier: 1
+      source: https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash#model-at-a-glance
+      note: MoE, ~428B total, 23B activated per token per model card (Model at a Glance). Sparse attention throughout, quantization-aware training.
+    provenance:
+      generated: {by: 'agent:claude-coverage-routine', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash
   gpt-4o:
     label: GPT-4o
     creator: OpenAI
