@@ -12,6 +12,15 @@
 - Give GPT-5.1 its own record (`gpt-5.1`, alias `gpt-5.1-2025-11-13`); it
   was an alias of GPT-5. EcoLogits sizes the two the same, so its estimates
   do not change.
+- Add Kimi K3.1 Pro (`kimi-k3.1-pro`, alias `moonshotai/kimi-k3.1-pro`).
+  Moonshot describes it as a post-trained version of Kimi K3, so the size is
+  carried over: 104B active, 2.8T total (tier 2). `open_weights` is false
+  until the promised weights are published. Register `kimi.ai` as a
+  provider-docs source.
+- Proxies for Qwen: Qwen3.6-Plus under Qwen3.7 Plus (Fireworks: superseded
+  by it), and Qwen3.7-Max and its snapshots under Qwen3.8-Max. The second is
+  an inferred tie between consecutive Max-class flagships; CONTRIBUTING and
+  METHODOLOGY now allow this as a last resort, marked as inferred.
 
 ## 0.2.4 — 2026-10-27
 

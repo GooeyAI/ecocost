@@ -159,7 +159,8 @@ depends on it.
 A model with no record and no published size estimate of its own can be
 listed under a related record's `proxies`: an earlier version or a sibling
 the vendor ties to it, such as `chatgpt-4o-latest` ("the GPT-4o snapshot
-used in ChatGPT") under `gpt-4o`. Its estimate uses that record with two
+used in ChatGPT") under `gpt-4o`, or, as a last resort, the vendor's next
+model in the same product line, with the tie marked as inferred. Its estimate uses that record with two
 changes. The active parameter count becomes a tier-3 assumption, widened to
 at least ×2.5 either way, so the point value is the sibling's and the range
 reflects that it is a different model. Measured energy, if the record has
