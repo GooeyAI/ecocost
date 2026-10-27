@@ -15,7 +15,17 @@
 - Proxies: GPT-Realtime 2 under GPT Realtime 2.1 (OpenAI: 2.1 updates 2),
   and Mistral Medium 3.1 (`mistral-medium-2508`) under Mistral Medium 3.5
   (Mistral's named replacement).
-
+- Retrained snapshots are now proxies, not aliases: a dated snapshot is an
+  alias only when it is the one a record's size source names (or a pointer
+  to it). Moved to proxies: `gpt-4-0314`; GPT-4 Turbo's earlier previews
+  (`gpt-4-0125-preview`, `gpt-4-turbo-preview`, `gpt-4-1106-vision-preview`,
+  `gpt-4-vision-preview`, plus the new `gpt-4-1106-preview`);
+  `gpt-3.5-turbo-1106` (plus the new `gpt-3.5-turbo-0613` and
+  `gpt-3.5-turbo-16k-0613`); `gpt-5-chat-latest`; DeepSeek V4 Flash `0731`
+  and Pro `0813`; and the Azure OpenAI GPT-4 Turbo and GPT-3.5 Turbo
+  deployments, which served earlier snapshots. Their point estimates are
+  unchanged; their ranges widen, as for any proxy, and results carry
+  `proxy`. CONTRIBUTING spells out the rule.
 - Give Claude Sonnet 4.5 its own record (`claude-sonnet-4-5`, aliases
   `claude-sonnet-4-5-20250929`, `anthropic/claude-sonnet-4-5`). Its ids were
   aliases of Claude Sonnet 5, which EcoLogits sizes smaller. Sonnet 4.5 now

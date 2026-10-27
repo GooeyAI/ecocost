@@ -826,8 +826,10 @@ models:
     creator: DeepSeek
     open_weights: true
     total_params_b: 284
-    aliases:
-    - accounts/fireworks/models/deepseek-v4-flash-0731
+    proxies:
+    - ids: [deepseek-v4-flash-0731]
+      note: "DeepSeek's July 2026 official release of V4 Flash, superseding the April preview this record is sized from. Its card gives no parameter count; its weights repo counts 304.2B against 290.9B for the preview, likely mostly the speculative-decoding module it ships with."
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731
     active_params_b:
       value: 13
       unit: B
@@ -848,8 +850,10 @@ models:
     creator: DeepSeek
     open_weights: true
     total_params_b: 1600
-    aliases:
-    - accounts/fireworks/models/deepseek-v4-pro-0813
+    proxies:
+    - ids: [deepseek-v4-pro-0813]
+      note: "DeepSeek's August 2026 official release of V4 Pro, superseding the April preview this record is sized from. Its card gives no parameter count; its weights repo counts 1650.5B against 1598.8B for the preview, likely mostly the DSpark speculative-decoding module it ships with."
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813
     active_params_b:
       value: 49
       unit: B
@@ -1370,11 +1374,16 @@ models:
     open_weights: false
     aliases:
     - gpt-4-turbo-2024-04-09
-    - gpt-4-turbo-preview
-    - gpt-4-0125-preview
-    - gpt-4-1106-vision-preview
-    - gpt-4-vision-preview
-    - openai-gpt-4-turbo-prod-ca-1  # an Azure OpenAI deployment name
+    proxies:
+    - ids: [gpt-4-0125-preview, gpt-4-turbo-preview]
+      note: "An earlier GPT-4 Turbo snapshot: OpenAI lists gpt-4-0125-preview under GPT-4 Turbo, and its deprecations page says gpt-4-turbo-preview points to it. No estimate of its own."
+      source: https://developers.openai.com/api/docs/models/gpt-4-turbo
+    - ids: [gpt-4-1106-vision-preview, gpt-4-vision-preview]
+      note: "An earlier GPT-4 Turbo snapshot with vision, listed under GPT-4 Turbo. gpt-4-vision-preview is inferred to point to it: OpenAI's deprecations page lists the two together at the same price and shutdown date. No estimate of its own."
+      source: https://developers.openai.com/api/docs/models/gpt-4-turbo
+    - ids: [gpt-4-1106-preview, openai-gpt-4-turbo-prod-ca-1]
+      note: "The first GPT-4 Turbo preview snapshot, on OpenAI's deprecations page; openai-gpt-4-turbo-prod-ca-1 is an Azure OpenAI deployment of it. No estimate of its own."
+      source: https://developers.openai.com/api/docs/deprecations
     active_params_b:
       value: 152
       unit: B
@@ -1382,7 +1391,7 @@ models:
       min: 88
       max: 264
       source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      note: "Undisclosed. EcoLogits (gpt-4-turbo and gpt-4-turbo-2024-04-09): MoE 880B total, 88-264B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. Aliases are the snapshots OpenAI lists under GPT-4 Turbo, plus gpt-4-vision-preview, inferred to be the alias of gpt-4-1106-vision-preview: OpenAI's deprecations page lists the two together at the same price and shutdown date. Shut down 2026-10-23."
+      note: "Undisclosed. EcoLogits (gpt-4-turbo and gpt-4-turbo-2024-04-09): MoE 880B total, 88-264B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. gpt-4-turbo points to the gpt-4-turbo-2024-04-09 snapshot these figures name; earlier snapshots are proxies. Shut down 2026-10-23."
     provenance:
       generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
       verified: []
@@ -1399,8 +1408,11 @@ models:
     open_weights: false
     aliases:
     - gpt-4-0613
-    - gpt-4-0314
     - openai-gpt-4-prod-ca-1  # an Azure OpenAI deployment name
+    proxies:
+    - ids: [gpt-4-0314]
+      note: "The earlier GPT-4 snapshot, which OpenAI lists under GPT-4 alongside gpt-4-0613. No estimate of its own."
+      source: https://developers.openai.com/api/docs/models/gpt-4
     active_params_b:
       value: 305
       unit: B
@@ -1408,7 +1420,7 @@ models:
       min: 176
       max: 528
       source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      note: "Undisclosed. EcoLogits (gpt-4 and gpt-4-0613): MoE 1760B total, 176-528B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. Aliases are the snapshots OpenAI lists under GPT-4. Shut down 2026-10-23."
+      note: "Undisclosed. EcoLogits (gpt-4 and gpt-4-0613): MoE 1760B total, 176-528B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. gpt-4 points to the gpt-4-0613 snapshot these figures name; gpt-4-0314 is a proxy. Shut down 2026-10-23."
     provenance:
       generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
       verified: []
@@ -1423,8 +1435,13 @@ models:
     open_weights: false
     aliases:
     - gpt-3.5-turbo-0125
-    - gpt-3.5-turbo-1106
-    - openai-gpt-35-turbo-prod-ca-1  # an Azure OpenAI deployment name
+    proxies:
+    - ids: [gpt-3.5-turbo-1106]
+      note: "An earlier GPT-3.5 Turbo snapshot, listed under GPT-3.5 Turbo. EcoLogits gives it the same figures as gpt-3.5-turbo, which it applies across the family."
+      source: https://developers.openai.com/api/docs/models/gpt-3.5-turbo
+    - ids: [gpt-3.5-turbo-0613, gpt-3.5-turbo-16k-0613, openai-gpt-35-turbo-prod-ca-1]
+      note: "The 0613 GPT-3.5 Turbo snapshots (standard and 16k), which OpenAI's deprecations page replaced with gpt-3.5-turbo; openai-gpt-35-turbo-prod-ca-1 is an Azure OpenAI deployment of gpt-3.5-turbo-0613. No estimate of their own."
+      source: https://developers.openai.com/api/docs/deprecations
     active_params_b:
       value: 37
       unit: B
@@ -1432,7 +1449,7 @@ models:
       min: 20
       max: 70
       source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      note: "Undisclosed. EcoLogits (gpt-3.5-turbo, and gpt-3.5-turbo-0125 with the same figures): dense, 20-70B, flagged model-arch-not-released. Point = geometric mean. Aliases are the snapshots OpenAI lists under GPT-3.5 Turbo."
+      note: "Undisclosed. EcoLogits (gpt-3.5-turbo, and gpt-3.5-turbo-0125 with the same figures): dense, 20-70B, flagged model-arch-not-released. Point = geometric mean. gpt-3.5-turbo points to gpt-3.5-turbo-0125; other snapshots are proxies."
     provenance:
       generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
       verified: []
@@ -2463,7 +2480,10 @@ models:
     open_weights: false
     aliases:
     - gpt-5-2025-08-07
-    - gpt-5-chat-latest
+    proxies:
+    - ids: [gpt-5-chat-latest]
+      note: "OpenAI: 'GPT-5 Chat points to the GPT-5 snapshot previously used in ChatGPT'; that it differs from gpt-5-2025-08-07 is inferred. EcoLogits gives it the same figures as gpt-5."
+      source: https://developers.openai.com/api/docs/models/gpt-5-chat-latest
     active_params_b:
       value: 50
       min: 30

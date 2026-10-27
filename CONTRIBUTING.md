@@ -32,17 +32,20 @@ Work through these in order and stop at the first that fits.
 1. **Alias:** the id is another name for weights that are already listed.
    Add it to that record's `aliases`. These count as the same weights:
    - a provider or gateway prefix (`accounts/fireworks/models/x`, `openai/x`);
-   - a dated snapshot the vendor lists under that model (`gpt-5.4-2026-03-05`);
-   - a pointer the vendor documents as routing to that model (`-latest`, a
-     router such as `kimi-k3-fast`, an unsuffixed family id);
+   - the dated snapshot the record's size source is about
+     (`gpt-5.4-2026-03-05` under `gpt-5.4`);
+   - a pointer the vendor documents as routing to that snapshot (`-latest`,
+     a router such as `kimi-k3-fast`, an unsuffixed family id);
    - a deployment name for that model (add a comment saying so);
    - a quantised serving of the same checkpoint (FP8, NVFP4), named in `note`.
 
-   These are **not** the same weights: a preview and its release (unless the
-   vendor says they are identical), a fine-tune, a distilled or "mini"
-   variant, an earlier or later version, or anything the vendor lists as a
-   separate model. Those need their own record or a proxy, even when the
-   numbers would come out the same.
+   These are **not** the same weights: another dated snapshot of the same
+   named model (GPT-4 `0314` vs `0613`, `claude-3-5-sonnet-20240620` vs
+   `-20241022`, a preview later replaced by a release), even when the vendor
+   lists the snapshots under one name, because each was retrained; a
+   fine-tune, a distilled or "mini" variant; an earlier or later version; or
+   anything the vendor lists as a separate model. Those need their own record
+   or a proxy, even when the numbers would come out the same.
 2. **Record:** the model has a size source of its own (see the table below).
    Add a record.
 3. **Proxy:** the model has no size or estimate of its own, but its vendor
@@ -121,8 +124,9 @@ A record looks like this:
 ### Proxies
 
 A model with no published size or estimate of its own, which its vendor
-ties to a model that is already listed (an earlier snapshot, a preview the
-later model is "based on"), can be listed as a proxy of that model instead.
+ties to a model that is already listed (another snapshot of the same named
+model, a preview the later model is "based on", a model it was superseded
+by), can be listed as a proxy of that model instead.
 It is not an alias: the weights differ, so its estimate is flagged, its
 range widened and its confidence set to low (see
 [METHODOLOGY.md](METHODOLOGY.md#proxies)).
