@@ -228,6 +228,10 @@ models:
     aliases:
     - accounts/fireworks/models/qwen3p8-2p4t-a95b
     - qwen3p8-2p4t-a95b
+    proxies:
+    - ids: [qwen3.7-max, qwen3.7-max-preview, qwen3.7-max-2026-05-17, qwen3.7-max-2026-05-20, qwen3.7-max-2026-06-08]
+      note: "Alibaba publishes no size for Qwen3.7-Max, 'the largest and most capable in the Qwen3.7 series' (https://www.alibabacloud.com/help/en/model-studio/qwen3-7-max, which also lists the snapshot ids). The next generation's Max-class model, Qwen3.8-2.4T-A95B, is stated at 2.4T total and 95B active. Alibaba does not say one is based on the other: the tie is inferred from the two being consecutive Qwen-Max-class flagships, so treat this as a rough stand-in."
+      source: https://www.alibabacloud.com/blog/alibaba-unveils-qwen3-8-27b-and-releases-weights-of-qwen3-8-flagship-model_603463
     active_params_b:
       value: 95
       unit: B
@@ -249,6 +253,10 @@ models:
     label: Qwen3.7 Plus
     creator: Qwen
     open_weights: false
+    proxies:
+    - ids: [qwen3.6-plus, qwen3p6-plus]
+      note: "Fireworks: Qwen 3.6 Plus is Alibaba's closed flagship and 'has been superseded by Qwen 3.7 Plus'; no size is published for it."
+      source: https://fireworks.ai/models/fireworks/qwen3p6-plus
     active_params_b:
       value: 60
       unit: B
@@ -972,6 +980,27 @@ models:
       status: draft
       stale_after: '2027-03-31'
       sources:
+      - resource: https://huggingface.co/moonshotai/Kimi-K3
+  kimi-k3.1-pro:
+    label: Kimi K3.1 Pro
+    creator: Moonshot AI
+    open_weights: false
+    total_params_b: 2800
+    aliases:
+    - moonshotai/kimi-k3.1-pro
+    active_params_b:
+      value: 104
+      unit: B
+      tier: 2
+      source: https://huggingface.co/moonshotai/Kimi-K3
+      note: "Moonshot: 'Kimi K3.1 Pro is a post-trained version of Kimi K3' (https://www.kimi.ai/blog/kimi-k3-1-pro), so the size is carried over from Kimi K3's model card: 2.8T total, 104B active (16 of 896 experts). Tier 2: carried over, not stated for K3.1 Pro. Weights are promised by 2026-11-04 and not released as of 2026-10-27, hence open_weights false."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://www.kimi.ai/blog/kimi-k3-1-pro
       - resource: https://huggingface.co/moonshotai/Kimi-K3
   kimi-k2.6:
     label: Kimi K2.6

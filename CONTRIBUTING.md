@@ -80,7 +80,12 @@ range widened and its confidence set to low (see
 
 `note` says why the two are related and `source` links the vendor page that
 ties them together; both are required, and `source` must be registered like
-any other. Similar names or prices alone aren't enough. A proxy can't reuse an
+any other. Similar names or prices alone aren't enough. A weaker tie is
+accepted as a last resort: the same vendor's next model in the same product
+line (Qwen3.7-Max under Qwen3.8-Max), when neither has a closer relative
+listed. Its `note` must say the tie is inferred rather than stated, and
+`source` links the vendor page describing the listed model's place in that
+line. A proxy can't reuse an
 id or alias. When the model gets a published size or estimate, give it a
 record and remove the proxy.
 
