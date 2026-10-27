@@ -1168,6 +1168,49 @@ models:
       sources:
       - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL
       - resource: https://fireworks.ai/models/fireworks/mimo-v2p6-pro-rl
+  mimo-v2.6-flash-mopd:
+    label: MiMo V2.6 Flash (MOPD)
+    creator: Xiaomi
+    open_weights: true
+    total_params_b: 309
+    aliases:
+    - mimo-v2.6-flash
+    - XiaomiMiMo/MiMo-V2.6-Flash-MOPD
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 1
+      source: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-MOPD
+      note: "MoE, 8 of 256 routed experts, no shared experts; 309B total / 15B activated. Omnimodal: plus a 681M ViT, 308M audio tokenizer and 127M audio patch encoder, and a 5-layer MTP drafter; the weights repo counts 310.8B. The card calls it the MOPD upgrade of MiMo-V2.6-Flash-RL (same config). Xiaomi's own API has served 'mimo-v2.6-flash' from the MOPD checkpoint since 2026-09-25 06:00 UTC+8 (https://mimo.xiaomi.com/blog/mimo-v2-6-tool-call-repetition)."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-MOPD
+      - resource: https://mimo.xiaomi.com/blog/mimo-v2-6-tool-call-repetition
+  mimo-v2.6-flash-rl:
+    label: MiMo V2.6 Flash (RL)
+    creator: Xiaomi
+    open_weights: true
+    total_params_b: 309
+    aliases:
+    - XiaomiMiMo/MiMo-V2.6-Flash-RL
+    - xiaomi/mimo-v2.6-flash  # OpenRouter; its hugging_face_id names the RL checkpoint
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 1
+      source: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL
+      note: "MoE, 8 of 256 routed experts; 309B total / 15B activated per the card; the weights repo counts 310.8B (the card also lists vision and audio encoders and a 5-layer MTP drafter). Same config as the later MOPD checkpoint."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL
   inkling:
     label: Inkling
     creator: Thinking Machines Lab

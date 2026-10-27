@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add MiMo V2.6 Flash as two records with the same size (15B active / 309B
+  total, tier 1): `mimo-v2.6-flash-mopd` (alias `mimo-v2.6-flash`, the name
+  Xiaomi's API serves from the MOPD checkpoint) and `mimo-v2.6-flash-rl`
+  (OpenRouter's `xiaomi/mimo-v2.6-flash`, which names the earlier RL
+  checkpoint).
+
 ## 0.2.5 — 2026-10-27
 
 Data-only release; method version unchanged (0.3.0). Point estimates are
