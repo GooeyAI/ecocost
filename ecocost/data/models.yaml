@@ -286,6 +286,30 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Thinking
+  qwen3-vl-235b-a22b-instruct:
+    label: Qwen3 VL 235B-A22B Instruct
+    creator: Qwen
+    open_weights: true
+    total_params_b: 235
+    aliases:
+    - accounts/fireworks/models/qwen3-vl-235b-a22b-instruct
+    - qwen/qwen3-vl-235b-a22b-instruct
+    active_params_b:
+      value: 22
+      unit: B
+      tier: 1
+      source: https://arxiv.org/html/2511.21631#S2
+      note: MoE, 235B total with 22B activated per token, per the Qwen3-VL Technical Report (Qwen Team, 2025), section 2; config.json has
+        128 experts, 8 per token.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://arxiv.org/html/2511.21631#S2
+      - resource: https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Instruct
+      - resource: https://fireworks.ai/models/fireworks/qwen3-vl-235b-a22b-instruct
   glm-5.3:
     label: GLM-5.3
     creator: Z.ai
@@ -331,6 +355,82 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/zai-org/GLM-5.3-Flash
+  glm-5.2:
+    label: GLM-5.2
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 753
+    aliases:
+    - accounts/fireworks/models/glm-5p2
+    - z-ai/glm-5.2
+    - zai-org/glm-5.2
+    active_params_b:
+      value: 39.4
+      unit: B
+      tier: 2
+      source: https://huggingface.co/zai-org/GLM-5.2/blob/main/config.json
+      note: "Card states no size. Computed from config.json (glm_moe_dsa: 78 layers, first 3 dense; 256 routed + 1 shared expert, 8 routed per token; MLA; DSA indexer computed on the first 3 layers, then 1 of every 4): 39.4B active, excluding embeddings, LM head and the MTP layer. The same method gives 39.9B for GLM-5's config, which its card states as 40B active, and 32.1B for GLM-4.5's, stated as 32B. total_params_b is the HF safetensors count incl. the MTP layer (753.3B; 743B without it)."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/zai-org/GLM-5.2
+      - resource: https://huggingface.co/zai-org/GLM-5.2/blob/main/config.json
+      - resource: https://huggingface.co/zai-org/GLM-5
+      - resource: https://huggingface.co/zai-org/GLM-4.5
+      - resource: https://fireworks.ai/models/fireworks/glm-5p2
+  glm-5.1:
+    label: GLM-5.1
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 754
+    aliases:
+    - accounts/fireworks/models/glm-5p1
+    - z-ai/glm-5.1
+    - zai-org/glm-5.1
+    active_params_b:
+      value: 39.9
+      unit: B
+      tier: 2
+      source: https://huggingface.co/zai-org/GLM-5.1/blob/main/config.json
+      note: "Card states no size. Computed from config.json, which matches GLM-5's except transformers_version (glm_moe_dsa: 78 layers, first 3 dense; 256 routed + 1 shared expert, 8 routed per token; MLA + DSA indexer): 39.9B active, excluding embeddings, LM head and the MTP layer; the GLM-5 card states 40B active for this architecture. total_params_b is the HF safetensors count incl. the MTP layer (753.9B; 744B without it). Fireworks serves Z.ai's FP8 checkpoint, zai-org/GLM-5.1-FP8."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/zai-org/GLM-5.1
+      - resource: https://huggingface.co/zai-org/GLM-5.1/blob/main/config.json
+      - resource: https://huggingface.co/zai-org/GLM-5
+      - resource: https://fireworks.ai/models/fireworks/glm-5p1
+  glm-4.7:
+    label: GLM-4.7
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 358
+    aliases:
+    - accounts/fireworks/models/glm-4p7
+    - z-ai/glm-4.7
+    - zai-org/glm-4.7
+    active_params_b:
+      value: 32.1
+      unit: B
+      tier: 2
+      source: https://huggingface.co/zai-org/GLM-4.7/blob/main/config.json
+      note: "Card states no size. Computed from config.json, which matches GLM-4.5's except max_position_embeddings (glm4_moe: 92 layers, first 3 dense; 160 routed + 1 shared expert, 8 routed per token; GQA 96/8 heads): 32.1B active, excluding embeddings, LM head and the MTP layer; the GLM-4.5 card states 32B active for this architecture. total_params_b is the HF safetensors count incl. the MTP layer (358.3B; 355B per the GLM-4.5 card)."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/zai-org/GLM-4.7
+      - resource: https://huggingface.co/zai-org/GLM-4.7/blob/main/config.json
+      - resource: https://huggingface.co/zai-org/GLM-4.5
+      - resource: https://fireworks.ai/models/fireworks/glm-4p7
   mistral-medium-3-5:
     label: Mistral Medium 3.5
     creator: Mistral
@@ -438,6 +538,31 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://docs.mistral.ai/models/mistral-small-4-0-26-03
+  mixtral-8x7b-instruct-v0.1:
+    label: Mixtral 8x7B Instruct
+    creator: Mistral
+    open_weights: true
+    total_params_b: 46.7
+    aliases:
+    - accounts/fireworks/models/mixtral-8x7b-instruct
+    - mistralai/mixtral-8x7b-instruct
+    - mistralai/mixtral-8x7b-instruct-v0.1
+    - mixtral-8x7b-32768
+    active_params_b:
+      value: 12.9
+      unit: B
+      tier: 1
+      source: https://mistral.ai/news/mixtral-of-experts
+      note: Sparse MoE, 2 of 8 experts per token; 46.7B total, 12.9B used per token per Mistral's release post (2023-12-11).
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://mistral.ai/news/mixtral-of-experts
+      - resource: https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1
+      - resource: https://fireworks.ai/models/fireworks/mixtral-8x7b-instruct
   sarvam-105b:
     label: Sarvam 105B
     creator: Sarvam AI
@@ -458,6 +583,28 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/sarvamai/sarvam-105b
+  sarvam-m:
+    label: Sarvam-M
+    creator: Sarvam AI
+    open_weights: true
+    total_params_b: 23.6
+    aliases:
+    - sarvamai/sarvam-m
+    active_params_b:
+      value: 23.6
+      unit: B
+      tier: 1
+      source: https://huggingface.co/sarvamai/sarvam-m
+      note: Dense (MistralForCausalLM), all parameters active; 23,572,403,200 BF16 parameters per the repo's safetensors metadata, a
+        text-only post-train of Mistral-Small-3.1-24B (no vision encoder).
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/sarvamai/sarvam-m
+      - resource: https://huggingface.co/sarvamai/sarvam-m/blob/main/config.json
   sunflower-14b:
     label: Sunflower 14B
     creator: Sunbird AI
@@ -683,6 +830,81 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro
+  deepseek-v3.2:
+    label: DeepSeek V3.2
+    creator: DeepSeek
+    open_weights: true
+    total_params_b: 671
+    aliases:
+    - accounts/fireworks/models/deepseek-v3p2
+    - deepseek-ai/DeepSeek-V3.2
+    - deepseek/deepseek-v3.2
+    active_params_b:
+      value: 37
+      unit: B
+      tier: 2
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V3.1
+      note: MoE. The V3.2 card and report give no activated count; report sec. 2.1 (https://arxiv.org/html/2512.02556v1#S2.SS1)
+        says V3.2 keeps the V3.1-Terminus architecture except for DeepSeek Sparse Attention (a small lightning indexer).
+        37B is the V3.1 card's activated figure, so derived; the indexer adds roughly 1B active, so it slightly undercounts.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://arxiv.org/html/2512.02556v1#S2.SS1
+      - resource: https://arxiv.org/abs/2512.02556
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-V3.2
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-V3.1
+      - resource: https://fireworks.ai/models/fireworks/deepseek-v3p2
+  deepseek-v3.1:
+    label: DeepSeek V3.1
+    creator: DeepSeek
+    open_weights: true
+    total_params_b: 671
+    aliases:
+    - accounts/fireworks/models/deepseek-v3p1
+    - deepseek-ai/DeepSeek-V3.1
+    - deepseek/deepseek-chat-v3.1
+    active_params_b:
+      value: 37
+      unit: B
+      tier: 1
+      source: https://huggingface.co/deepseek-ai/DeepSeek-V3.1
+      note: MoE, 671B total / 37B activated per the model card's download table.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-V3.1
+      - resource: https://fireworks.ai/models/fireworks/deepseek-v3p1
+  deepseek-r1:
+    label: DeepSeek R1
+    creator: DeepSeek
+    open_weights: true
+    total_params_b: 671
+    aliases:
+    - accounts/fireworks/models/deepseek-r1
+    - deepseek-ai/DeepSeek-R1
+    - deepseek/deepseek-r1
+    active_params_b:
+      value: 37
+      unit: B
+      tier: 1
+      source: https://huggingface.co/deepseek-ai/DeepSeek-R1
+      note: MoE, 671B total / 37B activated per the model card. Original January 2025 R1 weights, not
+        R1-0528.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/deepseek-ai/DeepSeek-R1
+      - resource: https://fireworks.ai/models/fireworks/deepseek-r1
   nemotron-3.5-lightning-30b-a3b:
     label: Nemotron 3.5 Lightning 30B-A3B
     creator: Nvidia
@@ -751,6 +973,74 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/moonshotai/Kimi-K3
+  kimi-k2.6:
+    label: Kimi K2.6
+    creator: Moonshot AI
+    open_weights: true
+    total_params_b: 1000
+    aliases:
+    - accounts/fireworks/models/kimi-k2p6
+    - moonshotai/kimi-k2.6
+    active_params_b:
+      value: 32
+      unit: B
+      tier: 1
+      source: https://huggingface.co/moonshotai/Kimi-K2.6
+      note: MoE, 8 of 384 routed + 1 shared; 1T total, plus a 400M MoonViT vision encoder. Native INT4.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/moonshotai/Kimi-K2.6
+      - resource: https://fireworks.ai/models/fireworks/kimi-k2p6
+  kimi-k2-thinking:
+    label: Kimi K2 Thinking
+    creator: Moonshot AI
+    open_weights: true
+    total_params_b: 1000
+    aliases:
+    - accounts/fireworks/models/kimi-k2-thinking
+    - fireworks/kimi-k2-thinking
+    - moonshotai/kimi-k2-thinking
+    active_params_b:
+      value: 32
+      unit: B
+      tier: 1
+      source: https://huggingface.co/moonshotai/Kimi-K2-Thinking
+      note: MoE, 8 of 384 routed + 1 shared; 1T total. Native INT4 (QAT) weights for the MoE layers.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/moonshotai/Kimi-K2-Thinking
+      - resource: https://fireworks.ai/models/fireworks/kimi-k2-thinking
+  kimi-k2-instruct-0905:
+    label: Kimi K2 Instruct 0905
+    creator: Moonshot AI
+    open_weights: true
+    total_params_b: 1000
+    aliases:
+    - accounts/fireworks/models/kimi-k2-instruct-0905
+    - moonshotai/kimi-k2-0905
+    - moonshotai/kimi-k2-instruct-0905
+    active_params_b:
+      value: 32
+      unit: B
+      tier: 1
+      source: https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905
+      note: MoE, 8 of 384 routed + 1 shared; 1T total. September 2025 update of Kimi K2 Instruct.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905
+      - resource: https://fireworks.ai/models/fireworks/kimi-k2-instruct-0905
   inkling:
     label: Inkling
     creator: Thinking Machines Lab
@@ -816,6 +1106,62 @@ models:
       stale_after: '2027-04-27'
       sources:
       - resource: https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash
+  minimax-m2.7:
+    label: MiniMax M2.7
+    creator: MiniMax
+    open_weights: true
+    total_params_b: 229.9
+    aliases:
+    - accounts/fireworks/models/minimax-m2p7
+    - fireworks/minimax-m2p7
+    - MiniMaxAI/MiniMax-M2.7
+    - minimax/minimax-m2.7
+    active_params_b:
+      value: 9.8
+      unit: B
+      tier: 2
+      source: https://huggingface.co/MiniMaxAI/MiniMax-M2.7/blob/main/config.json
+      note: "MoE, 256 experts, 8 per token. The card states no size. Computed from config.json, architecturally identical to MiniMax-M2 (same layers, dims, experts): 9.80B non-embedding activated. The MiniMax-M2 series tech report (https://arxiv.org/html/2605.26494v2#S2.SS1) gives 229.9B total / 9.8B activated for M2 and says M2.7 runs on ~10B activated parameters."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://arxiv.org/html/2605.26494v2#S2.SS1
+      - resource: https://arxiv.org/abs/2605.26494
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2.7
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2.7/blob/main/config.json
+      - resource: https://fireworks.ai/models/fireworks/minimax-m2p7
+  minimax-m2.1:
+    label: MiniMax M2.1
+    creator: MiniMax
+    open_weights: true
+    total_params_b: 229.9
+    aliases:
+    - accounts/fireworks/models/minimax-m2p1
+    - MiniMaxAI/MiniMax-M2.1
+    - minimax/minimax-m2.1
+    active_params_b:
+      value: 9.8
+      unit: B
+      tier: 2
+      source: https://huggingface.co/MiniMaxAI/MiniMax-M2.1/blob/main/config.json
+      note: MoE. The M2.1 card states no size. Computed from config.json (62 layers, hidden 3072, 256
+        experts, 8 per token, expert FFN 1536, GQA 48/8 heads) gives 9.80B non-embedding activated. Config is
+        architecturally identical to MiniMax-M2 (same layers, dims, experts), whose tech report gives 9.8B activated / 229.9B total
+        (https://arxiv.org/html/2605.26494v2#S2.SS1).
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2.1/blob/main/config.json
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2.1
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2/blob/main/config.json
+      - resource: https://arxiv.org/html/2605.26494v2#S2.SS1
+      - resource: https://fireworks.ai/models/fireworks/minimax-m2p1
   gpt-4o:
     label: GPT-4o
     creator: OpenAI
@@ -1897,3 +2243,152 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+
+  llama-4-maverick:
+    label: Llama 4 Maverick 17B-128E Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 400
+    aliases:
+    - accounts/fireworks/models/llama4-maverick-instruct-basic
+    - meta-llama/Llama-4-Maverick-17B-128E-Instruct
+    - meta-llama/llama-4-maverick
+    active_params_b:
+      value: 17
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct
+      note: MoE, 128 experts; 17B activated, 400B total per the model card's model-information table. The safetensors
+        metadata counts 401,583,781,376 BF16 parameters (includes the vision encoder).
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct
+  llama-4-scout:
+    label: Llama 4 Scout 17B-16E Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 109
+    aliases:
+    - accounts/fireworks/models/llama4-scout-instruct-basic
+    - meta-llama/Llama-4-Scout-17B-16E-Instruct
+    - meta-llama/llama-4-scout
+    active_params_b:
+      value: 17
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct
+      note: MoE, 16 experts; 17B activated, 109B total per the model card's model-information table. The safetensors
+        metadata counts 108,641,793,536 BF16 parameters (includes the vision encoder).
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.3212
+      min: 0.0934
+      max: 1.105
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: ML.ENERGY v3.0, lm-arena-chat, meta-llama/Llama-4-Scout-17B-16E-Instruct, bfloat16, 4xH100 EP4 (an 8xH100 EP8 sweep, 0.126-1.465, is not used).
+        min = max-batch steady state (max_num_seqs 512), max = batch-8; value = geometric mean; production
+        sits between.
+  llama-3-70b:
+    label: Llama 3 70B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 70.55
+    aliases:
+    - accounts/fireworks/models/llama-v3-70b-instruct
+    - llama3-70b-8192
+    - meta-llama/llama-3-70b-instruct
+    - meta-llama/Meta-Llama-3-70B-Instruct
+    active_params_b:
+      value: 70.55
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Meta-Llama-3-70B-Instruct
+      note: Dense, 8k context. 70,553,706,496 BF16 parameters per the model card's safetensors metadata. The original
+        Llama 3 (April 2024), not Llama 3.1 or 3.3.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Meta-Llama-3-70B-Instruct
+  llama-3-8b:
+    label: Llama 3 8B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 8.03
+    aliases:
+    - llama3-8b-8192
+    - meta-llama/llama-3-8b-instruct
+    - meta-llama/Meta-Llama-3-8B-Instruct
+    active_params_b:
+      value: 8.03
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct
+      note: Dense, 8k context. 8,030,261,248 BF16 parameters per the model card's safetensors metadata. The original
+        Llama 3 (April 2024), not Llama 3.1.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct
+  llama-3-groq-70b-tool-use:
+    label: Llama 3 Groq 70B Tool Use
+    creator: Groq
+    open_weights: true
+    total_params_b: 70.55
+    aliases:
+    - Groq/Llama-3-Groq-70B-Tool-Use
+    - llama3-groq-70b-8192-tool-use-preview
+    active_params_b:
+      value: 70.55
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Groq/Llama-3-Groq-70B-Tool-Use
+      note: Dense. The card calls it the 70B version, fully fine-tuned (plus DPO) from Llama 3 70B; 70,553,804,800
+        BF16 parameters per the safetensors metadata (a few added tokens over the base). Fine-tune, not the
+        base weights.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/Groq/Llama-3-Groq-70B-Tool-Use
+  afrollama_v1:
+    label: AfroLlama V1
+    creator: Jacaranda Health
+    open_weights: true
+    total_params_b: 8.03
+    aliases:
+    - Jacaranda/AfroLlama_V1
+    active_params_b:
+      value: 8.03
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Jacaranda/AfroLlama_V1
+      note: Dense. The card states an 8B-parameter model built on Meta-Llama-3-8B (LoRA continual pre-training per
+        language, TIES merge, instruction tuning); 8,030,261,248 BF16 parameters per the safetensors metadata.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/Jacaranda/AfroLlama_V1
