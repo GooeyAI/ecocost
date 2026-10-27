@@ -102,6 +102,9 @@ class KnowledgeBase:
         self.models: dict[str, Model] = {}
         # lower-cased id or alias -> canonical id, for case-insensitive lookup
         self._model_index: dict[str, str] = {}
+        # last path segment of a prefixed alias -> canonical id, or None when
+        # aliases of different models share it
+        self._model_tail_index: dict[str, str | None] = {}
         self._provider_index: dict[str, str] = {}
         self._region_index: dict[str, str] = {}
         self.fallback_provider_id: str | None = None
@@ -220,10 +223,13 @@ class KnowledgeBase:
         """The model record for an id or alias, ignoring case; raises
         UnknownModelError."""
         # the id as given, then without a prefix like accounts/fireworks/models/
-        for key in (model_id, model_id.rsplit("/", 1)[-1]):
+        tail = model_id.rsplit("/", 1)[-1]
+        for key in (model_id, tail):
             if mid := self._model_index.get(key.lower()):
                 return self.models[mid]
-        tail = model_id.rsplit("/", 1)[-1]
+        # the same id behind another prefix: routers/x vs models/x
+        if mid := self._model_tail_index.get(tail.lower()):
+            return self.models[mid]
         raise UnknownModelError(model_id, _similar(tail, self._model_index))
 
     def resolve_region(self, region_id: str) -> Region:
@@ -288,6 +294,10 @@ class KnowledgeBase:
         other = self._model_index.setdefault(key.lower(), mid)
         if other != mid:
             raise ValueError(f"model id or alias {key!r} is used by {other} and {mid}")
+        if "/" in key:
+            tail = key.rsplit("/", 1)[-1].lower()
+            if self._model_tail_index.setdefault(tail, mid) != mid:
+                self._model_tail_index[tail] = None
 
 
 def _similar(key: str, index: dict[str, str]) -> list[str]:

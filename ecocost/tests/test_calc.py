@@ -10,7 +10,7 @@ from ecocost import (
     estimate,
 )
 from ecocost.result import EstimateResult
-from ecocost.loader import get_kb
+from ecocost.loader import KnowledgeBase, get_kb
 
 TOKENS = dict(input_tokens=800, output_tokens=300)
 
@@ -171,6 +171,22 @@ def test_mistyped_region_raises():
         estimate("gpt-oss-120b", provider="nscale", region="US-VAA", **TOKENS)
     assert e.value.suggestions[0] == "US-VA"
     assert "region=None" in str(e.value)
+
+
+def test_prefixed_alias_matches_behind_another_prefix():
+    kb = get_kb()
+    # kimi-k3 lists accounts/fireworks/routers/kimi-k3-fast
+    assert kb.resolve_model("accounts/fireworks/models/kimi-k3-fast").id == "kimi-k3"
+    assert kb.resolve_model("Kimi-K3-Fast").id == "kimi-k3"
+
+
+def test_alias_tail_shared_by_two_models_does_not_resolve():
+    kb = KnowledgeBase()
+    kb.models = {"a": object(), "b": object()}
+    kb._index_model("vendor-a/fast", "a")
+    kb._index_model("vendor-b/fast", "b")
+    with pytest.raises(UnknownModelError):
+        kb.resolve_model("vendor-c/fast")
 
 
 def test_ids_match_ignoring_case():
