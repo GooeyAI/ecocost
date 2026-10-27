@@ -35,8 +35,10 @@ r["confidence"]  # {"level": "low", "range_ratio": 16.6, "reasons": ["wue_assume
 Model ids are matched through aliases, so provider-specific ids such as
 `accounts/fireworks/models/gpt-oss-120b` resolve to the same record. A model
 that isn't in the knowledge base raises `UnknownModelError`, which suggests
-close matches and links to [adding it](CONTRIBUTING.md#adding-a-model). Ids
-are matched ignoring case.
+close matches and links to [adding it](CONTRIBUTING.md#adding-a-model). The
+exception is a model listed as a [proxy](API.md#unknown-models-and-providers)
+of a related record: it is estimated from that record and flagged, with a
+wider range and low confidence. Ids are matched ignoring case.
 
 ## Provider ids
 

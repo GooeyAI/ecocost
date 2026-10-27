@@ -1168,6 +1168,13 @@ models:
     open_weights: false
     aliases:
     - gpt-4o-2024-08-06
+    proxies:
+    - ids: [chatgpt-4o-latest]
+      note: "OpenAI: a model alias for the GPT-4o snapshot used in ChatGPT; deprecated, no size of its own."
+      source: https://developers.openai.com/api/docs/models/chatgpt-4o-latest
+    - ids: [gpt-4o-realtime-preview, gpt-4o-realtime-preview-2025-06-03, gpt-4o-realtime-preview-2024-12-17, gpt-4o-realtime-preview-2024-10-01]
+      note: "OpenAI: preview release of the GPT-4o Realtime model (audio and text); deprecated, no size of its own."
+      source: https://developers.openai.com/api/docs/models/gpt-4o-realtime-preview
     active_params_b:
       value: 100
       unit: B
@@ -1487,6 +1494,10 @@ models:
     creator: OpenAI
     total_params_b: 440
     open_weights: false
+    proxies:
+    - ids: [gpt-realtime, gpt-realtime-2025-08-28]
+      note: "OpenAI's first GA realtime model, which gpt-realtime-1.5 replaced; same prices ($4/$16 text, $32/$64 audio per 1M tokens), no size of its own."
+      source: https://developers.openai.com/api/docs/models/gpt-realtime
     active_params_b:
       value: 76
       unit: B
@@ -1924,6 +1935,10 @@ models:
     total_params_b: 1200
     aliases:
     - google/gemini-3.1-pro-preview
+    proxies:
+    - ids: [gemini-3-pro-preview]
+      note: "Google's model card: 'Gemini 3.1 Pro is based on Gemini 3 Pro' and defers to it for architecture; no EcoLogits estimate of 3 Pro itself."
+      source: https://deepmind.google/models/model-cards/gemini-3-1-pro/
     active_params_b:
       value: 200
       unit: B

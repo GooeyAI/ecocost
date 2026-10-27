@@ -10,7 +10,8 @@ from ecocost import (
     estimate,
 )
 from ecocost.result import EstimateResult
-from ecocost.loader import KnowledgeBase, get_kb
+from ecocost.calc import as_proxy
+from ecocost.loader import KnowledgeBase, get_kb, _proxy
 
 TOKENS = dict(input_tokens=800, output_tokens=300)
 
@@ -69,6 +70,75 @@ def test_unknown_model_raises_with_suggestions_and_where_to_add_it():
     with pytest.raises(UnknownModelError) as e:
         estimate("some/brand-new-model", provider="fireworks")
     assert e.value.suggestions == []
+
+
+def test_proxy_is_estimated_from_its_sibling_and_flagged():
+    sibling = estimate("gpt-4o", **TOKENS)
+    r = estimate("chatgpt-4o-latest", **TOKENS)
+    assert sibling["proxy"] is None
+    assert r["model"] == "gpt-4o"
+    assert r["proxy"]["model"] == "chatgpt-4o-latest"
+    assert r["proxy"]["estimated_from"] == "gpt-4o"
+    assert r["proxy"]["note"] and r["proxy"]["source"].startswith("https://")
+    assert r["confidence"]["level"] == "low"
+    assert r["confidence"]["reasons"][0] == "model_inferred_from_sibling"
+    assert "active_params_assumed" in r["confidence"]["reasons"]
+    # same point value, a wider range than the sibling's own
+    assert r["carbon"]["value"] == sibling["carbon"]["value"]
+    assert r["carbon"]["min"] < sibling["carbon"]["min"]
+    assert r["carbon"]["max"] > sibling["carbon"]["max"]
+
+
+def test_proxy_matches_ignoring_case_and_prefix():
+    r = estimate("google/Gemini-3-Pro-Preview", **TOKENS)
+    assert r["proxy"]["model"] == "gemini-3-pro-preview"
+    assert r["model"] == "gemini-3.1-pro-preview"
+
+
+def test_proxy_drops_the_siblings_measured_energy():
+    m = as_proxy(get_kb().models["gpt-oss-120b"])
+    assert m.measured_wh_per_1k_output_tokens_h100 is None
+    assert m.active_params_b.tier == 3
+
+
+def test_proxy_cannot_shadow_a_model_id_or_alias():
+    kb = KnowledgeBase()
+    kb._index_model("a", "a")
+    proxy = _proxy("b", {"ids": ["a"], "note": "n", "source": "https://x"})
+    with pytest.raises(ValueError):
+        kb._index_proxy("a", "b", proxy)
+    # without its prefix it would resolve to the model before the proxy
+    with pytest.raises(ValueError):
+        kb._index_proxy("vendor/a", "b", proxy)
+    # nor may it match a prefixed alias behind another prefix
+    kb._index_model("router/fast", "a")
+    with pytest.raises(ValueError):
+        kb._index_proxy("models/fast", "b", proxy)
+
+
+def test_proxy_is_listed_once():
+    kb = KnowledgeBase()
+    proxy = _proxy("b", {"ids": ["p"], "note": "n", "source": "https://x"})
+    kb._index_proxy("p", "b", proxy)
+    for mid in ("b", "c"):
+        with pytest.raises(ValueError):
+            kb._index_proxy("P", mid, proxy)
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        {"ids": ["b"], "note": "sibling"},
+        {"ids": ["b"], "note": "sibling", "source": "see the blog"},
+        {"ids": "b", "note": "sibling", "source": "https://x"},
+        {"ids": [], "note": "sibling", "source": "https://x"},
+        {"ids": ["b"], "source": "https://x"},
+        "b",
+    ],
+)
+def test_proxy_needs_ids_a_note_and_a_source_url(raw):
+    with pytest.raises(ValueError):
+        _proxy("a", raw)
 
 
 def test_ranges_are_ordered_and_monotonic_in_tokens():

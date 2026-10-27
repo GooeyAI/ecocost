@@ -61,6 +61,29 @@ example) at tier 2 with an honest range, and set `open_weights: false`. If you
 can't find one, [open an issue](https://github.com/GooeyAI/ecocost/issues/new)
 instead of guessing.
 
+### Proxies
+
+A model with no published size or estimate of its own, which its vendor
+ties to a model that is already listed (an earlier snapshot, a preview the
+later model is "based on"), can be listed as a proxy of that model instead.
+It is not an alias: the weights differ, so its estimate is flagged, its
+range widened and its confidence set to low (see
+[METHODOLOGY.md](METHODOLOGY.md#proxies)).
+
+```yaml
+  gemini-3.1-pro-preview:
+    proxies:
+    - ids: [gemini-3-pro-preview]
+      note: "Google's model card: 'Gemini 3.1 Pro is based on Gemini 3 Pro'; no estimate of 3 Pro itself."
+      source: https://deepmind.google/models/model-cards/gemini-3-1-pro/
+```
+
+`note` says why the two are related and `source` links the vendor page that
+ties them together; both are required, and `source` must be registered like
+any other. Similar names or prices alone aren't enough. A proxy can't reuse an
+id or alias. When the model gets a published size or estimate, give it a
+record and remove the proxy.
+
 ## Adding a provider
 
 Copy a similar record in `providers.yaml`, give it a lowercase id, and fill in

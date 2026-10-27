@@ -319,6 +319,17 @@ class Provider:
 
 
 @dataclass(frozen=True)
+class Proxy:
+    """Ids with no record of their own, estimated from a related model's
+    record: an earlier version or sibling the vendor ties to it. Unlike an
+    alias these are different weights, so the estimate is flagged."""
+
+    ids: tuple[str, ...]
+    note: str  # why this model stands in for them
+    source: str  # where the vendor ties them together
+
+
+@dataclass(frozen=True)
 class Model:
     id: str
     label: str
