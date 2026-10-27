@@ -1119,6 +1119,51 @@ models:
       sources:
       - resource: https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905
       - resource: https://fireworks.ai/models/fireworks/kimi-k2-instruct-0905
+  mimo-v2.6-pro-mopd:
+    label: MiMo V2.6 Pro (MOPD)
+    creator: Xiaomi
+    open_weights: true
+    total_params_b: 1020
+    aliases:
+    - mimo-v2.6-pro
+    - XiaomiMiMo/MiMo-V2.6-Pro-MOPD
+    active_params_b:
+      value: 42
+      unit: B
+      tier: 1
+      source: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-MOPD
+      note: "MoE, 8 of 384 routed experts, no shared experts; 1.02T total / 42B activated. Omnimodal: plus a 681M ViT, 308M audio tokenizer and 127M audio patch encoder, and a 5-layer MTP drafter; the weights repo counts 1024.2B. The card calls it the MOPD upgrade of MiMo-V2.6-Pro-RL (same config). Xiaomi's own API has served 'mimo-v2.6-pro' from the MOPD checkpoint since 2026-09-25 06:00 UTC+8 (https://mimo.xiaomi.com/blog/mimo-v2-6-tool-call-repetition)."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-MOPD
+      - resource: https://mimo.xiaomi.com/blog/mimo-v2-6-tool-call-repetition
+  mimo-v2.6-pro-rl:
+    label: MiMo V2.6 Pro (RL)
+    creator: Xiaomi
+    open_weights: true
+    total_params_b: 1020
+    aliases:
+    - XiaomiMiMo/MiMo-V2.6-Pro-RL
+    - xiaomi/mimo-v2.6-pro  # OpenRouter; its hugging_face_id names the RL checkpoint
+    - accounts/fireworks/models/mimo-v2p6-pro-rl
+    active_params_b:
+      value: 42
+      unit: B
+      tier: 1
+      source: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL
+      note: "MoE, 8 of 384 routed experts; 1.02T total / 42B activated per the card; the weights repo counts 1024.2B (incl. vision and audio encoders and the MTP drafter). Same config as the later MOPD checkpoint."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL
+      - resource: https://fireworks.ai/models/fireworks/mimo-v2p6-pro-rl
   inkling:
     label: Inkling
     creator: Thinking Machines Lab

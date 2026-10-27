@@ -6,6 +6,12 @@
   (`kimi-k2.5`, 32B active / 1T total, tier 1) and MiniMax M2.5
   (`minimax-m2.5`, 9.8B active, tier 2 from config.json), with their
   Fireworks, Hugging Face and OpenRouter ids.
+- Add MiMo V2.6 Pro as two records with the same size (42B active / 1.02T
+  total, tier 1): `mimo-v2.6-pro-mopd` (alias `mimo-v2.6-pro`, the name
+  Xiaomi's API serves from the MOPD checkpoint) and `mimo-v2.6-pro-rl`
+  (OpenRouter's `xiaomi/mimo-v2.6-pro` and the Fireworks id, which name the
+  earlier RL checkpoint). Register `mimo.xiaomi.com` as a provider-docs
+  source.
 - Proxies: GPT-Realtime 2 under GPT Realtime 2.1 (OpenAI: 2.1 updates 2),
   and Mistral Medium 3.1 (`mistral-medium-2508`) under Mistral Medium 3.5
   (Mistral's named replacement).
