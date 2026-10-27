@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.2.5 — 2026-10-27
+
+Data-only release; method version unchanged (0.3.0). Point estimates are
+unchanged for every id that resolved in 0.2.4 except Claude Sonnet 4.5,
+whose mapping is corrected. Snapshot ids moved from aliases to proxies keep
+their point estimates, but their ranges widen and results carry `proxy`.
+Ids that raised `UnknownModelError` before can now resolve through new
+records and proxies.
 
 - Add GLM-5 (`glm-5`, 40B active / 744B total, tier 1), Kimi K2.5
   (`kimi-k2.5`, 32B active / 1T total, tier 1) and MiniMax M2.5
