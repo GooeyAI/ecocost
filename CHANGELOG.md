@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Give Claude Sonnet 4.5 its own record (`claude-sonnet-4-5`, aliases
+  `claude-sonnet-4-5-20250929`, `anthropic/claude-sonnet-4-5`). Its ids were
+  aliases of Claude Sonnet 5, which EcoLogits sizes smaller. Sonnet 4.5 now
+  uses EcoLogits' own estimate, 76B active (44–132B) instead of Sonnet 5's
+  60B (29–100B), which raises its energy, carbon and water estimates by
+  about 27% at fixed tokens and provider. This corrects the mapping; it is
+  not a change in the model's actual energy use.
+- Give GPT-5.1 its own record (`gpt-5.1`, alias `gpt-5.1-2025-11-13`); it
+  was an alias of GPT-5. EcoLogits sizes the two the same, so its estimates
+  do not change.
+
 ## 0.2.4 — 2026-10-27
 
 Method version unchanged (0.3.0): every id that resolved in 0.2.3 gives the

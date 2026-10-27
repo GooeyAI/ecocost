@@ -1645,8 +1645,6 @@ models:
     open_weights: false
     aliases:
     - anthropic/claude-sonnet-5
-    - anthropic/claude-sonnet-4-5
-    - claude-sonnet-4-5
     active_params_b:
       value: 60
       unit: B
@@ -1837,6 +1835,30 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+  claude-sonnet-4-5:
+    label: Claude Sonnet 4.5
+    creator: Anthropic
+    total_params_b: 440
+    open_weights: false
+    aliases:
+    - claude-sonnet-4-5-20250929
+    - anthropic/claude-sonnet-4-5
+    active_params_b:
+      value: 76
+      unit: B
+      tier: 2
+      min: 44
+      max: 132
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (claude-sonnet-4-5-20250929): MoE 440B total, 44-132B active, flagged model-arch-not-released. Point = geometric mean. A separate model from Claude Sonnet 5; its ids were previously aliases of that record."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://www.anthropic.com/news/claude-sonnet-4-5
   claude-sonnet-4-6:
     label: Claude Sonnet 4.6
     creator: Anthropic
@@ -2255,13 +2277,12 @@ models:
       sources:
       - resource: https://analyticsindiamag.com/ai-features/kissanai-is-obsessed-with-getting-its-vision-model-for-farmers-right
   gpt-5:
-    label: GPT-5 / 5.1
+    label: GPT-5
     creator: OpenAI
     open_weights: false
     aliases:
     - gpt-5-2025-08-07
     - gpt-5-chat-latest
-    - gpt-5.1-2025-11-13
     active_params_b:
       value: 50
       min: 30
@@ -2279,6 +2300,30 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.1:
+    label: GPT-5.1
+    creator: OpenAI
+    total_params_b: 300
+    open_weights: false
+    aliases:
+    - gpt-5.1-2025-11-13
+    - openai/gpt-5.1
+    active_params_b:
+      value: 50
+      min: 30
+      max: 90
+      unit: B
+      tier: 2
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gpt-5.1 and gpt-5.1-2025-11-13): MoE 300B total, 30-90B active, flagged model-arch-not-released and model-arch-multimodal; the same estimate as gpt-5. Point 50, as for gpt-5, so its estimates are unchanged by the split. OpenAI lists GPT-5.1 as its own model with snapshot gpt-5.1-2025-11-13."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-5.1
   gpt-5.2:
     label: GPT-5.2
     creator: OpenAI
