@@ -462,6 +462,30 @@ models:
       - resource: https://huggingface.co/zai-org/GLM-4.7/blob/main/config.json
       - resource: https://huggingface.co/zai-org/GLM-4.5
       - resource: https://fireworks.ai/models/fireworks/glm-4p7
+  glm-4.7-flash:
+    label: GLM-4.7 Flash
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 31.2
+    aliases:
+    - accounts/fireworks/models/glm-4p7-flash
+    - z-ai/glm-4.7-flash
+    - zai-org/glm-4.7-flash
+    active_params_b:
+      value: 3
+      unit: B
+      tier: 1
+      source: https://huggingface.co/zai-org/GLM-4.7-Flash
+      note: "MoE; the model card calls it a 30B-A3B MoE model. Computing from config.json (glm4_moe_lite: 47 layers, first 1 dense; 64 routed + 1 shared expert, 4 routed per token; MLA) gives 3.26B active, excluding embeddings, LM head and the MTP layer. total_params_b is the HF safetensors count (31.22B), which includes the MTP layer with its own embedding and head copies; 30B per the card."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/zai-org/GLM-4.7-Flash
+      - resource: https://huggingface.co/zai-org/GLM-4.7-Flash/blob/main/config.json
+      - resource: https://fireworks.ai/models/fireworks/glm-4p7-flash
   mistral-medium-3-5:
     label: Mistral Medium 3.5
     creator: Mistral
@@ -766,6 +790,49 @@ models:
       source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
       note: Llama 3.1 8B on ML.ENERGY v3.0; CPT does not change architecture. min = max-batch steady state, max
         = batch-8; production sits between.
+  llama3-8b-cpt-sea-lionv2-instruct:
+    label: Llama3 8B SEA-LION v2
+    creator: AISingapore
+    open_weights: true
+    total_params_b: 8.03
+    aliases:
+    - aisingapore/llama3-8b-cpt-sea-lionv2-instruct
+    active_params_b:
+      value: 8.03
+      unit: B
+      tier: 1
+      source: https://huggingface.co/aisingapore/Llama-SEA-LION-v2-8B-IT/tree/30.07.2024
+      note: "Dense, Llama 3 architecture, 8k context. 8,030,261,248 BF16 parameters per the safetensors metadata at the 30.07.2024 revision of the creator's repo, which is the original v2 Instruct release (the repo now serves v2.1 on main, described by the creator as having 'additional supervised fine-tuning and alignment compared to the now deprecated' v2). Not the v2.1 weights."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/aisingapore/Llama-SEA-LION-v2-8B-IT/tree/30.07.2024
+      - resource: https://huggingface.co/aisingapore/Llama-SEA-LION-v2-8B-IT/blob/30.07.2024/README.md
+      - resource: https://huggingface.co/aisingapore/Llama-SEA-LION-v2-8B-IT/blob/4416b7f5d61d0069fb862da7b565540b4931645d/README.md
+  sea-lion-v1-7b-it:
+    label: SEA-LION v1 7B Instruct
+    creator: AISingapore
+    open_weights: true
+    total_params_b: 7.5
+    aliases:
+    - aisingapore/SEA-LION-v1-7B-IT
+    - aisingapore/sea-lion-7b-instruct          # the repo's former name; Hugging Face redirects it here
+    active_params_b:
+      value: 7.5
+      unit: B
+      tier: 1
+      source: https://huggingface.co/aisingapore/SEA-LION-v1-7B-IT
+      note: Dense; the card describes an instruction-tuned decoder on the MPT architecture. 7,501,651,968 BF16 parameters per the safetensors metadata.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/aisingapore/SEA-LION-v1-7B-IT
   agrillm-qwen3-30b-a3b:
     label: AgriLLM (Qwen3 30B-A3B)
     creator: AI71
@@ -1168,6 +1235,49 @@ models:
       sources:
       - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL
       - resource: https://fireworks.ai/models/fireworks/mimo-v2p6-pro-rl
+  mimo-v2.6-flash-mopd:
+    label: MiMo V2.6 Flash (MOPD)
+    creator: Xiaomi
+    open_weights: true
+    total_params_b: 309
+    aliases:
+    - mimo-v2.6-flash
+    - XiaomiMiMo/MiMo-V2.6-Flash-MOPD
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 1
+      source: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-MOPD
+      note: "MoE, 8 of 256 routed experts, no shared experts; 309B total / 15B activated. Omnimodal: plus a 681M ViT, 308M audio tokenizer and 127M audio patch encoder, and a 5-layer MTP drafter; the weights repo counts 310.8B. The card calls it the MOPD upgrade of MiMo-V2.6-Flash-RL (same config). Xiaomi's own API has served 'mimo-v2.6-flash' from the MOPD checkpoint since 2026-09-25 06:00 UTC+8 (https://mimo.xiaomi.com/blog/mimo-v2-6-tool-call-repetition)."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-MOPD
+      - resource: https://mimo.xiaomi.com/blog/mimo-v2-6-tool-call-repetition
+  mimo-v2.6-flash-rl:
+    label: MiMo V2.6 Flash (RL)
+    creator: Xiaomi
+    open_weights: true
+    total_params_b: 309
+    aliases:
+    - XiaomiMiMo/MiMo-V2.6-Flash-RL
+    - xiaomi/mimo-v2.6-flash  # OpenRouter; its hugging_face_id names the RL checkpoint
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 1
+      source: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL
+      note: "MoE, 8 of 256 routed experts; 309B total / 15B activated per the card; the weights repo counts 310.8B (incl. vision and audio encoders and the MTP drafter). Same config as the later MOPD checkpoint."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Flash-RL
   inkling:
     label: Inkling
     creator: Thinking Machines Lab
@@ -2761,6 +2871,27 @@ models:
       note: ML.ENERGY v3.0, lm-arena-chat, meta-llama/Llama-4-Scout-17B-16E-Instruct, bfloat16, 4xH100 EP4 (an 8xH100 EP8 sweep, 0.126-1.465, is not used).
         min = max-batch steady state (max_num_seqs 512), max = batch-8; value = geometric mean; production
         sits between.
+  llama-2-70b-chat:
+    label: Llama 2 70B Chat
+    creator: Meta
+    open_weights: true
+    total_params_b: 68.98
+    aliases:
+    - llama2-70b-4096                    # Groq's API id for Llama 2 70B Chat (retired)
+    - meta-llama/Llama-2-70b-chat-hf
+    active_params_b:
+      value: 68.98
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-2-70b-chat-hf
+      note: Dense, 4k context, GQA. The card lists it as the 70B fine-tuned (chat) model; 68,976,653,312 parameters per the safetensors metadata (F16, plus 5,120 F32).
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-2-70b-chat-hf
   llama-3-70b:
     label: Llama 3 70B Instruct
     creator: Meta
