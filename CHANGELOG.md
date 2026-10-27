@@ -35,6 +35,11 @@
   by it), and Qwen3.7-Max and its snapshots under Qwen3.8-Max. The second is
   an inferred tie between consecutive Max-class flagships; CONTRIBUTING and
   METHODOLOGY now allow this as a last resort, marked as inferred.
+- Add Claude 3.5 Sonnet (`claude-3-5-sonnet`, aliases
+  `claude-3-5-sonnet-20241022`, `claude-3-5-sonnet-latest`). Anthropic has
+  not disclosed its size and EcoLogits has no entry; 175B is the MEDEC
+  paper's estimate, at tier 3 with the default range. The June 2024
+  release, `claude-3-5-sonnet-20240620`, is a proxy of it.
 
 ## 0.2.4 — 2026-10-27
 
