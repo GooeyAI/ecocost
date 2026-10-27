@@ -1989,6 +1989,33 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+  claude-3-5-sonnet:
+    label: Claude 3.5 Sonnet
+    creator: Anthropic
+    open_weights: false
+    aliases:
+    - claude-3-5-sonnet-20241022
+    - claude-3-5-sonnet-latest
+    - anthropic/claude-3-5-sonnet
+    proxies:
+    - ids: [claude-3-5-sonnet-20240620]
+      note: "Anthropic: the October 2024 'upgraded Claude 3.5 Sonnet' improves on its predecessor, the June 2024 release; Anthropic's deprecations page lists them as claude-3-5-sonnet-20241022 and claude-3-5-sonnet-20240620 (https://platform.claude.com/docs/en/about-claude/model-deprecations). No size or estimate is published for the June model itself."
+      source: https://www.anthropic.com/news/3-5-models-and-computer-use
+    active_params_b:
+      value: 175
+      unit: B
+      tier: 3
+      source: https://arxiv.org/html/2412.19260v1#S5.SS1
+      note: "Undisclosed by Anthropic; no EcoLogits entry. MEDEC (Ben Abacha et al., Dec 2024), sec. 5.1, lists 'Claude 3.5 Sonnet (2024-10-22) ... (175B parameters)' and says most of its parameter counts are estimates. A single third-party estimate of total size, used here as active parameters, so it may overstate compute if the model is a mixture of experts. Tier 3, default range."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://arxiv.org/html/2412.19260v1#S5.SS1
+      - resource: https://www.anthropic.com/news/3-5-models-and-computer-use
+      - resource: https://platform.claude.com/docs/en/about-claude/model-deprecations
   claude-sonnet-4-5:
     label: Claude Sonnet 4.5
     creator: Anthropic
