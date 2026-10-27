@@ -1,7 +1,29 @@
 # Changelog
 
-## Unreleased
+## 0.2.4 — 2026-10-27
 
+Method version unchanged (0.3.0): every id that resolved in 0.2.3 gives the
+same numbers. Ids that raised `UnknownModelError` before can now resolve,
+through new records, wider alias matching or proxies. The result gains a
+`proxy` field (`null` unless a proxy was used).
+
+- Add MiniMax M3.1 Flash (`minimax-m3.1-flash`): 23B active / 428B total
+  from its model card.
+- Add 20 open-weight models: Kimi K2.6, K2 Thinking and K2 Instruct 0905;
+  GLM-5.2, 5.1 and 4.7; DeepSeek V3.2, V3.1 and R1; MiniMax M2.7 and M2.1;
+  Llama 4 Maverick and Scout, Llama 3 70B and 8B, Llama-3-Groq-70B-Tool-Use,
+  AfroLlama V1; Mixtral 8x7B Instruct; Qwen3-VL-235B-A22B; Sarvam-M. Sizes
+  are from model cards or creator reports (tier 1), or computed from
+  `config.json` where the card is silent (tier 2). Llama 4 Scout gets an
+  ML.ENERGY H100 measurement.
+- Add closed models from EcoLogits' estimates (tier 2): GPT-4 Turbo, GPT-4,
+  GPT-3.5 Turbo, GPT-5.4, Gemini 2.5 Pro, Gemini 2.5 Flash, and the Gemini 3
+  Flash and 3.1 Flash-Lite previews, with the snapshot ids their vendors
+  list as aliases.
+- Give Gemini 3.7 Flash its own record; its ids were aliases of Gemini 3.8
+  Flash. Estimates are unchanged, since EcoLogits sizes both the same.
+- Add Azure OpenAI deployment names in use as aliases of GPT-4o, GPT-4o
+  mini, GPT-4 Turbo, GPT-4 and GPT-3.5 Turbo.
 - A prefixed alias now also matches the same id behind another prefix, or
   none: `accounts/fireworks/models/kimi-k3-fast` resolves through Kimi K3's
   `accounts/fireworks/routers/kimi-k3-fast` alias. A last segment shared by
