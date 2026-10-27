@@ -94,7 +94,7 @@ Every quantity is a **range object**:
 
 | Field | Type | Meaning |
 |---|---|---|
-| `model` | str | Resolved model id (aliases resolve to the canonical id) |
+| `model` | str | Resolved model id (aliases resolve to the canonical id). For a [proxy](#unknown-models-and-providers), the record it was estimated from |
 | `provider` | str | The provider the estimate used; see [how it's chosen](#unknown-models-and-providers) |
 | `method_version` | str | Version of the calculation. Store it with any figure you keep; see [versioning](#versioning-and-caching) |
 | `tokens` | `{input, output, cached_input}` | As passed |
@@ -125,6 +125,7 @@ Every quantity is a **range object**:
 | `grid.mix` | dict[str, float] | Generation share by source in `grid.region` (display only; carbon uses `carbon_intensity`). With candidate sites this is the primary region's mix, not a blend |
 | `grid.data_year` | int | Year of the grid data |
 | `provenance.{model,provider,region,hardware}` | dict | Per-record `trust` (`unverified`, `machine_confirmed`, `human_reviewed`), `status` (`draft`, `stable`, `deprecated`), `generated_by`, `stale` |
+| `proxy` | `{model, estimated_from, note, source}` or `null` | Set when `model` has no record of its own and was estimated from a related record listed as its [proxy](#unknown-models-and-providers): `model` is the proxy id, `estimated_from` the record used, `note` and `source` why they are related. `null` otherwise |
 | `requested` | `{model, provider, endpoint, region}` | What you passed, before resolution |
 
 `carbon.operational + carbon.embodied == carbon` and
@@ -151,6 +152,7 @@ affects and `<status>` is one of:
 |---|---|
 | `provider_unknown` | Nobody could be identified as serving the request: no `provider`, an `endpoint` no provider publishes, and an open-weights model. The estimate assumes an unnamed US provider, spread across every US grid that hosts cloud capacity, with an industry-average data centre. Expect a very wide range. |
 | `provider_inferred_from_model` | No `provider` or recognised `endpoint` was given, so the closed model's own vendor is assumed to serve it (`claude-*` → `anthropic`, `gpt-*` → `openai`). Wrong if the request actually went through a reseller or cloud marketplace. |
+| `model_inferred_from_sibling` | The model has no record of its own; it was estimated from a related model listed as its proxy (see `proxy`). Its size is treated as an assumption, so the range is wider and confidence is low. Always first when present. |
 | `active_params_undisclosed` | The model is closed and its vendor doesn't publish its size. The parameter count comes from outside estimates and can be off by about 3×. For closed models this is usually the biggest uncertainty after utilization. |
 | `active_params_assumed` | No model card or reliable source gives the model's active parameter count, so it is a rough estimate. Not reported when the model has measured energy per token, which replaces the parameter count. |
 | `region_assumed` | The provider doesn't say where it runs inference. The grid figures cover every site it plausibly uses, or a widened national average, so `grid.carbon_intensity` has a wide range. Pass `region` if you know the site. |
@@ -168,7 +170,19 @@ input".
 ## Unknown models and providers
 
 **An unknown model raises.** Model size drives the whole estimate, so ecocost
-won't guess it:
+won't guess it. The exception is a model a reviewer has listed as a **proxy**
+of a related record: an earlier version or sibling the vendor ties to it,
+with no size published for itself. It is estimated from that record with a
+wider range, `confidence.level` `low`, the reason
+`model_inferred_from_sibling` and a `proxy` field naming both models:
+
+```python
+>>> r = estimate("chatgpt-4o-latest", input_tokens=800, output_tokens=300)
+>>> r["model"], r["proxy"]["estimated_from"], r["confidence"]["level"]
+('gpt-4o', 'gpt-4o', 'low')
+```
+
+Any other unknown model raises:
 
 ```python
 >>> estimate("gpt-oss-120", provider="fireworks")

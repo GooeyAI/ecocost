@@ -17,6 +17,7 @@ carbon range and explained by listing every tier-3 input that went into it.
 
 from __future__ import annotations
 
+import dataclasses
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -250,6 +251,25 @@ class Estimate:
                 )
             },
         }
+
+
+def as_proxy(model: Model) -> Model:
+    """The record a proxy id is estimated from, made honest for other
+    weights: the size becomes an assumption, widened to at least the tier-3
+    half-width either way, and measured energy is dropped because it
+    measured this record's weights, not the proxy's."""
+    f = model.active_params_b
+    half_width = DEFAULT_HALF_WIDTH[Tier.assumed]
+    return dataclasses.replace(
+        model,
+        active_params_b=dataclasses.replace(
+            f,
+            tier=Tier.assumed,
+            min=min(f.min, f.value / half_width),
+            max=max(f.max, f.value * half_width),
+        ),
+        measured_wh_per_1k_output_tokens_h100=None,
+    )
 
 
 def _h100_seconds(

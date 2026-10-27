@@ -62,6 +62,10 @@ def estimate(
     region, including one implied by ``endpoint``; the provider still sets
     PUE, water use and hardware.
 
+    A model with no record that a reviewer listed as a proxy of a related one
+    is estimated from it: ``proxy`` in the result names both, the range is
+    wider and confidence is low.
+
     Ids are matched ignoring case. ``UnknownModelError``,
     ``UnknownProviderError`` and ``UnknownRegionError`` suggest close matches and where to add the
     record. Bad arguments raise ``TypeError`` or ``ValueError``.
@@ -76,7 +80,14 @@ def estimate(
         cached_input_tokens,
     )
     kb = get_kb()
-    m = kb.resolve_model(model)
+    proxy = None
+    try:
+        m = kb.resolve_model(model)
+    except UnknownModelError:
+        if not (hit := kb.resolve_proxy(model)):
+            raise
+        m, proxy_id, proxy = hit
+        m = calc.as_proxy(m)
     p, provider_reason = kb.resolve_provider(provider, endpoint=endpoint, model=m)
     if region is not None:
         # the caller knows the site: it is pinned, so no candidates or widening
@@ -100,7 +111,19 @@ def estimate(
     )
     if provider_reason:
         est.reasons.insert(0, provider_reason)
+    if proxy:
+        est.reasons.insert(0, "model_inferred_from_sibling")
     out = est.to_dict()
+    out["proxy"] = None
+    if proxy:
+        # a sibling's size is a guess however narrow the range comes out
+        out["confidence"]["level"] = "low"
+        out["proxy"] = {
+            "model": proxy_id,
+            "estimated_from": m.id,
+            "note": proxy.note,
+            "source": proxy.source,
+        }
     out["requested"] = {
         "model": model,
         "provider": provider,

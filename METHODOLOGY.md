@@ -148,10 +148,27 @@ approximation, not a statistical confidence interval.
 reported alongside as `worst_case`.
 
 **Confidence label** is computed from max ÷ min of the likely carbon range:
-under 2 is high, 2 to 5 medium, above 5 low. It is never typed in. The
+under 2 is high, 2 to 5 medium, above 5 low. It is never typed in, with one
+exception: an estimate from a [proxy](#proxies) is always low. The
 `reasons` list names every tier-3 input, so it is both the explanation and the
 to-do list: publishing a figure removes the reason for every estimate that
 depends on it.
+
+## Proxies
+
+A model with no record and no published size estimate of its own can be
+listed under a related record's `proxies`: an earlier version or a sibling
+the vendor ties to it, such as `chatgpt-4o-latest` ("the GPT-4o snapshot
+used in ChatGPT") under `gpt-4o`. Its estimate uses that record with two
+changes. The active parameter count becomes a tier-3 assumption, widened to
+at least ×2.5 either way, so the point value is the sibling's and the range
+reflects that it is a different model. Measured energy, if the record has
+it, is dropped, since it was measured on the sibling's weights. The result
+names the proxy and its sibling, lists `model_inferred_from_sibling` first
+among the reasons, and its confidence is always low.
+
+A proxy is a stopgap: it is replaced by a record of its own once a size or
+an estimate is published.
 
 ## Calibration
 

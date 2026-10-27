@@ -28,6 +28,7 @@ from .schema import (
     Model,
     Provenance,
     Provider,
+    Proxy,
     Region,
     Tier,
     Verification,
@@ -105,6 +106,8 @@ class KnowledgeBase:
         # last path segment of a prefixed alias -> canonical id, or None when
         # aliases of different models share it
         self._model_tail_index: dict[str, str | None] = {}
+        # lower-cased proxy id -> (canonical id it is estimated from, proxy)
+        self._proxy_index: dict[str, tuple[str, Proxy]] = {}
         self._provider_index: dict[str, str] = {}
         self._region_index: dict[str, str] = {}
         self.fallback_provider_id: str | None = None
@@ -175,6 +178,7 @@ class KnowledgeBase:
                 kb._index_host(host, pid)
         mdoc = _read("models.yaml")
         kb.first_party_provider = mdoc.get("first_party_provider") or {}
+        proxies: list[tuple[str, Proxy]] = []
         for mid, raw in mdoc.get("models", {}).items():
             measured = raw.get("measured_wh_per_1k_output_tokens_h100")
             kb.models[mid] = Model(
@@ -191,6 +195,12 @@ class KnowledgeBase:
             )
             for key in [mid, *(raw.get("aliases") or [])]:
                 kb._index_model(key, mid)
+            for proxy in raw.get("proxies") or []:
+                proxies.append((mid, _proxy(mid, proxy)))
+        # after every model, so a proxy can't shadow an id or alias
+        for mid, proxy in proxies:
+            for key in proxy.ids:
+                kb._index_proxy(key, mid, proxy)
         kb._validate()
         return kb
 
@@ -231,6 +241,16 @@ class KnowledgeBase:
         if mid := self._model_tail_index.get(tail.lower()):
             return self.models[mid]
         raise UnknownModelError(model_id, _similar(tail, self._model_index))
+
+    def resolve_proxy(self, model_id: str) -> tuple[Model, str, Proxy] | None:
+        """For an id listed under a record's ``proxies``: that record, the
+        proxy id as listed, and the proxy. None for any other id."""
+        for key in (model_id, model_id.rsplit("/", 1)[-1]):
+            if hit := self._proxy_index.get(key.lower()):
+                mid, proxy = hit
+                listed = next(i for i in proxy.ids if i.lower() == key.lower())
+                return self.models[mid], listed, proxy
+        return None
 
     def resolve_region(self, region_id: str) -> Region:
         """The grid region for an id from regions.yaml, ignoring case; raises
@@ -298,6 +318,36 @@ class KnowledgeBase:
             tail = key.rsplit("/", 1)[-1].lower()
             if self._model_tail_index.setdefault(tail, mid) != mid:
                 self._model_tail_index[tail] = None
+
+    def _index_proxy(self, key: str, mid: str, proxy: Proxy):
+        # resolve_model tries the id without its prefix, then that segment of
+        # any prefixed alias, before proxies; either would win
+        tail = key.rsplit("/", 1)[-1].lower()
+        if (
+            key.lower() in self._model_index
+            or tail in self._model_index
+            or self._model_tail_index.get(tail)
+        ):
+            raise ValueError(f"proxy {key!r} of {mid} is already a model id or alias")
+        if hit := self._proxy_index.get(key.lower()):
+            raise ValueError(f"proxy {key!r} of {mid} is already listed by {hit[0]}")
+        self._proxy_index[key.lower()] = (mid, proxy)
+
+
+def _proxy(mid: str, raw: dict) -> Proxy:
+    ids = raw.get("ids") if isinstance(raw, dict) else None
+    if not (
+        isinstance(ids, list) and ids and all(isinstance(i, str) and i for i in ids)
+    ):
+        raise ValueError(f"model {mid}: a proxy needs `ids`, a list of model ids")
+    proxy = Proxy(
+        ids=tuple(ids),
+        note=raw.get("note", "") or "",
+        source=raw.get("source", "") or "",
+    )
+    if not (proxy.note and proxy.source.startswith(("https://", "http://"))):
+        raise ValueError(f"model {mid}: a proxy needs a note and a source URL")
+    return proxy
 
 
 def _similar(key: str, index: dict[str, str]) -> list[str]:

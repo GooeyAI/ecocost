@@ -83,6 +83,13 @@ class Provenance(TypedDict):
     hardware: RecordProvenance
 
 
+class ProxyInfo(TypedDict):
+    model: str
+    estimated_from: str
+    note: str
+    source: str
+
+
 class Requested(TypedDict):
     model: str
     provider: str | None
@@ -103,4 +110,5 @@ class EstimateResult(TypedDict):
     confidence: Confidence
     grid: Grid
     provenance: Provenance
+    proxy: ProxyInfo | None
     requested: Requested

@@ -6,6 +6,16 @@
   none: `accounts/fireworks/models/kimi-k3-fast` resolves through Kimi K3's
   `accounts/fireworks/routers/kimi-k3-fast` alias. A last segment shared by
   aliases of two different models stays unresolved rather than guessing.
+- Proxies: a record can list `proxies`, ids of related models (an earlier
+  snapshot or a model the vendor says it is based on) that have no size or
+  estimate of their own. `estimate` uses the record for them with the size
+  treated as an assumption (tier 3, at least ×2.5 either way), measured
+  energy dropped, confidence `low`, the new reason
+  `model_inferred_from_sibling` and a new `proxy` field in the result.
+  Every other unknown model still raises `UnknownModelError`.
+- Seed proxies: `chatgpt-4o-latest` and the `gpt-4o-realtime-preview`
+  snapshots under GPT-4o, `gpt-realtime` under GPT Realtime 1.5, and
+  `gemini-3-pro-preview` under Gemini 3.1 Pro.
 
 ## 0.2.3 — 2026-10-18
 
