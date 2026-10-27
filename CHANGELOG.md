@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add GLM-5 (`glm-5`, 40B active / 744B total, tier 1), Kimi K2.5
+  (`kimi-k2.5`, 32B active / 1T total, tier 1) and MiniMax M2.5
+  (`minimax-m2.5`, 9.8B active, tier 2 from config.json), with their
+  Fireworks, Hugging Face and OpenRouter ids.
+- Proxies: GPT-Realtime 2 under GPT Realtime 2.1 (OpenAI: 2.1 updates 2),
+  and Mistral Medium 3.1 (`mistral-medium-2508`) under Mistral Medium 3.5
+  (Mistral's named replacement).
+
 - Give Claude Sonnet 4.5 its own record (`claude-sonnet-4-5`, aliases
   `claude-sonnet-4-5-20250929`, `anthropic/claude-sonnet-4-5`). Its ids were
   aliases of Claude Sonnet 5, which EcoLogits sizes smaller. Sonnet 4.5 now
