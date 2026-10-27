@@ -414,6 +414,29 @@ models:
       - resource: https://huggingface.co/zai-org/GLM-5.1/blob/main/config.json
       - resource: https://huggingface.co/zai-org/GLM-5
       - resource: https://fireworks.ai/models/fireworks/glm-5p1
+  glm-5:
+    label: GLM-5
+    creator: Z.ai
+    open_weights: true
+    total_params_b: 744
+    aliases:
+    - accounts/fireworks/models/glm-5
+    - z-ai/glm-5
+    - zai-org/glm-5
+    active_params_b:
+      value: 40
+      unit: B
+      tier: 1
+      source: https://huggingface.co/zai-org/GLM-5
+      note: "MoE, 744B total with 40B active, per the GLM-5 model card. The HF safetensors count is 753.9B, which includes the MTP layer."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/zai-org/GLM-5
+      - resource: https://fireworks.ai/models/fireworks/glm-5
   glm-4.7:
     label: GLM-4.7
     creator: Z.ai
@@ -447,6 +470,10 @@ models:
     aliases:
     - mistral/mistral-medium-latest
     - mistral-medium-latest
+    proxies:
+    - ids: [mistral-medium-2508, mistralai/mistral-medium-3.1]
+      note: "Mistral's model card for Mistral Medium 3.1 (v25.08, deprecated): 'Use Mistral Medium 3.5 for new integrations', replacement Mistral Medium 3.5; Mistral publishes no size for 3.1 and EcoLogits has no entry for it."
+      source: https://docs.mistral.ai/models/mistral-medium-3-1-25-08
     active_params_b:
       value: 128
       unit: B
@@ -1024,6 +1051,28 @@ models:
       sources:
       - resource: https://huggingface.co/moonshotai/Kimi-K2.6
       - resource: https://fireworks.ai/models/fireworks/kimi-k2p6
+  kimi-k2.5:
+    label: Kimi K2.5
+    creator: Moonshot AI
+    open_weights: true
+    total_params_b: 1000
+    aliases:
+    - accounts/fireworks/models/kimi-k2p5
+    - moonshotai/kimi-k2.5
+    active_params_b:
+      value: 32
+      unit: B
+      tier: 1
+      source: https://huggingface.co/moonshotai/Kimi-K2.5
+      note: "MoE, 8 of 384 routed + 1 shared; 1T total, plus a 400M MoonViT vision encoder. Continual pretraining of Kimi-K2-Base on ~15T mixed visual and text tokens. Native INT4."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/moonshotai/Kimi-K2.5
+      - resource: https://fireworks.ai/models/fireworks/kimi-k2p5
   kimi-k2-thinking:
     label: Kimi K2 Thinking
     creator: Moonshot AI
@@ -1191,6 +1240,33 @@ models:
       - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2/blob/main/config.json
       - resource: https://arxiv.org/html/2605.26494v2#S2.SS1
       - resource: https://fireworks.ai/models/fireworks/minimax-m2p1
+  minimax-m2.5:
+    label: MiniMax M2.5
+    creator: MiniMax
+    open_weights: true
+    total_params_b: 229.9
+    aliases:
+    - accounts/fireworks/models/minimax-m2p5
+    - fireworks/minimax-m2p5
+    - MiniMaxAI/MiniMax-M2.5
+    - minimax/minimax-m2.5
+    active_params_b:
+      value: 9.8
+      unit: B
+      tier: 2
+      source: https://huggingface.co/MiniMaxAI/MiniMax-M2.5/blob/main/config.json
+      note: "MoE, 256 experts, 8 per token. The M2.5 card states no size. Computed from config.json (62 layers, hidden 3072, expert FFN 1536, GQA 48/8 heads, head_dim 128): 9.80B non-embedding activated. Config is architecturally identical to MiniMax-M2 (same layers, dims, experts), whose tech report gives a 9.8B-activated / 229.9B-total backbone and describes M2.5 as a release in the M2 series, with post-training components that co-evolve from M2 through M2.5 to M2.7 (https://arxiv.org/html/2605.26494v2#S2.SS1). The weights repo (FP8) counts 228.7B."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2.5/blob/main/config.json
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2.5
+      - resource: https://huggingface.co/MiniMaxAI/MiniMax-M2/blob/main/config.json
+      - resource: https://arxiv.org/html/2605.26494v2#S2.SS1
+      - resource: https://fireworks.ai/models/fireworks/minimax-m2p5
   gpt-4o:
     label: GPT-4o
     creator: OpenAI
@@ -1588,6 +1664,10 @@ models:
     creator: OpenAI
     total_params_b: 440
     open_weights: false
+    proxies:
+    - ids: [gpt-realtime-2]
+      note: "OpenAI: 'GPT-Realtime-2.1 updates GPT-Realtime-2'; same prices ($4/$24 text, $32/$64 audio per 1M tokens), no size of its own."
+      source: https://developers.openai.com/api/docs/models/gpt-realtime-2.1
     active_params_b:
       value: 76
       unit: B
