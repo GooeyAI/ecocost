@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.6 — 2026-10-27
+
+Data-only release; method version unchanged (0.3.0). Every id that resolved
+in 0.2.5 gives the same numbers; the new records below add ids that raised
+`UnknownModelError` before.
 
 - Add MiMo V2.6 Flash as two records with the same size (15B active / 309B
   total, tier 1): `mimo-v2.6-flash-mopd` (alias `mimo-v2.6-flash`, the name
