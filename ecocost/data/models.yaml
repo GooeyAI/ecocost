@@ -1168,6 +1168,7 @@ models:
     open_weights: false
     aliases:
     - gpt-4o-2024-08-06
+    - openai-gpt-4o-prod-eastus2-1  # an Azure OpenAI deployment name
     proxies:
     - ids: [chatgpt-4o-latest]
       note: "OpenAI: a model alias for the GPT-4o snapshot used in ChatGPT; deprecated, no size of its own."
@@ -1196,6 +1197,7 @@ models:
     open_weights: false
     aliases:
     - gpt-4o-mini-2024-07-18
+    - openai-gpt-4o-mini-prod-eastus2-1  # an Azure OpenAI deployment name
     active_params_b:
       value: 12
       unit: B
@@ -1211,6 +1213,84 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-4-turbo:
+    label: GPT-4 Turbo
+    creator: OpenAI
+    total_params_b: 880
+    open_weights: false
+    aliases:
+    - gpt-4-turbo-2024-04-09
+    - gpt-4-turbo-preview
+    - gpt-4-0125-preview
+    - gpt-4-1106-vision-preview
+    - gpt-4-vision-preview
+    - openai-gpt-4-turbo-prod-ca-1  # an Azure OpenAI deployment name
+    active_params_b:
+      value: 152
+      unit: B
+      tier: 2
+      min: 88
+      max: 264
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gpt-4-turbo and gpt-4-turbo-2024-04-09): MoE 880B total, 88-264B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. Aliases are the snapshots OpenAI lists under GPT-4 Turbo, plus gpt-4-vision-preview, inferred to be the alias of gpt-4-1106-vision-preview: OpenAI's deprecations page lists the two together at the same price and shutdown date. Shut down 2026-10-23."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-4-turbo
+      - resource: https://developers.openai.com/api/docs/deprecations
+  gpt-4:
+    label: GPT-4
+    creator: OpenAI
+    total_params_b: 1760
+    open_weights: false
+    aliases:
+    - gpt-4-0613
+    - gpt-4-0314
+    - openai-gpt-4-prod-ca-1  # an Azure OpenAI deployment name
+    active_params_b:
+      value: 305
+      unit: B
+      tier: 2
+      min: 176
+      max: 528
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gpt-4 and gpt-4-0613): MoE 1760B total, 176-528B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. Aliases are the snapshots OpenAI lists under GPT-4. Shut down 2026-10-23."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-4
+  gpt-3.5-turbo:
+    label: GPT-3.5 Turbo
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - gpt-3.5-turbo-0125
+    - gpt-3.5-turbo-1106
+    - openai-gpt-35-turbo-prod-ca-1  # an Azure OpenAI deployment name
+    active_params_b:
+      value: 37
+      unit: B
+      tier: 2
+      min: 20
+      max: 70
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gpt-3.5-turbo, and gpt-3.5-turbo-0125 with the same figures): dense, 20-70B, flagged model-arch-not-released. Point = geometric mean. Aliases are the snapshots OpenAI lists under GPT-3.5 Turbo."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-3.5-turbo
   o4-mini:
     label: o4-mini
     creator: OpenAI
