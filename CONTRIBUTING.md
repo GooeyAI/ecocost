@@ -21,9 +21,71 @@ tightens the range. That is the most useful kind of PR.
 
 `estimate` raises `UnknownModelError` for a model that isn't in
 `models.yaml` rather than guessing its size, because a guessed size would
-dominate the estimate. If the model is another id for a model that is already
-listed (a provider's own name for the same weights), add the id to that
-model's `aliases`. Otherwise add a record:
+dominate the estimate. Every model id resolves to exactly one record, either
+as its key or through one of its `aliases` or `proxies`. The loader rejects
+an id claimed twice.
+
+### Record, alias or proxy?
+
+Work through these in order and stop at the first that fits.
+
+1. **Alias:** the id is another name for weights that are already listed.
+   Add it to that record's `aliases`. These count as the same weights:
+   - a provider or gateway prefix (`accounts/fireworks/models/x`, `openai/x`);
+   - a dated snapshot the vendor lists under that model (`gpt-5.4-2026-03-05`);
+   - a pointer the vendor documents as routing to that model (`-latest`, a
+     router such as `kimi-k3-fast`, an unsuffixed family id);
+   - a deployment name for that model (add a comment saying so);
+   - a quantised serving of the same checkpoint (FP8, NVFP4), named in `note`.
+
+   These are **not** the same weights: a preview and its release (unless the
+   vendor says they are identical), a fine-tune, a distilled or "mini"
+   variant, an earlier or later version, or anything the vendor lists as a
+   separate model. Those need their own record or a proxy, even when the
+   numbers would come out the same.
+2. **Record:** the model has a size source of its own (see the table below).
+   Add a record.
+3. **Proxy:** the model has no size or estimate of its own, but its vendor
+   ties it to a listed model. List it under that record's `proxies` (see
+   [Proxies](#proxies)).
+4. **None of these:** don't add it.
+   [Open an issue](https://github.com/GooeyAI/ecocost/issues/new) instead of
+   guessing.
+
+### Where a size comes from
+
+| Evidence | Tier | `min`/`max` |
+|---|---|---|
+| The creator's model card, tech report or release post, including the parameter count of the creator's own weights repo | 1 | omit |
+| Computed from the creator's `config.json` when the card is silent (say how in `note`) | 2 | omit |
+| Carried over from a listed model the creator says it shares an architecture with (a "post-trained version of", "same architecture as"); `source` is that model's card and `note` quotes the tie | 2 | omit |
+| A published estimate for this exact model (EcoLogits, for example); point = the rounded geometric mean of its range | 2 | the estimate's range |
+| A single third-party figure with no range (a paper's aside, for example); `note` says whether it is total or active | 3 | omit |
+| A closed model with none of the above, sized from the vendor's most similar listed model (same tier and price); `note` explains | 3 | an honest span |
+
+Look in that order: the model card, then the creator's own docs and reports,
+then EcoLogits, then Epoch AI, then secondary sources (press, blogs,
+trackers), which can support tier 2 or 3, never tier 1. Never derive a size
+from benchmark scores or throughput alone. Prefer a proxy to a tier-3 record
+when the vendor ties the models together.
+
+Other fields:
+
+- **`total_params_b`** is a plain number from the same source. If the weights
+  repo counts more (an MTP layer, a vision encoder), say so in `note`.
+- **`open_weights`** is true only once the weights can be downloaded. If they
+  are promised, set it false and say when in `note`.
+- **`measured_wh_per_1k_output_tokens_h100`** comes only from a metered H100
+  run of these exact weights (ML.ENERGY): `min` is the max-batch steady state,
+  `max` batch 8, and `value` their geometric mean. `note` gives the precision,
+  GPU count and parallelism. Leave it out for a different precision, a run
+  with no batch-8 point, or image or video tasks, which put vision energy on
+  the output tokens.
+- **The key** is the vendor's API id for a closed model, and the weights
+  repo's name (lowercased, or the short form its neighbours use) for an open
+  one. Put the record next to its creator's other records.
+
+A record looks like this:
 
 ```yaml
   gpt-oss-20b:
@@ -36,7 +98,7 @@ model's `aliases`. Otherwise add a record:
     active_params_b:                     # parameters used per token (MoE: active only)
       value: 3.6
       unit: B
-      tier: 1                            # 1 from the model card; 2 for a published estimate
+      tier: 1                            # see the table above
       source: https://huggingface.co/openai/gpt-oss-20b
       note: MoE, 3.6B active.
     measured_wh_per_1k_output_tokens_h100:   # optional; only with a metered H100 run
@@ -55,11 +117,6 @@ model's `aliases`. Otherwise add a record:
       sources:
       - resource: https://huggingface.co/openai/gpt-oss-20b
 ```
-
-For a closed model, cite a published estimate of its size (EcoLogits, for
-example) at tier 2 with an honest range, and set `open_weights: false`. If you
-can't find one, [open an issue](https://github.com/GooeyAI/ecocost/issues/new)
-instead of guessing.
 
 ### Proxies
 
@@ -88,6 +145,18 @@ listed. Its `note` must say the tie is inferred rather than stated, and
 line. A proxy can't reuse an
 id or alias. When the model gets a published size or estimate, give it a
 record and remove the proxy.
+
+### Keeping records current
+
+- When a model gets its own published size or estimate, give it a record
+  and remove it from any proxy or alias that covered it.
+- When promised weights are published, set `open_weights: true` and cite the
+  model card.
+- When a record passes its `stale_after` date, recheck its sources and
+  update the record or its `provenance`.
+- An alias that turns out to name different weights is a bug. Move the id to
+  its own record or a proxy, and if that moves an estimate, add a CHANGELOG
+  line saying it corrects a mapping, not the model's energy use.
 
 ## Adding a provider
 
@@ -167,6 +236,12 @@ every value is cited, every cited source is registered with its licence, and
 capped sources stay within their cap. CI runs the same suite on every pull request, plus ruff and a package build.
 A maintainer reviews every PR: CI can check that a number is well-formed and
 cited, not that it is right.
+
+Before opening a data PR, have every new value checked against its source by
+someone other than its author (a second person, or a fresh agent that sees
+only the diff). Each value should come back confirmed, corrected or
+unsupported. Apply corrections, drop unsupported values, and say in the PR
+that this was done.
 
 If your change moves an estimate, say by how much in the PR description, for
 example the `estimate("gpt-oss-120b", provider="your-provider", ...)` carbon
