@@ -1312,6 +1312,30 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gpt-5.4:
+    label: GPT-5.4
+    creator: OpenAI
+    total_params_b: 450
+    open_weights: false
+    aliases:
+    - gpt-5.4-2026-03-05
+    - openai/gpt-5.4
+    active_params_b:
+      value: 82
+      unit: B
+      tier: 2
+      min: 45
+      max: 150
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gpt-5.4 and gpt-5.4-2026-03-05): MoE 450B total, 45-150B active, flagged model-arch-not-released and model-arch-multimodal. gpt-5.4-2026-03-05 is the snapshot OpenAI lists for GPT-5.4. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-5.4
   gpt-5.4-mini:
     label: GPT-5.4 mini
     creator: OpenAI
@@ -2008,6 +2032,101 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  gemini-3-flash-preview:
+    label: Gemini 3 Flash preview
+    creator: Google
+    total_params_b: 300
+    open_weights: false
+    aliases:
+    - google/gemini-3-flash-preview
+    - gemini/gemini-3-flash-preview
+    active_params_b:
+      value: 173
+      unit: B
+      tier: 2
+      min: 100
+      max: 300
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gemini-3-flash-preview): MoE 300B total, 100-300B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-3-flash-preview
+  gemini-3.1-flash-lite-preview:
+    label: Gemini 3.1 Flash-Lite preview
+    creator: Google
+    open_weights: false
+    aliases:
+    - google/gemini-3.1-flash-lite-preview
+    - gemini/gemini-3.1-flash-lite-preview
+    active_params_b:
+      value: 56
+      unit: B
+      tier: 2
+      min: 30
+      max: 105
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gemini-3.1-flash-lite-preview): dense, 30-105B, flagged model-arch-not-released and model-arch-multimodal; the same estimate as gemini-3.1-flash-lite. A separate record because the preview and GA weights are not documented as identical. Shut down in the Gemini API. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite-preview
+  gemini-2.5-pro:
+    label: Gemini 2.5 Pro
+    creator: Google
+    total_params_b: 2000
+    open_weights: false
+    aliases:
+    - google/gemini-2.5-pro
+    - gemini/gemini-2.5-pro
+    active_params_b:
+      value: 346
+      unit: B
+      tier: 2
+      min: 200
+      max: 600
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gemini-2.5-pro): MoE 2000B total, 200-600B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-2.5-pro
+  gemini-2.5-flash:
+    label: Gemini 2.5 Flash
+    creator: Google
+    total_params_b: 440
+    open_weights: false
+    aliases:
+    - google/gemini-2.5-flash
+    - gemini/gemini-2.5-flash
+    active_params_b:
+      value: 76
+      unit: B
+      tier: 2
+      min: 44
+      max: 132
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gemini-2.5-flash): MoE 440B total, 44-132B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash
   gemini-3.1-pro-preview:
     label: Gemini 3.1 Pro
     creator: Google
