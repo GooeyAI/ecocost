@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A prefixed alias now also matches the same id behind another prefix, or
+  none: `accounts/fireworks/models/kimi-k3-fast` resolves through Kimi K3's
+  `accounts/fireworks/routers/kimi-k3-fast` alias. A last segment shared by
+  aliases of two different models stays unresolved rather than guessing.
+
 ## 0.2.3 — 2026-10-18
 
 Data-only release; method version unchanged (0.3.0).
