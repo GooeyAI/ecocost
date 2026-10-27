@@ -1431,8 +1431,6 @@ models:
     aliases:
     - google/gemini-3.8-flash
     - gemini/gemini-3.8-flash
-    - google/gemini-3.7-flash
-    - gemini/gemini-3.7-flash
     active_params_b:
       value: 122
       unit: B
@@ -1448,6 +1446,31 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://deepmind.google/models/model-cards/gemini-3-8-flash/
+  gemini-3.7-flash:
+    label: Gemini 3.7 Flash
+    creator: Google
+    total_params_b: 750
+    open_weights: false
+    aliases:
+    - google/gemini-3.7-flash
+    - gemini/gemini-3.7-flash
+    active_params_b:
+      value: 122
+      unit: B
+      tier: 2
+      min: 75
+      max: 200
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; model card: 'based on Gemini 3.6 Flash', no size or serving hardware. EcoLogits (gemini-3.7-flash): MoE 750B total, 75-200B active, flagged model-arch-not-released, the same estimate as gemini-3.6-flash and gemini-3.8-flash. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure. Deprecated in the Gemini API; requests to gemini-3.7-flash are now routed to gemini-3.8-flash, which has the same estimate."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-27'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-3-7-flash/
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-3.7-flash
   gemini-3.6-flash:
     label: Gemini 3.6 Flash
     creator: Google
