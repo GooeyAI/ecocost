@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- Add MiMo V2.6 Flash as two records with the same size (15B active / 309B
+  total, tier 1): `mimo-v2.6-flash-mopd` (alias `mimo-v2.6-flash`, the name
+  Xiaomi's API serves from the MOPD checkpoint) and `mimo-v2.6-flash-rl`
+  (OpenRouter's `xiaomi/mimo-v2.6-flash`, which names the RL checkpoint).
+- Add GLM-4.7 Flash (`glm-4.7-flash`, 3B active / 31.2B total, tier 1) with
+  its Fireworks, OpenRouter and Hugging Face ids.
+- Add older open models: Llama 2 70B Chat (`llama-2-70b-chat`, alias
+  `llama2-70b-4096`), Llama3 8B SEA-LION v2
+  (`llama3-8b-cpt-sea-lionv2-instruct`, the original v2 weights, not v2.1)
+  and SEA-LION v1 7B Instruct (`sea-lion-v1-7b-it`, alias
+  `aisingapore/sea-lion-7b-instruct`).
+
 ## 0.2.5 — 2026-10-27
 
 Data-only release; method version unchanged (0.3.0). Point estimates are
