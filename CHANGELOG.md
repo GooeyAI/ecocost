@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- Add Gemma 2 9B IT (`gemma-2-9b-it`, 9.24B, tier 1) with aliases
+  `gemma2-9b-it` (Groq, retired) and `google/gemma-2-9b-it`, and Gemma 7B IT
+  (`gemma-7b-it`, 8.54B, tier 1) with alias `google/gemma-7b-it`.
+- Add Pixtral Large (`pixtral-large-2411`, dense 124B, tier 1) with aliases
+  `pixtral-large-latest` and `mistralai/Pixtral-Large-Instruct-2411`, and
+  alias `mistral-large-latest` to Mistral Large 3 (`mistral-large-2512`), the
+  model Mistral's docs list it with.
+- Add Mistral Small 3 (`mistral-small-2501`, dense 23.6B, tier 1) with
+  aliases `mistral-small-24b-instruct-2501`,
+  `mistralai/mistral-small-24b-instruct-2501` (OpenRouter) and
+  `accounts/fireworks/models/mistral-small-24b-instruct-2501`.
+
 ## 0.2.6 — 2026-10-27
 
 Data-only release; method version unchanged (0.3.0). Every id that resolved

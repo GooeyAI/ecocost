@@ -170,6 +170,48 @@ models:
       source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
       note: 'Proxy: Gemma 3 27B on ML.ENERGY v3.0. min = max-batch steady state, max = batch-8; production sits
         between.'
+  gemma-2-9b-it:
+    label: Gemma 2 9B IT
+    creator: Google
+    open_weights: true
+    total_params_b: 9.24
+    aliases:
+    - gemma2-9b-it                       # Groq's API id for Gemma 2 9B (retired)
+    - google/gemma-2-9b-it
+    active_params_b:
+      value: 9.24
+      unit: B
+      tier: 1
+      source: https://huggingface.co/google/gemma-2-9b-it
+      note: Decoder-only, instruction-tuned Gemma 2 9B. 9,241,705,984 BF16 parameters per the safetensors metadata.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-29'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-29'
+      sources:
+      - resource: https://huggingface.co/google/gemma-2-9b-it
+  gemma-7b-it:
+    label: Gemma 7B IT
+    creator: Google
+    open_weights: true
+    total_params_b: 8.54
+    aliases:
+    - google/gemma-7b-it                 # the key is also Groq's (retired) API id for Gemma 7B
+    active_params_b:
+      value: 8.54
+      unit: B
+      tier: 1
+      source: https://huggingface.co/google/gemma-7b-it
+      note: Decoder-only, the 7B instruct version of the first Gemma (not Gemma 1.1). 8,537,680,896 BF16 parameters per
+        the safetensors metadata; the "7B" name rounds below the weights' count.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-29'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-29'
+      sources:
+      - resource: https://huggingface.co/google/gemma-7b-it
   qwen3.8-27b:
     label: Qwen3.8 27B
     creator: Qwen
@@ -542,6 +584,8 @@ models:
     creator: Mistral
     open_weights: true
     total_params_b: 675
+    aliases:
+    - mistral-large-latest  # Mistral's pointer; its Large 3 card lists it with mistral-large-2512
     active_params_b:
       value: 41
       unit: B
@@ -557,6 +601,29 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://docs.mistral.ai/models/mistral-large-3-25-12
+  pixtral-large-2411:
+    label: Pixtral Large
+    creator: Mistral
+    open_weights: true
+    total_params_b: 124
+    aliases:
+    - pixtral-large-latest
+    - mistralai/Pixtral-Large-Instruct-2411
+    active_params_b:
+      value: 124
+      unit: B
+      tier: 1
+      source: https://huggingface.co/mistralai/Pixtral-Large-Instruct-2411
+      note: "Dense 124B per the HF card: '123B multimodal decoder, 1B parameter vision encoder', built on Mistral Large 2 (Mistral-Large-Instruct-2407). Weights under the Mistral Research License. Deprecated on the API 2026-02-27, replaced by Mistral Medium 3.5."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-29'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-29'
+      sources:
+      - resource: https://huggingface.co/mistralai/Pixtral-Large-Instruct-2411
+      - resource: https://mistral.ai/news/pixtral-large
+      - resource: https://docs.mistral.ai/models/pixtral-large-24-11
   ministral-14b-2512:
     label: Ministral 3 14B
     creator: Mistral
@@ -597,6 +664,33 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://docs.mistral.ai/models/mistral-small-4-0-26-03
+  mistral-small-2501:
+    label: Mistral Small 3
+    creator: Mistral
+    open_weights: true
+    total_params_b: 23.6
+    aliases:
+    - mistral-small-24b-instruct-2501
+    - mistralai/mistral-small-24b-instruct-2501
+    - accounts/fireworks/models/mistral-small-24b-instruct-2501
+    active_params_b:
+      value: 23.6
+      unit: B
+      tier: 1
+      source: https://huggingface.co/mistralai/Mistral-Small-24B-Instruct-2501
+      note: "Dense (MistralForCausalLM), all parameters active; the card says 24B, the repo's safetensors metadata counts 23,572,403,200 BF16 parameters. Text-only. Mistral's release post (2025-01-30) names the API id: 'available on la Plateforme as mistral-small-latest or mistral-small-2501'. Mistral's docs mark v25.01 retired on la Plateforme (retirement date 11/30/2025, replacement Mistral Small 4) and list mistral-small-latest under Mistral Small 4, so mistral-small-latest is not aliased here."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-29'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-29'
+      sources:
+      - resource: https://huggingface.co/mistralai/Mistral-Small-24B-Instruct-2501
+      - resource: https://huggingface.co/mistralai/Mistral-Small-24B-Instruct-2501/blob/main/config.json
+      - resource: https://mistral.ai/news/mistral-small-3
+      - resource: https://docs.mistral.ai/models/mistral-small-3-0-25-01
+      - resource: https://docs.mistral.ai/models/mistral-small-4-0-26-03
+      - resource: https://fireworks.ai/models/fireworks/mistral-small-24b-instruct-2501
   mixtral-8x7b-instruct-v0.1:
     label: Mixtral 8x7B Instruct
     creator: Mistral
