@@ -2773,6 +2773,68 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  llama-3.2-1b:
+    label: Llama 3.2 1B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 1.24
+    aliases:
+    - meta-llama/Llama-3.2-1B-Instruct
+    - meta-llama/llama-3.2-1b-instruct
+    - accounts/fireworks/models/llama-v3p2-1b-instruct
+    proxies:
+    - ids: [llama-3.2-1b-preview]
+      note: "Groq's retired preview id (shut down 2025-04-14). Groq's model page links Meta's Llama-3.2-1B card and says 'With just 1.23 billion parameters', but does not say whether it served the base or the Instruct checkpoint; same architecture and parameter count either way."
+      source: https://console.groq.com/docs/model/llama-3.2-1b-preview
+    active_params_b:
+      value: 1.24
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct
+      note: Dense, text only, 128k context. 1,235,814,400 BF16 parameters per the model card's safetensors metadata (the
+        card's table says 1.23B). Input embeddings and output head are shared ("Shared Embeddings - Yes"), so that
+        matrix is counted once.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-30'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct
+      - resource: https://console.groq.com/docs/deprecations
+      - resource: https://console.groq.com/docs/model/llama-3.2-1b-preview
+      - resource: https://fireworks.ai/models/fireworks/llama-v3p2-1b-instruct
+  llama-3.2-3b:
+    label: Llama 3.2 3B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 3.21
+    aliases:
+    - meta-llama/Llama-3.2-3B-Instruct
+    - meta-llama/llama-3.2-3b-instruct
+    - accounts/fireworks/models/llama-v3p2-3b-instruct
+    proxies:
+    - ids: [llama-3.2-3b-preview]
+      note: "Groq's retired preview id (shut down 2025-04-14). Groq's model page links Meta's Llama-3.2-3B card and says 'With 3.1 billion parameters' (Meta's card says 3.21B), but does not say whether it served the base or the Instruct checkpoint; same architecture and parameter count either way."
+      source: https://console.groq.com/docs/model/llama-3.2-3b-preview
+    active_params_b:
+      value: 3.21
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct
+      note: Dense, text only, 128k context. 3,212,749,824 BF16 parameters per the model card's safetensors metadata (the
+        card's table says 3.21B). Input embeddings and output head are shared ("Shared Embeddings - Yes"), so that
+        matrix is counted once.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-30'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct
+      - resource: https://console.groq.com/docs/deprecations
+      - resource: https://console.groq.com/docs/model/llama-3.2-3b-preview
+      - resource: https://fireworks.ai/models/fireworks/llama-v3p2-3b-instruct
   llama-3.3-70b:
     label: Llama 3.3 70B Instruct
     creator: Meta
@@ -2793,12 +2855,49 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+  llama-3.1-70b:
+    label: Llama 3.1 70B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 70.55
+    aliases:
+    - accounts/fireworks/models/llama-v3p1-70b-instruct
+    - llama-3.1-70b-versatile             # Groq's API id for Llama 3.1 70B; auto-upgraded to 3.3 from 2024-12-20, retired 2025-01-24
+    - meta-llama/Llama-3.1-70B-Instruct
+    - meta-llama/llama-3.1-70b-instruct
+    - meta-llama/Meta-Llama-3.1-70B-Instruct
+    active_params_b:
+      value: 70.55
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
+      note: Dense, 128k context. 70,553,706,496 BF16 parameters per the model card's safetensors metadata. Llama
+        3.1 (July 2024), not Llama 3 or 3.3.
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.329
+      min: 0.1037
+      max: 1.044
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: ML.ENERGY v3.0, lm-arena-chat, meta-llama/Llama-3.1-70B-Instruct, bfloat16, 4xH100 TP4 (a 2xB200 TP2
+        sweep is not used). min = max-batch steady state (max_num_seqs 1024, 0.3731 J/token), max = batch-8
+        (3.7587 J/token); value = geometric mean; production sits between.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-30'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
   llama-3.1-405b:
     label: Llama 3.1 405B Instruct
     creator: Meta
     open_weights: true
     total_params_b: 405.85
     aliases:
+    - accounts/fireworks/models/llama-v3p1-405b-instruct
     - meta-llama/Llama-3.1-405B-Instruct
     active_params_b:
       value: 405.85
@@ -2806,6 +2905,7 @@ models:
       tier: 1
       source: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
       note: Dense. 405,853,388,800 BF16 parameters per the model card's safetensors metadata. A calibration anchor (METHODOLOGY.md).
+        Fireworks serves these weights in FP8 (accounts/fireworks/models/llama-v3p1-405b-instruct).
     provenance:
       generated: {by: agent:claude-opus-5-5, at: '2026-09-23'}
       verified: []
@@ -2813,7 +2913,47 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+      - resource: https://fireworks.ai/models/fireworks/llama-v3p1-405b-instruct
 
+  llama-3.1-8b:
+    label: Llama 3.1 8B Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 8.03
+    aliases:
+    - accounts/fireworks/models/llama-v3p1-8b-instruct
+    - llama-3.1-8b-instant                # Groq's id (retired 2026-08-16); its model page links the Meta card
+    - meta-llama/Llama-3.1-8B-Instruct
+    - meta-llama/llama-3.1-8b-instruct
+    - meta-llama/Meta-Llama-3.1-8B-Instruct
+    active_params_b:
+      value: 8.03
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+      note: Dense, 128k context. 8,030,261,248 BF16 parameters per the model card's safetensors metadata. Llama 3.1
+        (July 2024), not the original Llama 3 8B. Groq serves it with its TruePoint reduced-precision numerics.
+    measured_wh_per_1k_output_tokens_h100:
+      value: 0.0496
+      min: 0.0195
+      max: 0.126
+      unit: Wh per 1k output tokens, H100, GPU-only, PUE 1.0
+      tier: 1
+      source: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      note: ML.ENERGY lm-arena-chat, meta-llama/Llama-3.1-8B-Instruct, BF16, 1xH100, no tensor parallelism. min =
+        max-batch steady state (max_num_seqs 512, 0.0702 J/token; the 768 run averaged batch 691 at 0.0713), max =
+        batch 8 (0.4548 J/token); value = their geometric mean; production sits between.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-30'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+      - resource: https://raw.githubusercontent.com/ml-energy/leaderboard/master/public/data/tasks/lm-arena-chat.json
+      - resource: https://console.groq.com/docs/model/llama-3.1-8b-instant
+      - resource: https://console.groq.com/docs/deprecations
+      - resource: https://fireworks.ai/models/fireworks/llama-v3p1-8b-instruct
   llama-4-maverick:
     label: Llama 4 Maverick 17B-128E Instruct
     creator: Meta
