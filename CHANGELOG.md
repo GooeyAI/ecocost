@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- Add Llama 3.1 8B Instruct (`llama-3.1-8b`, 8.03B, tier 1, with an ML.ENERGY
+  H100 measurement) and Llama 3.1 70B Instruct (`llama-3.1-70b`, 70.55B,
+  tier 1, with an ML.ENERGY H100 measurement), with their Groq
+  (`llama-3.1-8b-instant`, `llama-3.1-70b-versatile`), Fireworks, OpenRouter
+  and Hugging Face ids.
+- Add Llama 3.2 1B Instruct (`llama-3.2-1b`, 1.24B, tier 1) and Llama 3.2 3B
+  Instruct (`llama-3.2-3b`, 3.21B, tier 1) with their Fireworks, OpenRouter
+  and Hugging Face ids. Groq's retired `llama-3.2-1b-preview` and
+  `llama-3.2-3b-preview` are proxies, since Groq does not say whether it
+  served the base or the Instruct checkpoint.
+- Add alias `accounts/fireworks/models/llama-v3p1-405b-instruct` to Llama 3.1
+  405B Instruct (`llama-3.1-405b`); Fireworks serves these weights in FP8.
+
 ## 0.2.6 — 2026-10-27
 
 Data-only release; method version unchanged (0.3.0). Every id that resolved
