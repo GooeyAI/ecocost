@@ -1523,6 +1523,9 @@ models:
     - ids: [gpt-4-0314]
       note: "The earlier GPT-4 snapshot, which OpenAI lists under GPT-4 alongside gpt-4-0613. No estimate of its own."
       source: https://developers.openai.com/api/docs/models/gpt-4
+    - ids: [gpt-4-32k, gpt-4-32k-0314, openai-gpt-4-32k-prod-ca-1]
+      note: "OpenAI's GPT-4 release post: 'We are also providing limited access to our 32,768–context (about 50 pages of text) version, gpt-4-32k', alongside gpt-4 with 8,192 context. No estimate of its own; openai-gpt-4-32k-prod-ca-1 is an Azure OpenAI deployment name serving gpt-4-32k."
+      source: https://openai.com/index/gpt-4-research/
     active_params_b:
       value: 305
       unit: B
@@ -1539,6 +1542,7 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://developers.openai.com/api/docs/models/gpt-4
+      - resource: https://openai.com/index/gpt-4-research/
   gpt-3.5-turbo:
     label: GPT-3.5 Turbo
     creator: OpenAI
@@ -1568,6 +1572,27 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://developers.openai.com/api/docs/models/gpt-3.5-turbo
+  gpt-3.5-turbo-instruct:
+    label: GPT-3.5 Instruct
+    creator: OpenAI
+    open_weights: false
+    active_params_b:
+      value: 37
+      unit: B
+      tier: 2
+      min: 20
+      max: 70
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gpt-3.5-turbo-instruct): dense, 20-70B, flagged model-arch-not-released. Point = geometric mean. OpenAI's model page lists it as its own model ('An older model only compatible with the legacy Completions endpoint'), not as a snapshot of gpt-3.5-turbo. Shut down 2026-09-28."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-31'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/gpt-3.5-turbo-instruct
+      - resource: https://developers.openai.com/api/docs/deprecations
   o4-mini:
     label: o4-mini
     creator: OpenAI
@@ -2779,6 +2804,7 @@ models:
     open_weights: true
     total_params_b: 70.55
     aliases:
+    - llama-3.3-70b-versatile            # Groq's API id for Llama 3.3 70B (shut down 2026-08-16 for free/developer tiers)
     - meta-llama/Llama-3.3-70B-Instruct
     active_params_b:
       value: 70.55
@@ -2793,6 +2819,60 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+  llama-3.2-11b-vision:
+    label: Llama 3.2 11B Vision Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 10.67
+    aliases:
+    - meta-llama/Llama-3.2-11B-Vision-Instruct
+    - accounts/fireworks/models/llama-v3p2-11b-vision-instruct
+    proxies:
+    - ids: [llama-3.2-11b-vision-preview]
+      note: "Groq's retired preview id (shut down 2025-04-14). Groq's deprecations page (Oct 18, 2024 entry) says 'In September 2024, we made Meta's Llama 3.2 vision models available on GroqCloud' and lists llama-3.2-11b-vision-preview as the replacement for its Llama 3.2 11B Text Preview ('hosting Llama 3.2 11B Vision'); a Dec 2024 snapshot of Groq's model list linked Meta's base Llama-3.2-11B-Vision card. Groq does not say whether it served the base or the Instruct checkpoint; same architecture, and the parameter counts differ by 0.3% (10.64B base, 10.67B Instruct)."
+      source: https://console.groq.com/docs/deprecations
+    active_params_b:
+      value: 10.67
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct
+      note: Dense, 128k context. 10,670,220,835 BF16 parameters per the safetensors metadata of the creator's repo (the card's table says 11B (10.6)). Includes the cross-attention vision adapter and image encoder (the card does not split the count). The card says it is built on the Llama 3.1 text-only model.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-31'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct
+      - resource: https://console.groq.com/docs/deprecations
+      - resource: https://fireworks.ai/models/fireworks/llama-v3p2-11b-vision-instruct
+  llama-3.2-90b-vision:
+    label: Llama 3.2 90B Vision Instruct
+    creator: Meta
+    open_weights: true
+    total_params_b: 88.59
+    aliases:
+    - meta-llama/Llama-3.2-90B-Vision-Instruct
+    - accounts/fireworks/models/llama-v3p2-90b-vision-instruct
+    proxies:
+    - ids: [llama-3.2-90b-vision-preview]
+      note: "Groq's retired preview id (shut down 2025-04-14). Groq's deprecations page (Nov 25, 2024 entry) says it would deprecate Llama 3.2 90B Text Preview 'in favor of hosting the Llama 3.2 90B Vision Preview model', naming llama-3.2-90b-vision-preview; a Dec 2024 snapshot of Groq's model list linked Meta's base Llama-3.2-90B-Vision card. Groq does not say whether it served the base or the Instruct checkpoint; same architecture, and the parameter counts are identical (88.59B)."
+      source: https://console.groq.com/docs/deprecations
+    active_params_b:
+      value: 88.59
+      unit: B
+      tier: 1
+      source: https://huggingface.co/meta-llama/Llama-3.2-90B-Vision-Instruct
+      note: Dense, 128k context. 88,593,355,323 BF16 parameters per the safetensors metadata of the creator's repo (the card's table says 90B (88.8); the metadata total is used). Includes the cross-attention vision adapter and image encoder (the card does not split the count). The card says it is built on the Llama 3.1 text-only model.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-31'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-30'
+      sources:
+      - resource: https://huggingface.co/meta-llama/Llama-3.2-90B-Vision-Instruct
+      - resource: https://console.groq.com/docs/deprecations
+      - resource: https://fireworks.ai/models/fireworks/llama-v3p2-90b-vision-instruct
   llama-3.1-405b:
     label: Llama 3.1 405B Instruct
     creator: Meta

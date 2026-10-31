@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- Add Llama 3.2 11B Vision Instruct (`llama-3.2-11b-vision`, 10.67B, tier 1)
+  and Llama 3.2 90B Vision Instruct (`llama-3.2-90b-vision`, 88.59B, tier 1)
+  with their Fireworks and Hugging Face ids. Groq's retired
+  `llama-3.2-11b-vision-preview` and `llama-3.2-90b-vision-preview` are
+  proxies, since Groq does not say whether it served the base or the Instruct
+  checkpoint.
+- Add GPT-3.5 Turbo Instruct (`gpt-3.5-turbo-instruct`, 37B active, 20-70B,
+  tier 2 from EcoLogits).
+- Add `gpt-4-32k`, `gpt-4-32k-0314` and an Azure OpenAI deployment name for
+  it as proxies of GPT-4 (`gpt-4`), citing OpenAI's GPT-4 release post.
+- Add alias `llama-3.3-70b-versatile` (Groq's id) to Llama 3.3 70B Instruct
+  (`llama-3.3-70b`).
+
 ## 0.2.6 — 2026-10-27
 
 Data-only release; method version unchanged (0.3.0). Every id that resolved
