@@ -147,6 +147,7 @@ sources:
     title: Inference providers' own documentation and filings
     match:
       - developers.openai.com
+      - openai.com/index
       - anthropic.com
       - platform.claude.com
       - mistral.ai
@@ -154,6 +155,7 @@ sources:
       - docs.cloud.google.com
       - alibabacloud.com
       - fireworks.ai
+      - console.groq.com
       - modal.com
       - vercel.com
       - novita.ai
