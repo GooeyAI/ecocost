@@ -664,6 +664,28 @@ models:
       sources:
       - resource: https://huggingface.co/sarvamai/sarvam-m
       - resource: https://huggingface.co/sarvamai/sarvam-m/blob/main/config.json
+  sarvam-2b-v0.5:
+    label: Sarvam 2B
+    creator: Sarvam AI
+    open_weights: true
+    total_params_b: 2.51
+    aliases:
+    - sarvamai/sarvam-2b-v0.5
+    active_params_b:
+      value: 2.51
+      unit: B
+      tier: 1
+      source: https://huggingface.co/sarvamai/sarvam-2b-v0.5
+      note: Dense (LlamaForCausalLM), all parameters active; 2,508,834,816 BF16 parameters per the repo's safetensors metadata.
+        An early, pre-trained-only checkpoint of sarvam-2b; the fully trained version is released separately as sarvam-1.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-28'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-28'
+      sources:
+      - resource: https://huggingface.co/sarvamai/sarvam-2b-v0.5
+      - resource: https://huggingface.co/sarvamai/sarvam-2b-v0.5/blob/main/config.json
   sunflower-14b:
     label: Sunflower 14B
     creator: Sunbird AI
@@ -2417,6 +2439,10 @@ models:
     aliases:
     - google/gemini-2.5-pro
     - gemini/gemini-2.5-pro
+    proxies:
+    - ids: [gemini-2.5-pro-preview-03-25]
+      note: "Google's Gemini API changelog: gemini-2.5-pro-preview-03-25 was 'a public preview Gemini 2.5 Pro version with billing enabled' (2025-04-04); from 2025-05-06 it would 'automatically point to' gemini-2.5-pro-preview-05-06, and from 2025-06-26 it was 'redirecting to the latest stable version' gemini-2.5-pro, before its 2025-12-02 shutdown. A preview snapshot later replaced by the stable release, not documented as the same weights; no estimate of its own."
+      source: https://ai.google.dev/gemini-api/docs/changelog
     active_params_b:
       value: 346
       unit: B
@@ -2433,6 +2459,7 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://ai.google.dev/gemini-api/docs/models/gemini-2.5-pro
+      - resource: https://ai.google.dev/gemini-api/docs/changelog
   gemini-2.5-flash:
     label: Gemini 2.5 Flash
     creator: Google
@@ -2441,6 +2468,10 @@ models:
     aliases:
     - google/gemini-2.5-flash
     - gemini/gemini-2.5-flash
+    proxies:
+    - ids: [gemini-2.5-flash-preview-04-17]
+      note: "Google's Gemini API changelog: gemini-2.5-flash-preview-04-17 was 'a Gemini preview model optimized for price-performance and adaptive thinking' (2025-04-17); on 2025-06-17 Google released gemini-2.5-flash, 'our first stable 2.5 Flash model', and said the 04-17 preview 'will be deprecated on July 15, 2025'. A preview replaced by the stable release, not documented as the same weights; no estimate of its own."
+      source: https://ai.google.dev/gemini-api/docs/changelog
     active_params_b:
       value: 76
       unit: B
@@ -2457,6 +2488,31 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash
+      - resource: https://ai.google.dev/gemini-api/docs/changelog
+  gemini-2.5-flash-lite:
+    label: Gemini 2.5 Flash-Lite
+    creator: Google
+    open_weights: false
+    aliases:
+    - google/gemini-2.5-flash-lite
+    - gemini/gemini-2.5-flash-lite
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 2
+      min: 8
+      max: 28
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (gemini-2.5-flash-lite): dense, 8-28B, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean of that range (14.97B, rounded). Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-28'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-28'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-lite
+      - resource: https://ai.google.dev/gemini-api/docs/changelog
   gemini-3.1-pro-preview:
     label: Gemini 3.1 Pro
     creator: Google
@@ -2962,6 +3018,29 @@ models:
       stale_after: '2027-04-27'
       sources:
       - resource: https://huggingface.co/Groq/Llama-3-Groq-70B-Tool-Use
+  llama-3-groq-8b-tool-use:
+    label: Llama 3 Groq 8B Tool Use
+    creator: Groq
+    open_weights: true
+    total_params_b: 8.03
+    aliases:
+    - Groq/Llama-3-Groq-8B-Tool-Use
+    - llama3-groq-8b-8192-tool-use-preview
+    active_params_b:
+      value: 8.03
+      unit: B
+      tier: 1
+      source: https://huggingface.co/Groq/Llama-3-Groq-8B-Tool-Use
+      note: Dense. The card calls it the 8B version, fully fine-tuned (plus DPO) from Llama 3 8B; 8,030,310,400
+        BF16 parameters per the safetensors metadata (a few added tokens over the base). Fine-tune, not the
+        base weights.
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-10-28'}
+      verified: []
+      status: draft
+      stale_after: '2027-04-28'
+      sources:
+      - resource: https://huggingface.co/Groq/Llama-3-Groq-8B-Tool-Use
   afrollama_v1:
     label: AfroLlama V1
     creator: Jacaranda Health

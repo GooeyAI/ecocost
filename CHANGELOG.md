@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Add Gemini 2.5 Flash-Lite (`gemini-2.5-flash-lite`, 15B active, 8-28B,
+  tier 2 from EcoLogits) with its `google/` and `gemini/` ids.
+- Add the Gemini 2.5 preview snapshots `gemini-2.5-flash-preview-04-17` and
+  `gemini-2.5-pro-preview-03-25` as proxies of `gemini-2.5-flash` and
+  `gemini-2.5-pro`, citing Google's Gemini API changelog.
+- Add Llama 3 Groq 8B Tool Use (`llama-3-groq-8b-tool-use`, 8.03B dense,
+  tier 1) with aliases `Groq/Llama-3-Groq-8B-Tool-Use` and
+  `llama3-groq-8b-8192-tool-use-preview`.
+- Add Sarvam 2B v0.5 (`sarvam-2b-v0.5`, 2.51B dense, tier 1), alias
+  `sarvamai/sarvam-2b-v0.5`.
+
 ## 0.2.6 — 2026-10-27
 
 Data-only release; method version unchanged (0.3.0). Every id that resolved
