@@ -626,6 +626,27 @@ models:
       - resource: https://huggingface.co/mistralai/Pixtral-Large-Instruct-2411
       - resource: https://mistral.ai/news/pixtral-large
       - resource: https://docs.mistral.ai/models/pixtral-large-24-11
+  mistral-large-2411:
+    label: Mistral Large 2.1
+    creator: Mistral
+    open_weights: true
+    total_params_b: 123
+    aliases:
+    - mistralai/mistral-large-instruct-2411   # the weights repo Mistral's model page links
+    active_params_b:
+      value: 123
+      unit: B
+      tier: 1
+      source: https://huggingface.co/mistralai/Mistral-Large-Instruct-2411
+      note: "Dense, all parameters active: the card says 'dense Large Language Model (LLM) of 123B parameters'; the repo's safetensors metadata counts 122,610,069,504 BF16 parameters. Mistral's model page for Mistral Large 2.1 (v24.11, API id mistral-large-2411, deprecated) links these weights. Weights under the Mistral Research License (non-commercial)."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-05'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-05'
+      sources:
+      - resource: https://huggingface.co/mistralai/Mistral-Large-Instruct-2411
+      - resource: https://docs.mistral.ai/models/mistral-large-2-1-24-11
   ministral-14b-2512:
     label: Ministral 3 14B
     creator: Mistral
@@ -1200,16 +1221,16 @@ models:
   kimi-k3.1-pro:
     label: Kimi K3.1 Pro
     creator: Moonshot AI
-    open_weights: false
+    open_weights: true
     total_params_b: 2800
     aliases:
     - moonshotai/kimi-k3.1-pro
     active_params_b:
       value: 104
       unit: B
-      tier: 2
-      source: https://huggingface.co/moonshotai/Kimi-K3
-      note: "Moonshot: 'Kimi K3.1 Pro is a post-trained version of Kimi K3' (https://www.kimi.ai/blog/kimi-k3-1-pro), so the size is carried over from Kimi K3's model card: 2.8T total, 104B active (16 of 896 experts). Tier 2: carried over, not stated for K3.1 Pro. Weights are promised by 2026-11-04 and not released as of 2026-10-27, hence open_weights false."
+      tier: 1
+      source: https://huggingface.co/moonshotai/Kimi-K3.1-Pro
+      note: "MoE, 16 of 896 experts per token (plus 2 shared): 2.8T total, 104B activated per the Kimi K3.1 Pro model card, which describes it as post-trained from Kimi K3 (same size as Kimi K3's card). The repo's safetensors metadata counts 2,780,110,363,392 parameters. The separately reported 401M vision encoder is not added to text-token FLOPs. The weights are published on Hugging Face as moonshotai/Kimi-K3.1-Pro, hence open_weights true (checked 2026-11-05)."
     provenance:
       generated: {by: 'agent:claude-model-research', at: '2026-10-27'}
       verified: []
@@ -1218,6 +1239,7 @@ models:
       sources:
       - resource: https://www.kimi.ai/blog/kimi-k3-1-pro
       - resource: https://huggingface.co/moonshotai/Kimi-K3
+      - resource: https://huggingface.co/moonshotai/Kimi-K3.1-Pro
   kimi-k2.6:
     label: Kimi K2.6
     creator: Moonshot AI

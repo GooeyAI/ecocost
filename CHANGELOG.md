@@ -62,6 +62,14 @@
   provider or endpoint are unchanged. A call with neither no longer assumes
   Mistral serves it (open weights can be served anywhere) and uses the
   fallback provider instead, so its estimate changes.
+- Add Mistral Large 2.1 (`mistral-large-2411`, dense 123B, tier 1) with its
+  Hugging Face id `mistralai/Mistral-Large-Instruct-2411`. The id raised
+  `UnknownModelError` before; no existing estimate moves.
+- Kimi K3.1 Pro (`kimi-k3.1-pro`): the weights are now published on Hugging
+  Face, so `open_weights` is true, and the size (2.8T total, 104B active) is
+  now cited from its own model card (tier 1) instead of being carried over
+  from Kimi K3. Size and central estimates are unchanged; the estimate ranges
+  narrow slightly with the higher tier.
 
 ## 0.2.6 — 2026-10-27
 
