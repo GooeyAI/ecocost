@@ -558,18 +558,19 @@ models:
   mistral-large-4:
     label: Mistral Large 4
     creator: Mistral
-    open_weights: false
+    open_weights: true
     total_params_b: 1050
     aliases:
     - mistral-large-4-0
     - mistral/mistral-large-4
     - mistral/mistral-large-4-0
+    - mistralai/mistral-large-4-1t-a52b
     active_params_b:
       value: 52
       unit: B
       tier: 1
       source: https://docs.mistral.ai/models/mistral-large-4
-      note: "Public preview, granular MoE: 52B active and 1.05T total per the model card, corroborated by the launch announcement. The research index still says 49B; use the detailed card. The separately reported 1.6B vision encoder is not added to text-token FLOPs. Weights are promised for the end of October 2026 but are not released as of 2026-10-08, hence open_weights false. No measured inference energy is published."
+      note: "Public preview, granular MoE: 52B active and 1.05T total per the model card, corroborated by the launch announcement. The research index says 49B, which the Hugging Face card explains as the active count without embeddings and output layers; use the 52B total active count. The separately reported 1.6B vision encoder is not added to text-token FLOPs. The weights are published on Hugging Face as mistralai/Mistral-Large-4-1T-A52B (https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B), whose card says the model is served on the Mistral API as mistral-large-4 and gives the same size (1T total, 49B active, 52B including embeddings and output layers); hence open_weights true (checked 2026-11-04). No measured inference energy is published."
     provenance:
       generated: {by: 'agent:codex-research', at: '2026-10-08'}
       verified: []
@@ -579,6 +580,7 @@ models:
       - resource: https://docs.mistral.ai/models/mistral-large-4
       - resource: https://mistral.ai/news/mistral-large-4
       - resource: https://mistral.ai/research/
+      - resource: https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B
   mistral-large-2512:
     label: Mistral Large 3
     creator: Mistral

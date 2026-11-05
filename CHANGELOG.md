@@ -56,6 +56,12 @@
 - Add `gpt-4o-mini-realtime-preview` and
   `gpt-4o-mini-realtime-preview-2024-12-17` as proxies of GPT Realtime mini
   (`gpt-realtime-mini`), its replacement on OpenAI's deprecations page.
+- Mistral Large 4 (`mistral-large-4`): the weights are now published on
+  Hugging Face, so `open_weights` is true; add the Hugging Face id
+  `mistralai/Mistral-Large-4-1T-A52B` as an alias. Size and estimates with a
+  provider or endpoint are unchanged. A call with neither no longer assumes
+  Mistral serves it (open weights can be served anywhere) and uses the
+  fallback provider instead, so its estimate changes.
 
 ## 0.2.6 — 2026-10-27
 
