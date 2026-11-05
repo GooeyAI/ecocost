@@ -47,6 +47,15 @@
   it as proxies of GPT-4 (`gpt-4`), citing OpenAI's GPT-4 release post.
 - Add alias `llama-3.3-70b-versatile` (Groq's id) to Llama 3.3 70B Instruct
   (`llama-3.3-70b`).
+- Add OpenAI o1 (`o1`, alias `o1-2024-12-17`, 76B active, 44-132B, tier 2
+  from EcoLogits), with `o1-preview` and `o1-preview-2024-09-12` as proxies
+  (OpenAI lists them among o1's snapshots).
+- Add OpenAI o3-mini (`o3-mini`, alias `o3-mini-2025-01-31`, 15B active,
+  8-28B, tier 2 from EcoLogits), with `o1-mini` and `o1-mini-2024-09-12` as
+  proxies (OpenAI's o1-mini page recommends o3-mini in its place).
+- Add `gpt-4o-mini-realtime-preview` and
+  `gpt-4o-mini-realtime-preview-2024-12-17` as proxies of GPT Realtime mini
+  (`gpt-realtime-mini`), its replacement on OpenAI's deprecations page.
 
 ## 0.2.6 — 2026-10-27
 

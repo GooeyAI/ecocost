@@ -1730,6 +1730,62 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+  o1:
+    label: o1
+    creator: OpenAI
+    total_params_b: 440
+    open_weights: false
+    aliases:
+    - o1-2024-12-17
+    proxies:
+    - ids: [o1-preview, o1-preview-2024-09-12]
+      note: "OpenAI lists o1-preview and o1-preview-2024-09-12 among the snapshots and aliases for o1, and its o1-preview page calls it a 'Research preview of the o1 series'; a preview later replaced by the release, so not the same weights. No estimate of o1-preview itself."
+      source: https://developers.openai.com/api/docs/models/o1
+    active_params_b:
+      value: 76
+      unit: B
+      tier: 2
+      min: 44
+      max: 132
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (o1 and o1-2024-12-17): MoE 440B total, 44-132B active, flagged model-arch-not-released and model-arch-multimodal. o1-2024-12-17 is the snapshot OpenAI's o1 alias points to. Point = geometric mean of that range. Tier 2: a published estimate, not a disclosure."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-01'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-01'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/o1
+      - resource: https://developers.openai.com/api/docs/models/o1-preview
+  o3-mini:
+    label: o3-mini
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - o3-mini-2025-01-31
+    proxies:
+    - ids: [o1-mini-2024-09-12, o1-mini]
+      note: "OpenAI's o1-mini model page: 'we recommend using the newer o3-mini model that features higher intelligence at the same latency and price as o1-mini'. o1-mini-2024-09-12 is its only snapshot; OpenAI publishes no size for it and EcoLogits has no entry for it. Shut down 2025-10-27 (OpenAI deprecations page)."
+      source: https://developers.openai.com/api/docs/models/o1-mini
+    active_params_b:
+      value: 15
+      unit: B
+      tier: 2
+      min: 8
+      max: 28
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (o3-mini and o3-mini-2025-01-31): dense, 8-28B, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean. o3-mini-2025-01-31 is the only snapshot OpenAI lists for o3-mini. Shut down 2026-10-23."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-01'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-01'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://developers.openai.com/api/docs/models/o3-mini
+      - resource: https://developers.openai.com/api/docs/models/o1-mini
+      - resource: https://developers.openai.com/api/docs/deprecations
   gpt-5.4:
     label: GPT-5.4
     creator: OpenAI
@@ -2000,6 +2056,10 @@ models:
     label: GPT Realtime mini
     creator: OpenAI
     open_weights: false
+    proxies:
+    - ids: [gpt-4o-mini-realtime-preview, gpt-4o-mini-realtime-preview-2024-12-17]
+      note: "OpenAI's deprecations page names gpt-realtime-mini as the replacement for gpt-4o-mini-realtime-preview, a preview release of the GPT-4o mini Realtime model; same text prices ($0.60/$2.40 per 1M tokens), no size of its own."
+      source: https://developers.openai.com/api/docs/deprecations
     active_params_b:
       value: 12
       unit: B
