@@ -1,6 +1,17 @@
 # Changelog
 
-## Unreleased
+## 0.2.7 — 2026-11-05
+
+Data-only release; method version unchanged (0.3.0). Ids that raised
+`UnknownModelError` before can now resolve through the new records, aliases
+and proxies below. Every id that resolved in 0.2.6 gives the same numbers,
+except two:
+
+- Mistral Large 4, called with neither `provider` nor `endpoint`, now uses
+  the fallback provider instead of Mistral, since its weights are open, so
+  its estimate changes. Calls that name a provider or endpoint are unchanged.
+- Kimi K3.1 Pro keeps its point estimates; its ranges narrow slightly now
+  that its size is tier 1.
 
 - Add Gemini 2.5 Flash-Lite (`gemini-2.5-flash-lite`, 15B active, 8-28B,
   tier 2 from EcoLogits) with its `google/` and `gemini/` ids.
