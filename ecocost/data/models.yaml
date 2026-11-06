@@ -1994,7 +1994,7 @@ models:
       min: 38
       max: 112
       source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      note: "Undisclosed. EcoLogits (2026-10-08) estimates MoE 375B total and 38-112B active, flagged model-arch-not-released. Point is the rounded geometric mean (65.24B). This is a published estimate, not an OpenAI disclosure or measured energy. Separate weights from GPT-6 Sol; matching prices do not establish matching compute."
+      note: "Undisclosed. EcoLogits (2026-10-08) estimates MoE 375B total and 38-112B active, flagged model-arch-not-released and model-arch-multimodal. Point is the rounded geometric mean (65.24B). This is a published estimate, not an OpenAI disclosure or measured energy. Separate weights from GPT-6 Sol; matching prices do not establish matching compute."
     provenance:
       generated: {by: 'agent:codex-research', at: '2026-10-08'}
       verified: []
@@ -2004,54 +2004,79 @@ models:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://developers.openai.com/api/docs/models/gpt-6.1-sol
       - resource: https://developers.openai.com/api/docs/changelog
+  gpt-6.1-terra:
+    label: GPT-6.1 Terra
+    creator: OpenAI
+    open_weights: false
+    aliases:
+    - openai/gpt-6.1-terra
+    active_params_b:
+      value: 55
+      unit: B
+      tier: 3
+      min: 20
+      max: 112
+      source: https://developers.openai.com/api/docs/models/gpt-6.1-terra
+      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no gpt-6.1-terra as of 2026-11-06). Derived from gpt-5.6-terra (45-82-150), the previous Terra model. Priced $1/$5 vs $2/$12 for gpt-5.6-terra (0.42-0.5x), which alone would scale it to ~37B; a same-size successor (82B) is equally plausible. Point = geometric mean of the two (55). Min = gpt-5.6-terra's EcoLogits min scaled by price (~20). Max = gpt-6.1-sol's EcoLogits max (112): the same-generation Sol is priced 2x ($2/$10), so Terra is taken as no larger."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-06'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-06'
+      sources:
+      - resource: https://developers.openai.com/api/docs/models/gpt-6.1-terra
+      - resource: https://developers.openai.com/api/docs/models/gpt-5.6-terra
+      - resource: https://developers.openai.com/api/docs/models/gpt-6.1-sol
+      - resource: https://developers.openai.com/api/docs/changelog
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
   gpt-6-sol:
     label: GPT-6 Sol
     creator: OpenAI
     open_weights: false
+    total_params_b: 375
     aliases:
     - openai/gpt-6-sol
     active_params_b:
-      value: 115
+      value: 65
       unit: B
-      tier: 3
-      min: 45
-      max: 300
-      source: https://developers.openai.com/api/docs/pricing
-      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no gpt-6-sol as of 2026-09-23). Derived from gpt-5.6-sol (90-164-300). Priced $2/$10, half of gpt-5.6-sol ($4/$20) and level with gpt-5.6-terra, which alone would scale it to ~82B. But OpenAI attributes the cut to inference and caching improvements, not a smaller model, so a same-size successor is equally plausible (164B). Point = geometric mean of the two (115). Min = gpt-5.6-terra's EcoLogits min; max = gpt-5.6-sol's. Decode speed (Artificial Analysis: 104-115 tok/s vs 82 for gpt-5.6-sol) is not used: OpenAI's gpt-5.6-terra and gpt-5.6-sol decode at the same speed (85 vs 82), so it does not track size there."
+      tier: 2
+      min: 38
+      max: 112
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (checked 2026-11-06) estimates MoE 375B total and 38-112B active, flagged model-arch-not-released and model-arch-multimodal. Point is the rounded geometric mean (65.24B). This is a published estimate, not an OpenAI disclosure or measured energy. Replaces the earlier tier-3 derivation from gpt-5.6-sol (45-115-300), made before EcoLogits listed this model."
     provenance:
-      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      generated: {by: 'agent:claude-model-research', at: '2026-11-06'}
       verified: []
       status: draft
-      stale_after: '2027-03-31'
+      stale_after: '2027-05-06'
       sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://developers.openai.com/api/docs/models/gpt-6-sol
-      - resource: https://developers.openai.com/api/docs/pricing
-      - resource: https://artificialanalysis.ai/models/gpt-6-sol
-      - resource: https://artificialanalysis.ai/models/gpt-5-6-sol
+      - resource: https://developers.openai.com/api/docs/changelog
   gpt-6-luna:
     label: GPT-6 Luna
     creator: OpenAI
     open_weights: false
+    total_params_b: 38
     aliases:
     - openai/gpt-6-luna
     active_params_b:
-      value: 22
+      value: 6.5
       unit: B
-      tier: 3
-      min: 8
-      max: 60
-      source: https://developers.openai.com/api/docs/pricing
-      note: "Undisclosed; no published estimate yet (EcoLogits models.json has no gpt-6-luna as of 2026-09-23). Derived from gpt-5.6-luna (18-33-60). Priced $0.10/$0.50 vs $0.20/$1.20 for gpt-5.6-luna (0.42-0.5x), which alone would scale it to ~15B; OpenAI attributes the cut to inference and caching improvements, and decode speed is unchanged (Artificial Analysis 154 vs 143 tok/s), so a same-size successor (33B) is equally plausible. Point = geometric mean (22). Min = gpt-5.6-luna's min scaled by price (~8); max = gpt-5.6-luna's."
+      tier: 2
+      min: 3.8
+      max: 11
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (checked 2026-11-06) estimates MoE 38B total and 3.8-11B active, flagged model-arch-not-released and model-arch-multimodal. Point is the rounded geometric mean (6.47B). This is a published estimate, not an OpenAI disclosure or measured energy. Replaces the earlier tier-3 derivation from gpt-5.6-luna (8-22-60), made before EcoLogits listed this model."
     provenance:
-      generated: {by: 'agent:claude-opus-5-5', at: '2026-09-23'}
+      generated: {by: 'agent:claude-model-research', at: '2026-11-06'}
       verified: []
       status: draft
-      stale_after: '2027-03-31'
+      stale_after: '2027-05-06'
       sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://developers.openai.com/api/docs/models/gpt-6-luna
-      - resource: https://developers.openai.com/api/docs/pricing
-      - resource: https://artificialanalysis.ai/models/gpt-6-luna
-      - resource: https://artificialanalysis.ai/models/gpt-5-6-luna
+      - resource: https://developers.openai.com/api/docs/changelog
   gpt-realtime-2.1:
     label: GPT Realtime 2.1
     creator: OpenAI
