@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Add GPT-6.1 Terra (`gpt-6.1-terra`, 55B active, 20-112B, tier 3, sized
+  from GPT-5.6 Terra and GPT-6.1 Sol by price), alias `openai/gpt-6.1-terra`.
+- GPT-6 Sol and GPT-6 Luna now cite EcoLogits' published estimates (tier 2:
+  65B active, 38-112B, 375B total; and 6.5B active, 3.8-11B, 38B total)
+  instead of tier-3 derivations from GPT-5.6. Their estimates fall: at 800
+  input / 300 output tokens, `gpt-6-sol` 0.12 -> 0.0678 gCO2e and
+  `gpt-6-luna` 0.023 -> 0.00678 gCO2e. This updates the size data, not the
+  method.
+
 ## 0.2.7 — 2026-11-05
 
 Data-only release; method version unchanged (0.3.0). Ids that raised
