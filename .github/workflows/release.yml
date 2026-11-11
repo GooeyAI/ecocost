@@ -3,10 +3,12 @@ name: Release
 # Publishes to PyPI when a version tag is pushed, via Trusted Publishing (OIDC):
 # no API token is stored in the repo. Configure once on pypi.org under
 # Publishing: owner GooeyAI, repository ecocost, workflow release.yml,
-# environment pypi.
+# environment pypi. tag-release.yml starts it with workflow_dispatch on the new
+# tag, because a tag created with GITHUB_TOKEN doesn't fire the push trigger.
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
   contents: read
