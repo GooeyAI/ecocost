@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.8 — 2026-11-11
+
+Data-only release; method version unchanged (0.3.0). Every id that resolved
+in 0.2.7 gives the same numbers, except `gpt-6-sol`, `gpt-6-luna` and their
+`openai/` aliases, described below.
 
 - Add GPT-6.1 Terra (`gpt-6.1-terra`, 55B active, 20-112B, tier 3, sized
   from GPT-5.6 Terra and GPT-6.1 Sol by price), alias `openai/gpt-6.1-terra`.
