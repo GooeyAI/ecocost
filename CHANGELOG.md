@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add Claude Fable 5.2 (`claude-fable-5-2`) as a proxy of Claude Fable 5.1:
+  no size or estimate of its own is published, and the tie is inferred from
+  the two being consecutive models in the same line.
+- Add Gemini 4 Carbon (`gemini-4-carbon`, `google/gemini-4-carbon`) as a
+  proxy of Gemini 4 Argon, which Google's model card says it is based on.
+
 ## 0.2.8 — 2026-11-11
 
 Data-only release; method version unchanged (0.3.0). Every id that resolved
