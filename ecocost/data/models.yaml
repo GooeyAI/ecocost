@@ -2267,6 +2267,10 @@ models:
     creator: Anthropic
     total_params_b: 1340
     open_weights: false
+    proxies:
+    - ids: [claude-fable-5-2]
+      note: "Anthropic publishes no size for Claude Fable 5.2 (released 2026-11-09) and EcoLogits has no entry for it as of 2026-11-12. Anthropic's migration guide has a section 'Migrating to Claude Fable 5.2 from Claude Fable 5.1' and prices 5.2 at $8/$40 per MTok 'compared with $10 USD and $50 USD on Claude Fable 5.1'. Anthropic's system card calls it 'a new large language model' and gives no size. Anthropic does not say one is based on the other: the tie is inferred from the two being consecutive models in the Claude Fable line, so treat this as a rough stand-in."
+      source: https://platform.claude.com/docs/en/models/fable-5-2/migration-guide
     active_params_b:
       value: 230
       unit: B
@@ -2444,6 +2448,10 @@ models:
     aliases:
     - google/gemini-4-argon
     - gemini/gemini-4-argon
+    proxies:
+    - ids: [gemini-4-carbon, google/gemini-4-carbon]
+      note: "Google's model card: 'Gemini 4 Carbon is based on Gemini 4 Argon' and defers to the Gemini 4 Argon card for architecture; no size or estimate of Carbon itself (EcoLogits has no entry as of 2026-11-12; Epoch AI lists parameters as Unknown)."
+      source: https://deepmind.google/models/model-cards/gemini-4-carbon/
     active_params_b:
       value: 268
       unit: B
