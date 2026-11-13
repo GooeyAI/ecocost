@@ -2452,6 +2452,9 @@ models:
     - ids: [gemini-4-carbon, google/gemini-4-carbon]
       note: "Google's model card: 'Gemini 4 Carbon is based on Gemini 4 Argon' and defers to the Gemini 4 Argon card for architecture; no size or estimate of Carbon itself (EcoLogits has no entry as of 2026-11-12; Epoch AI lists parameters as Unknown)."
       source: https://deepmind.google/models/model-cards/gemini-4-carbon/
+    - ids: [gemini-4-hydrogen, google/gemini-4-hydrogen]
+      note: "Google's model card: 'Gemini 4 Hydrogen is adapted from Gemini 4 Carbon' and defers to the Gemini 4 Carbon card for architecture; Carbon's card in turn says it 'is based on Gemini 4 Argon'. No size or estimate of Hydrogen itself (EcoLogits has no entry as of 2026-11-13; Epoch AI has no page for it). Google positions Hydrogen as the faster, cheaper model of the family ('built for rapid execution'), so Argon's size may overstate it: treat this as a rough stand-in."
+      source: https://deepmind.google/models/model-cards/gemini-4-hydrogen/
     active_params_b:
       value: 268
       unit: B

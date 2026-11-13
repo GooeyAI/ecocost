@@ -7,6 +7,9 @@
   the two being consecutive models in the same line.
 - Add Gemini 4 Carbon (`gemini-4-carbon`, `google/gemini-4-carbon`) as a
   proxy of Gemini 4 Argon, which Google's model card says it is based on.
+- Add Gemini 4 Hydrogen (`gemini-4-hydrogen`, `google/gemini-4-hydrogen`) as
+  a proxy of Gemini 4 Argon: Google's model card says it is adapted from
+  Gemini 4 Carbon, which is itself based on Gemini 4 Argon.
 
 ## 0.2.8 — 2026-11-11
 
