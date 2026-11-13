@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.9 — 2026-11-13
+
+Data-only release; method version unchanged (0.3.0). Ids that raised
+`UnknownModelError` before can now resolve through the proxies below. Every
+id that resolved in 0.2.8 gives the same numbers.
 
 - Add Claude Fable 5.2 (`claude-fable-5-2`) as a proxy of Claude Fable 5.1:
   no size or estimate of its own is published, and the tie is inferred from
