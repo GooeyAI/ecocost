@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.10 — 2026-11-14
+
+Data-only release; method version unchanged (0.3.0). One id that raised
+`UnknownModelError` before now resolves through the alias below. Every id
+that resolved in 0.2.9 gives the same numbers.
 
 - Add the Azure OpenAI deployment name `openai-o3-mini-prod-eastus2-1` as an
   alias of o3-mini.
