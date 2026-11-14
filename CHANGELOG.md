@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add the Azure OpenAI deployment name `openai-o3-mini-prod-eastus2-1` as an
+  alias of o3-mini.
+
 ## 0.2.9 — 2026-11-13
 
 Data-only release; method version unchanged (0.3.0). Ids that raised

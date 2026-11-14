@@ -1788,6 +1788,7 @@ models:
     open_weights: false
     aliases:
     - o3-mini-2025-01-31
+    - openai-o3-mini-prod-eastus2-1  # an Azure OpenAI deployment name
     proxies:
     - ids: [o1-mini-2024-09-12, o1-mini]
       note: "OpenAI's o1-mini model page: 'we recommend using the newer o3-mini model that features higher intelligence at the same latency and price as o1-mini'. o1-mini-2024-09-12 is its only snapshot; OpenAI publishes no size for it and EcoLogits has no entry for it. Shut down 2025-10-27 (OpenAI deprecations page)."
