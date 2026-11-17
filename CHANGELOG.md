@@ -4,6 +4,11 @@
 
 - Add the Azure OpenAI deployment name `openai-o3-mini-prod-eastus2-1` as an
   alias of o3-mini.
+- Add Qwen3.8 Omni Flash (`qwen3.8-omni-flash`, `qwen/qwen3.8-omni-flash`)
+  as a proxy of Qwen3.8 Flash: QwenCloud says it is built on the
+  Qwen3.8-Flash-Next architecture, and no size of its own is published.
+- Add Qwen4 Max (`qwen4-max`): 71B active of 2.4T total parameters, from
+  Alibaba's release post.
 
 ## 0.2.9 — 2026-11-13
 
