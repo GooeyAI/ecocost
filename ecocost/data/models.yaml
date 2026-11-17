@@ -247,6 +247,10 @@ models:
     creator: Qwen
     open_weights: true
     total_params_b: 125
+    proxies:
+    - ids: [qwen3.8-omni-flash, qwen/qwen3.8-omni-flash]
+      note: "QwenCloud's model page: Qwen3.8-Omni-Flash is 'Built on the Qwen3.8-Flash-Next architecture'. Qwen publishes no size for the omni model, which also takes image, audio and video input; its weights are not released and EcoLogits has no entry for it as of 2026-11-18."
+      source: https://www.qwencloud.com/models/qwen3.8-omni-flash
     active_params_b:
       value: 6
       unit: B
@@ -291,6 +295,27 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://fireworks.ai/models/fireworks/qwen3p8-max
+  qwen4-max:
+    label: Qwen4 Max
+    creator: Qwen
+    open_weights: false
+    total_params_b: 2400
+    active_params_b:
+      value: 71
+      unit: B
+      tier: 1
+      source: https://www.alibabacloud.com/blog/alibaba-unveils-qwen4-max-new-ai-teammate-for-work-creativity-and-discovery_603783
+      note: "Alibaba's release post: 'an MoE model with 2.4 trillion total parameters, Qwen4-Max activates only 71 billion
+        per token'. No weights: the post promises open weights only for smaller-scale Qwen4 models, none announced for
+        Max."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-18'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-18'
+      sources:
+      - resource: https://www.alibabacloud.com/blog/alibaba-unveils-qwen4-max-new-ai-teammate-for-work-creativity-and-discovery_603783
+      - resource: https://www.alibabacloud.com/help/en/model-studio/qwen4-max
   qwen3.7-plus:
     label: Qwen3.7 Plus
     creator: Qwen
