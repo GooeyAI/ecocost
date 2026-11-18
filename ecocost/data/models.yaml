@@ -1991,6 +1991,10 @@ models:
     label: GPT-6 Astra
     creator: OpenAI
     open_weights: false
+    proxies:
+    - ids: [gpt-6.2-astra, openai/gpt-6.2-astra]
+      note: "OpenAI publishes no size for GPT-6.2 Astra (released 2026-11-17); EcoLogits has no entry for it and Epoch AI lists its parameters as unknown (both checked 2026-11-18). OpenAI's launch post compares it with GPT-6 Astra repeatedly and says its input and output token prices are '20% lower than GPT-6 Astra's'. OpenAI does not say one is based on the other: the tie is inferred from the two being consecutive models in the GPT Astra line, so treat this as a rough stand-in."
+      source: https://openai.com/index/introducing-gpt-6-2-astra-sol/
     active_params_b:
       value: 400
       unit: B
@@ -2013,6 +2017,10 @@ models:
     total_params_b: 375
     aliases:
     - openai/gpt-6.1-sol
+    proxies:
+    - ids: [gpt-6.2-sol, openai/gpt-6.2-sol]
+      note: "OpenAI publishes no size for GPT-6.2 Sol and EcoLogits has no entry for it as of 2026-11-18. OpenAI's What's new page for GPT-6.2 compares it with GPT-6.1 Sol ('Compared with GPT-6.1 Sol, it lets you complete more tasks on the same paid plan'). OpenAI does not say one is based on the other: the tie is inferred from the two being consecutive Sol models, so treat this as a rough stand-in."
+      source: https://learn.chatgpt.com/docs/whats-new/gpt-62-astra-sol
     active_params_b:
       value: 65
       unit: B

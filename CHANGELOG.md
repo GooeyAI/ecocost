@@ -9,6 +9,12 @@
   Qwen3.8-Flash-Next architecture, and no size of its own is published.
 - Add Qwen4 Max (`qwen4-max`): 71B active of 2.4T total parameters, from
   Alibaba's release post.
+- Add GPT-6.2 Sol (`gpt-6.2-sol`, `openai/gpt-6.2-sol`) as a proxy of
+  GPT-6.1 Sol: OpenAI publishes no size for it, and the tie is inferred from
+  the two being consecutive Sol models.
+- Add GPT-6.2 Astra (`gpt-6.2-astra`, `openai/gpt-6.2-astra`) as a proxy of
+  GPT-6 Astra: no size or estimate of its own is published, and the tie is
+  inferred from the two being consecutive models in the same line.
 
 ## 0.2.9 — 2026-11-13
 
