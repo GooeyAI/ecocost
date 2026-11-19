@@ -70,7 +70,17 @@ Look in that order: the model card, then the creator's own docs and reports,
 then EcoLogits, then Epoch AI, then secondary sources (press, blogs,
 trackers), which can support tier 2 or 3, never tier 1. Never derive a size
 from benchmark scores or throughput alone. Prefer a proxy to a tier-3 record
-when the vendor ties the models together.
+when the vendor ties the models together, unless the vendor puts the model
+in a different product class from the model it is tied to. A tie such as
+"adapted from" or "distilled from" says where the weights came from, not how
+big they are. The model is in a different product class when the vendor
+both prices it with another listed model and presents it as that model's
+successor or upgrade path (a Flash-class model "adapted from" a frontier
+one, say). Then add a tier-3 record sized from that other model: its `value`
+and `min`, with `max` raised to the tied model's point (or, if the tied model
+is itself a proxy, its parent record's). The `max` comes from that size, never
+from benchmark scores. The `note` quotes the lineage tie and the price and
+positioning evidence. If only one of the two holds, list the model as a proxy.
 
 Other fields:
 
@@ -146,7 +156,9 @@ accepted as a last resort: the same vendor's next model in the same product
 line (Qwen3.7-Max under Qwen3.8-Max), when neither has a closer relative
 listed. Its `note` must say the tie is inferred rather than stated, and
 `source` links the vendor page describing the listed model's place in that
-line. A proxy can't reuse an
+line. When the vendor puts the model in a different product
+class from the model it is tied to, use a tier-3 record instead (see
+[Where a size comes from](#where-a-size-comes-from)). A proxy can't reuse an
 id or alias. When the model gets a published size or estimate, give it a
 record and remove the proxy.
 

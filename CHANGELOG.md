@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Gemini 4 Hydrogen (`gemini-4-hydrogen`, `google/gemini-4-hydrogen`) now
+  has its own record, sized from Gemini 3.8 Flash (122B active, range
+  75-268B), instead of being a proxy of Gemini 4 Argon (268B). Google prices
+  it at 3.8 Flash's list price and pitches it as the upgrade for 3.8 Flash
+  users. This corrects a mapping, not the model's energy use: its estimates
+  drop by roughly half.
+- CONTRIBUTING: a lineage tie ("adapted from") no longer forces a proxy when
+  the vendor prices and positions the model in a different product class.
+  Such a model gets a tier-3 record sized from the model it is priced with.
+
 ## 0.2.10 — 2026-11-18
 
 Data-only release; method version unchanged (0.3.0). Ids that raised
