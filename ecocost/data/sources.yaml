@@ -153,6 +153,7 @@ sources:
       - platform.claude.com
       - mistral.ai
       - ai.google.dev
+      - blog.google
       - docs.cloud.google.com
       - alibabacloud.com
       - qwencloud.com

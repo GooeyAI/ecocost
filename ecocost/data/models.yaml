@@ -2486,9 +2486,6 @@ models:
     - ids: [gemini-4-carbon, google/gemini-4-carbon]
       note: "Google's model card: 'Gemini 4 Carbon is based on Gemini 4 Argon' and defers to the Gemini 4 Argon card for architecture; no size or estimate of Carbon itself (EcoLogits has no entry as of 2026-11-12; Epoch AI lists parameters as Unknown)."
       source: https://deepmind.google/models/model-cards/gemini-4-carbon/
-    - ids: [gemini-4-hydrogen, google/gemini-4-hydrogen]
-      note: "Google's model card: 'Gemini 4 Hydrogen is adapted from Gemini 4 Carbon' and defers to the Gemini 4 Carbon card for architecture; Carbon's card in turn says it 'is based on Gemini 4 Argon'. No size or estimate of Hydrogen itself (EcoLogits has no entry as of 2026-11-13; Epoch AI has no page for it). Google positions Hydrogen as the faster, cheaper model of the family ('built for rapid execution'), so Argon's size may overstate it: treat this as a rough stand-in."
-      source: https://deepmind.google/models/model-cards/gemini-4-hydrogen/
     active_params_b:
       value: 268
       unit: B
@@ -2509,6 +2506,31 @@ models:
       - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-argon
       - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/guides/gemini-4-argon#migration-guide
       - resource: https://epoch.ai/models/gemini-4-argon
+  gemini-4-hydrogen:
+    label: Gemini 4 Hydrogen
+    creator: Google
+    open_weights: false
+    aliases:
+    - google/gemini-4-hydrogen
+    active_params_b:
+      value: 122
+      unit: B
+      tier: 3
+      min: 75
+      max: 268
+      source: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/
+      note: "Undisclosed; the model card says only 'Gemini 4 Hydrogen is adapted from Gemini 4 Carbon' (itself based on Gemini 4 Argon) and gives no size. No published estimate as of 2026-11-19: EcoLogits has no Gemini 4 entry and Epoch AI lists parameters as Unknown. Sized from Google's most similar listed model by tier and price, Gemini 3.8 Flash: Google's launch post calls Hydrogen 'a major standalone upgrade for teams migrating from Gemini 3.8 Flash', sets it apart from 'our frontier models, Gemini 4 Carbon and Gemini 4 Argon', and prices it at $1.50 / $7.50 per million input / output tokens, 3.8 Flash's list price from 2027-01-01 (Argon's is $4 / $20 from 2026-12-01). Point = 3.8 Flash's 122B; min = 3.8 Flash's 75B; max = Argon's 268B point, because the model is adapted from the Argon line (Carbon, which it is adapted from, is listed as a proxy of Argon). Tier 3: sized from a sibling, not an estimate of these weights."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-19'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-19'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-4-hydrogen/
+      - resource: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/
+      - resource: https://ai.google.dev/gemini-api/docs/pricing
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://epoch.ai/models/gemini-4-hydrogen
   gemini-3.8-flash:
     label: Gemini 3.8 Flash
     creator: Google
