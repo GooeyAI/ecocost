@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+Corrections to existing mappings and sources. These change the numbers of
+the ids below; they correct how each id is sized, not the model's energy use.
+
+- GPT-6 Astra (`gpt-6-astra`, and its proxy `gpt-6.2-astra`): size now taken
+  from EcoLogits' estimate (MoE 1500B total, 150-500B active, tier 2) instead
+  of an earlier tier-3 span (90-1800B). The carbon estimate falls by about
+  31% and its range narrows from about 42x to 12x.
+- Gemini 3.1 Flash Live (`gemini-3.1-flash-live-preview`) becomes a proxy of
+  Gemini 3.1 Pro: Google's model card says Gemini 3.1 Flash Audio is based on
+  Gemini 3 Pro, which already resolves to Gemini 3.1 Pro. It was a tier-3
+  record sized from Gemini 3 Flash; its estimate rises by about 33%.
+- Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`): the point is now the
+  geometric mean of its EcoLogits range (56B, was 50B), as for the other
+  records on that range. The estimate rises by about 12%.
+- Google Vertex AI PUE now cites Google's 2026 Environmental Report: the
+  value (1.09, 2025 fleet average) is unchanged and the range is now the
+  spread of Google's US campuses in 2025 (1.04-1.14, was 1.06-1.15).
+
 ## 0.2.10 — 2026-11-18
 
 Data-only release; method version unchanged (0.3.0). Ids that raised
