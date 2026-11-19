@@ -200,12 +200,12 @@ providers:
     hardware: {value: h100-sxm, tier: 3, source: https://arxiv.org/abs/2508.15734, note: Gemini serves on TPU; H100 used as the normalising unit.}
     pue:
       value: 1.09
-      min: 1.06
-      max: 1.15
+      min: 1.04
+      max: 1.14
       unit: ratio
       tier: 1
-      source: https://datacenters.google/efficiency/
-      note: "Google fleet TTM PUE 2025 (1.09), because the serving region is only known to the US multi-region. Council Bluffs itself is 1.08 / 1.11; the fleet range covers it. Checked 2026-09-22."
+      source: https://sustainability.google/files/1699a2e19277e478b38a659f00cb38398a836e8c/download-1699a2e1.pdf
+      note: "Google 2026 Environmental Report: 2025 average annual fleet-wide PUE 1.09 (measured), used because the serving region is only known to the US multi-region. Council Bluffs, Iowa (Google's us-central1 region) is 1.11 / 1.08 for its two facilities. Range = the spread of Google-owned US campus PUEs in 2025, from 1.04 (Central Ohio, Lancaster) to 1.14 (Storey County, Nevada). Checked 2026-11-19."
     wue_l_per_kwh:
       value: 1.15
       min: 1.0
@@ -217,7 +217,7 @@ providers:
     decode_utilization: *decode_default
     prefill_utilization: *prefill_default
     serving_overhead: *overhead_default
-    provenance: {generated: {by: agent:claude-fable-5-1, at: 2026-09-18}, verified: [], status: draft, stale_after: 2027-03-31}
+    provenance: {generated: {by: agent:claude-opus-5-5, at: 2026-11-19}, verified: [], status: draft, stale_after: 2027-05-19}
 
   vercel-gateway:
     label: Vercel AI Gateway
