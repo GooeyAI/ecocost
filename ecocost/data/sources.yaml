@@ -137,6 +137,7 @@ sources:
     match:
       - datacenters.microsoft.com
       - datacenters.google
+      - sustainability.google
       - deepmind.google
       - sustainability.aboutamazon.com
       - googlecloudpresscorner.com

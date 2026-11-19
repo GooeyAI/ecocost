@@ -2016,21 +2016,22 @@ models:
     - ids: [gpt-6.2-astra, openai/gpt-6.2-astra]
       note: "OpenAI publishes no size for GPT-6.2 Astra (released 2026-11-17); EcoLogits has no entry for it and Epoch AI lists its parameters as unknown (both checked 2026-11-18). OpenAI's launch post compares it with GPT-6 Astra repeatedly and says its input and output token prices are '20% lower than GPT-6 Astra's'. OpenAI does not say one is based on the other: the tie is inferred from the two being consecutive models in the GPT Astra line, so treat this as a rough stand-in."
       source: https://openai.com/index/introducing-gpt-6-2-astra-sol/
+    total_params_b: 1500
     active_params_b:
-      value: 400
+      value: 274
       unit: B
-      tier: 3
-      source: https://en.wikipedia.org/wiki/GPT-6_Astra
-      note: Undisclosed. Looped transformer; no public estimate. Proxy >= GPT-5.5.
-      min: 90
-      max: 1800
+      tier: 2
+      min: 150
+      max: 500
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (checked 2026-11-19) estimates MoE 1500B total and 150-500B active, flagged model-arch-not-released and model-arch-multimodal. Point is the rounded geometric mean (273.86B). Tier 2: a published estimate, not an OpenAI disclosure. Replaces an earlier tier-3 span (90-1800B, point 400) drawn from a secondary source before EcoLogits listed the model."
     provenance:
-      generated: *id001
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-11-19'}
       verified: []
       status: draft
-      stale_after: '2027-03-31'
+      stale_after: '2027-05-19'
       sources:
-      - resource: https://en.wikipedia.org/wiki/GPT-6_Astra
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
   gpt-6.1-sol:
     label: GPT-6.1 Sol
     creator: OpenAI
@@ -2690,18 +2691,18 @@ models:
     aliases:
     - google/gemini-3.1-flash-lite
     active_params_b:
-      value: 50
+      value: 56
       unit: B
       tier: 2
       source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      note: Undisclosed. EcoLogits dense 30-105.
+      note: "Undisclosed. EcoLogits (gemini-3.1-flash-lite, checked 2026-11-19) estimates a dense model with 30-105B parameters, flagged model-arch-not-released and model-arch-multimodal. Point is the rounded geometric mean (56.12B), as for the other records on this range. Tier 2: a published estimate, not a disclosure."
       min: 30
       max: 105
     provenance:
-      generated: *id001
+      generated: {by: 'agent:claude-opus-5-5', at: '2026-11-19'}
       verified: []
       status: draft
-      stale_after: '2027-03-31'
+      stale_after: '2027-05-19'
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
   gemini-3-flash-preview:
@@ -2844,6 +2845,9 @@ models:
     - ids: [gemini-3-pro-preview]
       note: "Google's model card: 'Gemini 3.1 Pro is based on Gemini 3 Pro' and defers to it for architecture; no EcoLogits estimate of 3 Pro itself."
       source: https://deepmind.google/models/model-cards/gemini-3-1-pro/
+    - ids: [gemini-3.1-flash-live-preview]
+      note: "Google's model card for Gemini 3.1 Flash Live and Flash TTS ('Gemini 3.1 Flash Audio'): 'Gemini 3.1 Flash Audio is based on Gemini 3 Pro', deferring to the Gemini 3 Pro card for architecture. Gemini 3 Pro is itself a proxy of this record ('Gemini 3.1 Pro is based on Gemini 3 Pro'). No size or estimate of Flash Live itself (EcoLogits has no entry as of 2026-11-19). Google positions it as a Flash-tier real-time audio model, so a Pro-sized stand-in may overstate it: treat this as a rough stand-in."
+      source: https://deepmind.google/models/model-cards/gemini-3-1-flash-live/
     active_params_b:
       value: 200
       unit: B
@@ -2852,25 +2856,6 @@ models:
       note: Undisclosed. EcoLogits MoE 1200 total, active 120-360.
       min: 120
       max: 360
-    provenance:
-      generated: *id001
-      verified: []
-      status: draft
-      stale_after: '2027-03-31'
-      sources:
-      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-  gemini-3.1-flash-live-preview:
-    label: Gemini 3.1 Flash Live
-    creator: Google
-    open_weights: false
-    active_params_b:
-      value: 150
-      unit: B
-      tier: 3
-      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
-      note: Undisclosed. Proxy EcoLogits gemini-3-flash-preview 100-300.
-      min: 100
-      max: 300
     provenance:
       generated: *id001
       verified: []
