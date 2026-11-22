@@ -2509,6 +2509,32 @@ models:
       - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-argon
       - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/guides/gemini-4-argon#migration-guide
       - resource: https://epoch.ai/models/gemini-4-argon
+  gemini-4-neon:
+    label: Gemini 4 Neon
+    creator: Google
+    total_params_b: 375
+    open_weights: false
+    aliases:
+    - google/gemini-4-neon
+    active_params_b:
+      value: 65
+      unit: B
+      tier: 2
+      min: 38
+      max: 112
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; model card: 'Gemini 4 Neon is adapted from Gemini 4 Carbon', no size or serving hardware. EcoLogits (gemini-4-neon, models.json commit 2026-11-19): MoE 375B total, 38-112B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean of that range (65). Tier 2: a published estimate, not a disclosure. Epoch AI lists parameters as Unknown."
+    provenance:
+      generated: {by: 'agent:claude-coverage-routine', at: '2026-11-22'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-22'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-4-neon/
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://ai.google.dev/gemini-api/docs/models/gemini-4-neon
+      - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-neon
+      - resource: https://epoch.ai/models/gemini-4-neon
   gemini-3.8-flash:
     label: Gemini 3.8 Flash
     creator: Google

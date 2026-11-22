@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add Gemini 4 Neon (`gemini-4-neon`, `google/gemini-4-neon`): 65B active
+  (38-112B) of 375B total parameters, from EcoLogits' published estimate;
+  Google publishes no size.
+
 ## 0.2.10 — 2026-11-18
 
 Data-only release; method version unchanged (0.3.0). Ids that raised
