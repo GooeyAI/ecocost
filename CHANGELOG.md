@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.11 — 2026-11-23
+
+Data-only release; method version unchanged (0.3.0). Ids that raised
+`UnknownModelError` before now resolve through the records below. Every id
+that resolved in 0.2.10 gives the same numbers.
 
 - Add Gemini 4 Neon (`gemini-4-neon`, `google/gemini-4-neon`): 65B active
   (38-112B) of 375B total parameters, from EcoLogits' published estimate;
