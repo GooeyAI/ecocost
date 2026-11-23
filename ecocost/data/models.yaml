@@ -1465,6 +1465,27 @@ models:
       stale_after: '2027-03-31'
       sources:
       - resource: https://thinkingmachines.ai/model-card/inkling/
+  inkling-2-mini:
+    label: Inkling 2 Mini
+    creator: Thinking Machines Lab
+    open_weights: true
+    total_params_b: 26.4
+    aliases:
+    - thinkingmachines/Inkling-2-Mini
+    active_params_b:
+      value: 5.4
+      unit: B
+      tier: 1
+      source: https://thinkingmachines.ai/model-card/inkling-2-mini/
+      note: "Looped MoE, 8 of 128 experts; the middle 12 of 24 layers run three times with shared weights. The card gives 3.4B active and 'there are 5.4B effective active parameters per token' with three passes; 5.4B is used since it is the compute per token. Weights repo counts 26.39B."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-23'
+      sources:
+      - resource: https://thinkingmachines.ai/model-card/inkling-2-mini/
+      - resource: https://huggingface.co/thinkingmachines/Inkling-2-Mini
   minimax-m3:
     label: MiniMax M3
     creator: MiniMax

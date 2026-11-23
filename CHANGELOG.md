@@ -5,6 +5,9 @@
 - Add Gemini 4 Neon (`gemini-4-neon`, `google/gemini-4-neon`): 65B active
   (38-112B) of 375B total parameters, from EcoLogits' published estimate;
   Google publishes no size.
+- Add Inkling 2 Mini (`inkling-2-mini`, `thinkingmachines/inkling-2-mini`):
+  5.4B effective active (3.4B active, middle layers looped three times) of
+  26.4B total parameters, from the model card.
 
 ## 0.2.10 — 2026-11-18
 
