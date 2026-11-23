@@ -1,9 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.2.12 — 2026-11-23
 
-Corrections to existing mappings and sources. These change the numbers of
-the ids below; they correct how each id is sized, not the model's energy use.
+Data and docs release; method version unchanged (0.3.0). Corrections to
+existing mappings and sources: the numbers of `gpt-6-astra`,
+`gpt-6.2-astra`, `gemini-3.1-flash-live-preview`, `gemini-3.1-flash-lite`,
+`gemini-4-hydrogen` and `google/gemini-4-hydrogen` change, and Google Vertex
+AI ranges narrow slightly. They correct how each id is sized, not the
+model's energy use. Every other id gives the same numbers as in 0.2.11.
 
 - GPT-6 Astra (`gpt-6-astra`, and its proxy `gpt-6.2-astra`): size now taken
   from EcoLogits' estimate (MoE 1500B total, 150-500B active, tier 2) instead
