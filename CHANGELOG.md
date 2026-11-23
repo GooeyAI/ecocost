@@ -19,6 +19,15 @@ the ids below; they correct how each id is sized, not the model's energy use.
 - Google Vertex AI PUE now cites Google's 2026 Environmental Report: the
   value (1.09, 2025 fleet average) is unchanged and the range is now the
   spread of Google's US campuses in 2025 (1.04-1.14, was 1.06-1.15).
+- Gemini 4 Hydrogen (`gemini-4-hydrogen`, `google/gemini-4-hydrogen`) now
+  has its own record, sized from EcoLogits' published estimate (MoE 187.5B
+  total, 18.75-62.5B active, point 34B, tier 2), instead of being a proxy of
+  Gemini 4 Argon (268B). Google pitches it as the upgrade for Gemini 3.8
+  Flash users, at 3.8 Flash's list price from 2027. This corrects a mapping, not the
+  model's energy use: its estimate drops by about 87%.
+- CONTRIBUTING: a lineage tie ("adapted from") no longer forces a proxy when
+  the vendor prices and positions the model in a different product class.
+  Such a model gets a tier-3 record sized from the model it is priced with.
 
 ## 0.2.11 — 2026-11-23
 

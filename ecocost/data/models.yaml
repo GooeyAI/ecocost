@@ -2508,9 +2508,6 @@ models:
     - ids: [gemini-4-carbon, google/gemini-4-carbon]
       note: "Google's model card: 'Gemini 4 Carbon is based on Gemini 4 Argon' and defers to the Gemini 4 Argon card for architecture; no size or estimate of Carbon itself (EcoLogits has no entry as of 2026-11-12; Epoch AI lists parameters as Unknown)."
       source: https://deepmind.google/models/model-cards/gemini-4-carbon/
-    - ids: [gemini-4-hydrogen, google/gemini-4-hydrogen]
-      note: "Google's model card: 'Gemini 4 Hydrogen is adapted from Gemini 4 Carbon' and defers to the Gemini 4 Carbon card for architecture; Carbon's card in turn says it 'is based on Gemini 4 Argon'. No size or estimate of Hydrogen itself (EcoLogits has no entry as of 2026-11-13; Epoch AI has no page for it). Google positions Hydrogen as the faster, cheaper model of the family ('built for rapid execution'), so Argon's size may overstate it: treat this as a rough stand-in."
-      source: https://deepmind.google/models/model-cards/gemini-4-hydrogen/
     active_params_b:
       value: 268
       unit: B
@@ -2557,6 +2554,32 @@ models:
       - resource: https://ai.google.dev/gemini-api/docs/models/gemini-4-neon
       - resource: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-neon
       - resource: https://epoch.ai/models/gemini-4-neon
+  gemini-4-hydrogen:
+    label: Gemini 4 Hydrogen
+    creator: Google
+    total_params_b: 187.5
+    open_weights: false
+    aliases:
+    - google/gemini-4-hydrogen
+    active_params_b:
+      value: 34
+      unit: B
+      tier: 2
+      min: 18.75
+      max: 62.5
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed; model card: 'Gemini 4 Hydrogen is adapted from Gemini 4 Carbon', no size. EcoLogits (gemini-4-hydrogen, checked 2026-11-23): MoE 187.5B total, 18.75-62.5B active, flagged model-arch-not-released and model-arch-multimodal. Point = geometric mean of that range (34). Tier 2: a published estimate, not a disclosure. Google prices it at $1.50 / $7.50 per 1M input / output tokens, 3.8 Flash's list price from 2027-01-01 (Flash is $0.75 / $3.75 until then), and calls it 'a major standalone upgrade for teams migrating from Gemini 3.8 Flash'."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-23'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-23'
+      sources:
+      - resource: https://deepmind.google/models/model-cards/gemini-4-hydrogen/
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/
+      - resource: https://ai.google.dev/gemini-api/docs/pricing
+      - resource: https://epoch.ai/models/gemini-4-hydrogen
   gemini-3.8-flash:
     label: Gemini 3.8 Flash
     creator: Google
