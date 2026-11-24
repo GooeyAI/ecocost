@@ -2318,6 +2318,28 @@ models:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://www.anthropic.com/claude-sonnet-5-5
       - resource: https://platform.claude.com/docs/en/models/sonnet-5-5/overview
+  claude-haiku-5-5:
+    label: Claude Haiku 5.5
+    creator: Anthropic
+    open_weights: false
+    aliases:
+    - anthropic.claude-haiku-5-5
+    active_params_b:
+      value: 19
+      unit: B
+      tier: 2
+      min: 10
+      max: 35
+      source: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      note: "Undisclosed. EcoLogits (2026-11-19) estimates dense 10-35B, flagged model-arch-not-released. Point is the rounded geometric mean (18.71B). Anthropic's overview prices it from $0.10/$0.50 per MTok and rates its latency 'Fastest'; no size or measured inference energy is published."
+    provenance:
+      generated: {by: 'agent:claude-model-research', at: '2026-11-24'}
+      verified: []
+      status: draft
+      stale_after: '2027-05-24'
+      sources:
+      - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
+      - resource: https://platform.claude.com/docs/en/models/haiku-5-5/overview
   claude-fable-5-1:
     label: Claude Fable 5.1
     creator: Anthropic

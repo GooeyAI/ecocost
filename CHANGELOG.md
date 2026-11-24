@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add Claude Haiku 5.5 (`claude-haiku-5-5`, `anthropic.claude-haiku-5-5`):
+  19B active (dense), from EcoLogits' estimate (10-35B, tier 2).
+
 ## 0.2.12 — 2026-11-23
 
 Data and docs release; method version unchanged (0.3.0). Corrections to
