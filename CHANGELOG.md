@@ -4,6 +4,9 @@
 
 - Add Claude Haiku 5.5 (`claude-haiku-5-5`, `anthropic.claude-haiku-5-5`):
   19B active (dense), from EcoLogits' estimate (10-35B, tier 2).
+- Add Requesty's ids as aliases: `qwen3.8` and `qwen3.8-2.4t-a95b` for
+  Qwen3.8-2.4T-A95B (the `qwen3.8-max` record), and `claude-fable-5.1` for
+  `claude-fable-5-1`.
 
 ## 0.2.12 — 2026-11-23
 

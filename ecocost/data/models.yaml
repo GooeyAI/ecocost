@@ -274,6 +274,8 @@ models:
     aliases:
     - accounts/fireworks/models/qwen3p8-2p4t-a95b
     - qwen3p8-2p4t-a95b
+    - qwen3.8-2.4t-a95b  # Requesty's id for the open weights
+    - qwen3.8            # Requesty's endpoint name for Qwen3.8-2.4T-A95B (tensorx/qwen3.8; deepinfra/qwen3.8, served at FP4)
     proxies:
     - ids: [qwen3.7-max, qwen3.7-max-preview, qwen3.7-max-2026-05-17, qwen3.7-max-2026-05-20, qwen3.7-max-2026-06-08]
       note: "Alibaba publishes no size for Qwen3.7-Max, 'the largest and most capable in the Qwen3.7 series' (https://www.alibabacloud.com/help/en/model-studio/qwen3-7-max, which also lists the snapshot ids). The next generation's Max-class model, Qwen3.8-2.4T-A95B, is stated at 2.4T total and 95B active. Alibaba does not say one is based on the other: the tie is inferred from the two being consecutive Qwen-Max-class flagships, so treat this as a rough stand-in."
@@ -285,7 +287,7 @@ models:
       min: 60
       max: 120
       source: https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B
-      note: "Fireworks maps qwen3p8-max to the open Qwen3.8-2.4T-A95B: 2.4T total, 95B active, 10 routed + 1 shared of 512 experts (HF card). Alibaba's own API build may differ, hence tier 2."
+      note: "Fireworks maps qwen3p8-max to the open Qwen3.8-2.4T-A95B: 2.4T total, 95B active, 10 routed + 1 shared of 512 experts (HF card). Alibaba's own API build may differ, hence tier 2. Requesty lists DeepInfra's serving of it (deepinfra/qwen3.8) at FP4."
     provenance:
       generated: *id001
       verified:
@@ -2345,6 +2347,8 @@ models:
     creator: Anthropic
     total_params_b: 1340
     open_weights: false
+    aliases:
+    - claude-fable-5.1  # Requesty's spelling (vertex/claude-fable-5.1, anthropic/claude-fable-5.1)
     proxies:
     - ids: [claude-fable-5-2]
       note: "Anthropic publishes no size for Claude Fable 5.2 (released 2026-11-09) and EcoLogits has no entry for it as of 2026-11-12. Anthropic's migration guide has a section 'Migrating to Claude Fable 5.2 from Claude Fable 5.1' and prices 5.2 at $8/$40 per MTok 'compared with $10 USD and $50 USD on Claude Fable 5.1'. Anthropic's system card calls it 'a new large language model' and gives no size. Anthropic does not say one is based on the other: the tie is inferred from the two being consecutive models in the Claude Fable line, so treat this as a rough stand-in."
