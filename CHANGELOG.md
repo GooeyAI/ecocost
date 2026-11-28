@@ -7,6 +7,13 @@
 - Add Requesty's ids as aliases: `qwen3.8` and `qwen3.8-2.4t-a95b` for
   Qwen3.8-2.4T-A95B (the `qwen3.8-max` record), and `claude-fable-5.1` for
   `claude-fable-5-1`.
+- Add retired models as proxies of the model their vendor lists as the
+  replacement: Claude Sonnet 4 (`claude-sonnet-4-20250514`,
+  `claude-4-sonnet-20250514`) and Claude Sonnet 3.7
+  (`claude-3-7-sonnet-20250219`) under `claude-sonnet-5-5`; Claude Opus 4.1
+  (`claude-opus-4-1-20250805`, `claude-opus-4-1`) and Claude Opus 4
+  (`claude-opus-4-20250514`, `claude-4-opus-20250514`) under
+  `claude-opus-4-8`; `text-davinci-003` under `gpt-3.5-turbo-instruct`.
 
 ## 0.2.12 — 2026-11-23
 

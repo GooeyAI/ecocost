@@ -1764,6 +1764,10 @@ models:
     label: GPT-3.5 Instruct
     creator: OpenAI
     open_weights: false
+    proxies:
+    - ids: [text-davinci-003]
+      note: "OpenAI's deprecations page lists gpt-3.5-turbo-instruct as the replacement for text-davinci-003 (same legacy Completions endpoint; shut down 2024-01-04). OpenAI published no size for text-davinci-003 and EcoLogits has no entry for it as of 2026-11-28."
+      source: https://developers.openai.com/api/docs/deprecations
     active_params_b:
       value: 37
       unit: B
@@ -2303,6 +2307,13 @@ models:
     aliases:
     - anthropic/claude-sonnet-5.5
     - claude-sonnet-5.5
+    proxies:
+    - ids: [claude-sonnet-4-20250514, claude-4-sonnet-20250514]
+      note: "Anthropic's deprecations page lists claude-sonnet-5-5 as the recommended replacement for claude-sonnet-4-20250514 (Claude Sonnet 4, retired 2026-06-15). Anthropic publishes no size for Sonnet 4 and EcoLogits has no entry for it as of 2026-11-28. claude-4-sonnet-20250514 is an alternate id for the same snapshot, listed in Anthropic's SDK and by LiteLLM."
+      source: https://platform.claude.com/docs/en/about-claude/model-deprecations
+    - ids: [claude-3-7-sonnet-20250219]
+      note: "Anthropic's deprecations page lists claude-sonnet-5-5 as the recommended replacement for claude-3-7-sonnet-20250219 (Claude Sonnet 3.7, retired 2026-02-19). Anthropic publishes no size for Sonnet 3.7 and EcoLogits has no entry for it as of 2026-11-28."
+      source: https://platform.claude.com/docs/en/about-claude/model-deprecations
     active_params_b:
       value: 51
       unit: B
@@ -2320,6 +2331,7 @@ models:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://www.anthropic.com/claude-sonnet-5-5
       - resource: https://platform.claude.com/docs/en/models/sonnet-5-5/overview
+      - resource: https://platform.claude.com/docs/en/about-claude/model-deprecations
   claude-haiku-5-5:
     label: Claude Haiku 5.5
     creator: Anthropic
@@ -2394,6 +2406,13 @@ models:
     creator: Anthropic
     total_params_b: 670
     open_weights: false
+    proxies:
+    - ids: [claude-opus-4-1-20250805, claude-opus-4-1]
+      note: "Anthropic's deprecations page lists claude-opus-4-8 as the recommended replacement for claude-opus-4-1-20250805 (Claude Opus 4.1, retired 2026-08-05); claude-opus-4-1 was the undated pointer to that snapshot, its only one (LiteLLM's Anthropic docs map it to claude-opus-4-1-20250805). Anthropic publishes no size for Opus 4.1 and EcoLogits has no entry for it as of 2026-11-28."
+      source: https://platform.claude.com/docs/en/about-claude/model-deprecations
+    - ids: [claude-opus-4-20250514, claude-4-opus-20250514]
+      note: "Anthropic's deprecations page lists claude-opus-4-8 as the recommended replacement for claude-opus-4-20250514 (Claude Opus 4, retired 2026-06-15). Anthropic publishes no size for Opus 4 and EcoLogits has no entry for it as of 2026-11-28. claude-4-opus-20250514 is an alternate id for the same snapshot, listed in Anthropic's SDK and by LiteLLM."
+      source: https://platform.claude.com/docs/en/about-claude/model-deprecations
     active_params_b:
       value: 110
       unit: B
@@ -2410,6 +2429,7 @@ models:
       sources:
       - resource: https://raw.githubusercontent.com/genai-impact/ecologits/main/ecologits/data/models.json
       - resource: https://unexcitedneurons.substack.com/p/estimating-the-size-of-claude-opus
+      - resource: https://platform.claude.com/docs/en/about-claude/model-deprecations
   claude-opus-4-7:
     label: Claude Opus 4.7
     creator: Anthropic
