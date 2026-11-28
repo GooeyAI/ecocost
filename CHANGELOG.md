@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.2.13 — 2026-11-28
+
+Data-only release; method version unchanged (0.3.0). It adds one model,
+three aliases and eight ids of retired models as proxies; every id that
+resolved in 0.2.12 gives the same numbers.
 
 - Add Claude Haiku 5.5 (`claude-haiku-5-5`, `anthropic.claude-haiku-5-5`):
   19B active (dense), from EcoLogits' estimate (10-35B, tier 2).
